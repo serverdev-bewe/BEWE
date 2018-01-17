@@ -6,13 +6,13 @@ const notiCtrl = require('../controllers/NotiCtrl');
 
 module.exports = (router) => {
   router.route('/noti')
-    .get(notiCtrl.index);
+    .get(notiCtrl.list.index);
     
   router.route('/noti/list')
-    .get(notiCtrl.list);
+    .get(notiCtrl.list.list);
 
   router.route('/noti/create')
-    .post(notiCtrl.create);
+    .post(notiCtrl.list.create);
     
   return router;
 }
