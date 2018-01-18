@@ -21,6 +21,18 @@ exports.list = (uid) => {
   });  
 };
 
-exports.create = (req) => {
+exports.create = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "INSERT INTO notifications (users_idx, contents, url, flag) " +
+      "VALUES (1, '하하하하하하하하하하하', 'http://www.naver.com', 0)";
 
-}
+    pool.query(sql, (err, result) => {
+      if(err){
+        console.log(err);
+        reject(err);
+      }else{
+        resolve(result);
+      }
+    });
+  });
+};

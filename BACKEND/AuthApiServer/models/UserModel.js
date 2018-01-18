@@ -33,7 +33,6 @@ exports.register = (userData) => {
           "INSERT INTO user(user_id, user_password, user_nickname, user_img) " +
           "VALUES (?, ?, ?, ?) ";
 
-
         pool.query(sql, [userData.id, userData.pw, userData.nickname, userData.img], (err, rows) => {  // 가입 시도
           if (err) {
             reject(err);

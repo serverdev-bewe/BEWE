@@ -15,7 +15,7 @@ module.exports.list = {
   list: async (req, res, next) => {
     let result;
     if(!req.session.uid){
-      req.session.uid = Math.floor(Math.random() * 4) + 1;
+      req.session.uid = Math.floor(Math.random() * 2) + 1;
       console.log("user id는 " + req.session.uid);
     }
     result = await notiModel.list(req.session.uid);
@@ -24,7 +24,8 @@ module.exports.list = {
     return res.status(201).json(result);
   },
 
-  create: (req, res, next) => {
-    
+  create: async (req, res, next) => {
+    result = await notiModel.create();
+    return res.status(201).json(result);
   }
 };
