@@ -2,12 +2,12 @@
 
 const mysql = require('mysql');
 const redis = require('redis');
-const DBConfig = require('./../config/DBConfig');
-const pool = mysql.createPool(DBConfig);
-
+const client = redis.createClient();
 const jwt = require('jsonwebtoken');
 
 const config = require('../config/config');
+const DBConfig = require('./../config/DBConfig');
+const pool = mysql.createPool(DBConfig);
 
 /*******************
  *  Authenticate
@@ -37,4 +37,18 @@ exports.auth = (token, done) => {
       })
     }
   });
+};
+
+exports.checkSession = (token, done) => {
+  client.hgetall(token, (err, obj) => {
+    if(err){
+      return done(401)
+    }
+    if (obj === null){
+        return done(401)
+    } else {
+      return done(null, obj.idx)
+    }
+  });
+
 };

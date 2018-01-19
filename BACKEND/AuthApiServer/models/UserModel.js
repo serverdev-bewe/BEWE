@@ -7,13 +7,16 @@ const pool = mysql.createPool(DBConfig);
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
+const redis = require('redis');
+const client = redis.createClient();
+
 /*******************
  *  Register
- *  @param: user_data = {user_id, user_password, user_nickname}
+ *  @param: user_data = {id, pw, nickname}
  ********************/
 exports.register = (userData) => {
   return new Promise((resolve, reject) => {
-      const sql = "SELECT user_id FROM user WHERE user_id = ?";
+      const sql = "SELECT id FROM users WHERE id = ?";
 
       pool.query(sql, [userData.id], (err, rows) => {  // 아이디 중복 체크
         if (err) {
@@ -30,11 +33,13 @@ exports.register = (userData) => {
   ).then(() => {
       return new Promise((resolve, reject) => {
         const sql =
-          "INSERT INTO user(user_id, user_password, user_nickname, user_img) " +
-          "VALUES (?, ?, ?, ?) ";
+          "INSERT INTO users(id, pw, email, nickname, avatar, salt) " +
+          "VALUES (?, ?, ?, ?, ?, ? ) ";
 
 
-        pool.query(sql, [userData.id, userData.pw, userData.nickname, userData.img], (err, rows) => {  // 가입 시도
+        pool.query(sql, [userData.id, userData.pw,
+          userData.email,userData.nickname,
+          userData.avatar, userData.salt], (err, rows) => {  // 가입 시도
           if (err) {
             reject(err);
           } else {
@@ -51,9 +56,9 @@ exports.register = (userData) => {
   ).then((result) => {
     return new Promise((resolve, reject) => {
       const sql =
-        "SELECT user_idx, user_id, user_nickname, user_img, user_created_at " +
-        "FROM user " +
-        "WHERE user_idx = ?";
+        "SELECT idx, id, nickname, avatar, created_at " +
+        "FROM users " +
+        "WHERE idx = ?";
 
       pool.query(sql, result.insertId, (err, rows) => {
         if (err) {
@@ -68,7 +73,7 @@ exports.register = (userData) => {
 
 exports.check = (userData) => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT user_id FROM user WHERE user_id =?';
+    const sql = 'SELECT id FROM users WHERE id =?';
 
     pool.query(sql, userData, (err, rows) => {
       if (err){
@@ -83,14 +88,32 @@ exports.check = (userData) => {
     });
   });
 };
-
+/****************
+ * salt 조회
+ * @returns {Promise<any>}
+ */
+exports.getSalt = (userData) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+      SELECT salt FROM users WHERE id = ?
+      `;
+    pool.query(sql, [userData], (err, rows) => {
+      if (err){
+        reject(err);
+      } else {
+        resolve(rows[0])
+      }
+    });
+  });
+};
 /*******************
  *  Login
  *  @param: userData = {user_id, user_password}
  ********************/
 exports.login = (userData) => {
   return new Promise((resolve, reject) => {
-      const sql = "SELECT user_id FROM user WHERE user_id = ?";
+      const sql = "SELECT id FROM users WHERE id = ?";
 
       pool.query(sql, [userData.id], (err, rows) => {  // 아이디 존재 검사
         if (err) {
@@ -107,9 +130,9 @@ exports.login = (userData) => {
   ).then(() => {
     return new Promise((resolve, reject) => {
       const sql =
-        "SELECT user_id, user_nickname " +
-        "FROM user " +
-        "WHERE user_id = ? and user_password = ?";
+        "SELECT idx, id, nickname, avatar " +
+        "FROM users " +
+        "WHERE id = ? and pw = ?";
 
       pool.query(sql, [userData.id, userData.pw], (err, rows) => {
         if (err) {
@@ -119,8 +142,9 @@ exports.login = (userData) => {
             reject(1403);
           } else {
             const profile = {
-              id: rows[0].user_id,
-              nickname: rows[0].user_nickname
+              idx: rows[0].idx,
+              id: rows[0].id,
+              nickname: rows[0].nickname
             };
             const token = jwt.sign(profile, config.jwt.cert, {'expiresIn': "10h"});
 
@@ -140,9 +164,9 @@ exports.login = (userData) => {
 exports.profile = (userData) => {
   return new Promise((resolve, reject) =>{
     const sql =
-      "SELECT user_idx, user_id, user_nickname, user_img, user_created_at " +
-      "FROM user " +
-      "WHERE user_idx = ?";
+      "SELECT idx, id, nickname, avatar, created_at " +
+      "FROM users " +
+      "WHERE idx = ?";
 
     pool.query(sql, userData, (err, rows) => {
       if (err) {
@@ -155,7 +179,30 @@ exports.profile = (userData) => {
 };
 
 
-
+/***********
+ * 토큰값을 받아와 redis에 저장
+ * @returns {Promise<any>}
+ */
+exports.setSession = (sessionData) => {
+  return new Promise((resolve, reject) => {
+    client.hmset(sessionData.token,
+      {
+        'idx': sessionData.idx,
+        'id': sessionData.id,
+        'nickname': sessionData.nickname,
+        'ip': sessionData.ip
+      });
+    client.expireat(sessionData.token, parseInt((+new Date)/1000) + 43200);
+    client.hgetall(sessionData.token, (err, obj) => {
+      if(err){
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(obj);
+      }
+    })
+  });
+};
 
 
 
