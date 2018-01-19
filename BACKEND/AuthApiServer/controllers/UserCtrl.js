@@ -4,6 +4,7 @@ const userModel = require('../models/UserModel');
 const config = require('../config/config');
 const resMsg = require('../errors.json');
 
+
 /*******************
  *  Register
  ********************/
@@ -26,14 +27,18 @@ exports.register = async(req, res, next) => {
   } else {
     image = req.file.location;
   }
+
+
   let result = '';
   try {
+    const configData = config.doChipher(pw, undefined);
     const userData = {
       id: req.body.id,
-      pw: config.do_cipher(pw),
+      pw: configData.pw,
       nickname: req.body.nickname,
       email: req.body.email,
-      img: image
+      avatar: image,
+      salt: configData._salt
     };
 
     result = await userModel.register(userData);
@@ -90,13 +95,26 @@ exports.login = async(req, res, next) => {
 
   let result = '';
 
+
   try {
+    const getSalt = await userModel.getSalt(req.body.id);
+
     const userData = {
       id: req.body.id,
-      pw: config.do_cipher(req.body.pw)
+      pw: config.doChipher(req.body.pw, getSalt.salt).pw
     };
 
     result = await userModel.login(userData);
+
+    const sessionData = {
+      token: result.token,
+      idx: result.profile.idx,
+      id: result.profile.id,
+      nickname: result.profile.nickname,
+      // ip: req.body.ip,
+      ip: '127.0.0.1'
+    };
+    const setSession = await userModel.setSession(sessionData);
   } catch (error) {
     return next(error);
   }
@@ -109,7 +127,7 @@ exports.login = async(req, res, next) => {
 exports.profile = async(req, res, next) => {
   let result ='';
   try {
-    const userData = req.user_idx;
+    const userData = req.userIdx;
 
     result = await userModel.profile(userData)
 
@@ -119,5 +137,4 @@ exports.profile = async(req, res, next) => {
   }
   return res.json(result);
 };
-
 
