@@ -22,10 +22,5 @@ module.exports.list = {
     console.dir(result);
     console.log("2");
     return res.status(201).json(result);
-  },
-
-  create: async (req, res, next) => {
-    result = await notiModel.create();
-    return res.status(201).json(result);
   }
 };

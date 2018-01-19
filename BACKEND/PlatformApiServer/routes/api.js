@@ -11,8 +11,8 @@ module.exports = (router) => {
   router.route('/noti/list')
     .get(notiCtrl.list.list);
 
-  router.route('/noti/create')
-    .post(notiCtrl.list.create);
+  // router.route('/noti/create')
+  //   .post(notiCtrl.list.create);
     
   return router;
 }

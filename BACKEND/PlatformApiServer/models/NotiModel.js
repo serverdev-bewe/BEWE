@@ -21,18 +21,40 @@ exports.list = (uid) => {
   });  
 };
 
-exports.create = () => {
+exports.create = (data) => {
   return new Promise((resolve, reject) => {
-    const sql = "INSERT INTO notifications (users_idx, contents, url, flag) " +
-      "VALUES (1, '하하하하하하하하하하하', 'http://www.naver.com', 0)";
+    const sql = 
+      "INSERT INTO notifications (users_idx, contents, url, flag) " +
+      "VALUES (?, ?, 'http://www.naver.com', 0)";
 
-    pool.query(sql, (err, result) => {
+    pool.query(sql, [data.uid, data.contents], (err, rows) => {
       if(err){
         console.log(err);
         reject(err);
       }else{
-        resolve(result);
+        if (rows.affectedRows === 1) {
+          resolve(rows);
+        } else {
+          const _err = new Error("notification 생성 중 에러 발생");
+          reject(_err);
+        }
       }
+    });
+  }
+).then((result) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      "SELECT users_idx, contents, url, flag FROM notifications " +
+      "WHERE idx = ?";
+
+      pool.query(sql, [result.insertId], (err, rows) => {
+        if(err){
+          console.log(err);
+          reject(err);  
+        }else{
+          resolve(rows[0]);
+        }
+      });
     });
   });
 };
