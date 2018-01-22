@@ -46,7 +46,7 @@ require('./routes')(app);
 
 const PORT = 3457;
 var server = http.createServer(app).listen(PORT, () => {
-  console.info('[BEWE-AuthApiServer] Listening');
+  console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
 
 /* socket 붙이기 */
