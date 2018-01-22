@@ -26,14 +26,11 @@ module.exports = (router) => {
   router.route('/users/friends/refuse')
     .post(authCtrl.auth, friendCtrl.refuse);
 
-  router.route('/noti')
-    .get(notiCtrl.list.index);
-    
-  router.route('/noti/list')
-    .get(notiCtrl.list.list);
 
-  // router.route('/noti/create')
-  //   .post(notiCtrl.list.create);
-    
+  router.route('/noti/list')
+    .get(notiCtrl.list);
+
+  router.route('/noti/create')
+    .get(notiCtrl.create);
   return router;
 }

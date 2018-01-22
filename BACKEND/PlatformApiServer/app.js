@@ -39,9 +39,6 @@ var server = http.createServer(app).listen(PORT, () => {
 });
 
 /* socket 붙이기 */
-var socketIO = require('socket.io');
-const socketEvents = require('./controllers/SocketCtrl');
-const io = new socketIO(server);
-socketEvents(io);
+const io = require('./controllers/SocketCtrl').initialize(server);
 
 module.exports = app;
