@@ -61,6 +61,20 @@
     "desciption": "Wrong friendship request"
   },
 
+  "2411": {
+    "status": 400,
+    "code": 0,
+    "message": "잘못된 대화방 개설 요청입니다",
+    "desciption": "Wrong conversation request"
+  },
+
+  "2412": {
+    "status": 400,
+    "code": 0,
+    "message": "해당 대화방이 없습니다",
+    "desciption": "Wrong conversation request"
+  },
+
 
 
 

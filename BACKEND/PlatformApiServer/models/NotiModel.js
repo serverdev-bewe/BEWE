@@ -40,12 +40,11 @@ exports.create = (data) => {
         }
       }
     });
-  }
-).then((result) => {
-  return new Promise((resolve, reject) => {
-    const sql =
-      "SELECT users_idx, contents, url, flag FROM notifications " +
-      "WHERE idx = ?";
+  }).then((result) => {
+    return new Promise((resolve, reject) => {
+      const sql =
+        "SELECT users_idx, contents, url, flag FROM notifications " +
+        "WHERE idx = ?";
 
       pool.query(sql, [result.insertId], (err, rows) => {
         if(err){

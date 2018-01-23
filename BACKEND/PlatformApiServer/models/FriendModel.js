@@ -35,8 +35,10 @@ exports.send = (userData, receiver_idx) => {
     }
 
     const sql = 
-      "SELECT idx FROM friends WHERE (sender_idx = ? AND receiver_idx = ?) " + 
-                                 "OR (receiver_idx = ? AND sender_idx = ?)";
+      `SELECT idx 
+         FROM friends 
+        WHERE (sender_idx = ? AND receiver_idx = ?) OR
+              (receiver_idx = ? AND sender_idx = ?)`;
     
     pool.query(sql, [userData, receiver_idx, userData, receiver_idx], (err, rows) => {
       if (err) {
@@ -49,12 +51,11 @@ exports.send = (userData, receiver_idx) => {
         }
       }
     });
-  }
-).then(() => {
-  return new Promise((resolve, reject) => {
-    const sql = 
-      "INSERT INTO friends " +
-      "(flag, sender_idx, receiver_idx) VALUES (0, ?, ?)";
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      const sql = 
+        `INSERT INTO friends
+          (flag, sender_idx, receiver_idx) VALUES (0, ?, ?)`;
 
       pool.query(sql, [userData, receiver_idx], (err, rows) => {
         if(err){
@@ -94,16 +95,15 @@ exports.handleRequest = (type, userData, idx) => {
         }
       }
     });
-  }
-).then((param) => {
-  return new Promise((resolve, reject) => {
-    let sql = '';
+  }).then((param) => {
+    return new Promise((resolve, reject) => {
+      let sql = '';
 
-    if (param.type == 'accept') {
-      sql = "UPDATE friends SET flag = 1 WHERE idx = ?";
-    } else if (param.type == 'reject') {
-      sql = "UPDATE friends SET flag = 2 WHERE idx = ?";
-    }
+      if (param.type == 'accept') {
+        sql = "UPDATE friends SET flag = 1 WHERE idx = ?";
+      } else if (param.type == 'reject') {
+        sql = "UPDATE friends SET flag = 2 WHERE idx = ?";
+      }
 
       pool.query(sql, [param.idx], (err, rows) => {
         if(err){
