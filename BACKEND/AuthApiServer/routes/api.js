@@ -24,6 +24,6 @@ module.exports = (router) => {
   router.route('/users')
     .get(authCtrl.checkSession, authCtrl.auth, userCtrl.profile);
 
-  
+
   return router;
 };
