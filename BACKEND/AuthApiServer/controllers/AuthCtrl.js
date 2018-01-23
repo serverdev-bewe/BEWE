@@ -33,5 +33,4 @@ exports.checkSession = (req, res, next) => {
       }
     });
   }
-
 };

@@ -29,6 +29,7 @@ exports.auth = (token, done) => {
           return done(err);
         } else {
           if (rows.length === 0) {
+            console.log(5);
             return done(401);
           } else {  // 인증 성공
             return done(null, rows[0].idx);

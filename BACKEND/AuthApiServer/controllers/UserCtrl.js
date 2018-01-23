@@ -114,7 +114,7 @@ exports.login = async(req, res, next) => {
       // ip: req.body.ip,
       ip: '127.0.0.1'
     };
-    const setSession = await userModel.setSession(sessionData);
+    await userModel.setSession(sessionData);
   } catch (error) {
     return next(error);
   }

@@ -13,7 +13,7 @@ module.exports = (router) => {
 
   // USER
   router.route('/users/register')
-    .post(authCtrl.auth, userCtrl.register);
+    .post(userCtrl.register);
   router.route('/users/check')
     .post(userCtrl.check);
 
@@ -22,10 +22,7 @@ module.exports = (router) => {
 
   // PROFILE
   router.route('/users')
-    .get(authCtrl.auth, userCtrl.profile);
-
-
-
+    .get(authCtrl.checkSession, authCtrl.auth, userCtrl.profile);
 
 
   return router;
