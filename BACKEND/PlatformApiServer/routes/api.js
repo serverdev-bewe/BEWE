@@ -37,12 +37,14 @@ module.exports = (router) => {
     .get(authCtrl.auth, messageCtrl.list('messages'))
     .post(authCtrl.auth, messageCtrl.sendMessage);
 
+
+  /* Notification */  
   router.route('/noti/list')
     .get(notiCtrl.list);
 
   router.route('/noti/create')
     .get(notiCtrl.create);
-
+  
   // router.route('/noti/check')
   //   .get(notiCtrl.check);
 

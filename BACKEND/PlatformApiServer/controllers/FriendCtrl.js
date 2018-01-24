@@ -14,7 +14,7 @@ exports.list = (type) => {
       console.log(error);
       return next(error)
     }
-    return res.json(result);
+    return res.status(200).json(result);
   }
 };
 
@@ -23,9 +23,9 @@ exports.send = async(req, res, next) => {
   let result = '';
   try {
     const userData = req.userIdx;
-    const receiver_idx = req.body.receiver_idx;
+    const receiverIdx = req.body.receiver_idx;
 
-    result = await friendModel.send(userData, receiver_idx);
+    result = await friendModel.send(userData, receiverIdx);
   } catch (error) {
     console.log(error);
     return next(error);

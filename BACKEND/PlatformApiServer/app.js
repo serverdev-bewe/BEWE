@@ -37,7 +37,7 @@ require('./routes')(app);
 require('./ErrorHandler')(app);
 
 const PORT = 3457;
-var server = http.createServer(app).listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
 

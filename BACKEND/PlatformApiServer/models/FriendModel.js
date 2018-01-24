@@ -28,9 +28,9 @@ exports.list = (type, userData) => {
 };
 
 // 친구 요청 전송
-exports.send = (userData, receiver_idx) => {
+exports.send = (userData, receiverIdx) => {
   return new Promise((resolve, reject) => {
-    if(userData == receiver_idx){ // 요청한 사람과 받은 사람의 id가 같을 경우 캔슬
+    if(userData == receiverIdx){ // 요청한 사람과 받은 사람의 id가 같을 경우 캔슬
       reject(2402);
     }
 
@@ -40,7 +40,7 @@ exports.send = (userData, receiver_idx) => {
         WHERE (sender_idx = ? AND receiver_idx = ?) OR
               (receiver_idx = ? AND sender_idx = ?)`;
     
-    pool.query(sql, [userData, receiver_idx, userData, receiver_idx], (err, rows) => {
+    pool.query(sql, [userData, receiverIdx, userData, receiverIdx], (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -57,7 +57,7 @@ exports.send = (userData, receiver_idx) => {
         `INSERT INTO friends
           (flag, sender_idx, receiver_idx) VALUES (0, ?, ?)`;
 
-      pool.query(sql, [userData, receiver_idx], (err, rows) => {
+      pool.query(sql, [userData, receiverIdx], (err, rows) => {
         if(err){
           console.log(err);
           reject(err);
