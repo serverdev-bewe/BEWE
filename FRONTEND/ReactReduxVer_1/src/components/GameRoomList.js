@@ -22,7 +22,7 @@ class GameRoomList extends Component {
             keyword : e.target.value
         })
     }
-    componentDidMount(){
+    componentWillMount(){
         fetch('http://localhost:3000/roomList',{
             method: 'get',
             headers: {
