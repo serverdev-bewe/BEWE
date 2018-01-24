@@ -9,7 +9,6 @@ const resMsg = require('../errors.json');
  *  Register
  ********************/
 exports.register = async(req, res, next) => {
-
   // if (!req.body.id || !req.body.pw1 ||!req.body.pw2|| !req.body.nickname ) {
   //   return res.status(400).end();
   // }
@@ -45,7 +44,7 @@ exports.register = async(req, res, next) => {
 
   } catch (error) {
     // TODO 에러 잡았을때 응답메세지, 응답코드 수정할것
-    //   if (isNaN(error)) {
+    //   if (isNaN(error)) {`
     //     // console.log(error);
     //     return res.status(500).json(resMsg[9500]);
     //   } else {
@@ -58,7 +57,6 @@ exports.register = async(req, res, next) => {
 
   // success
   return res.status(201).json(result[0]);
-
 
 };
 
@@ -118,7 +116,7 @@ exports.login = async(req, res, next) => {
   } catch (error) {
     return next(error);
   }
-
+  console.log(result.profile.nickname);
   // success
   return res.json(result);
 };

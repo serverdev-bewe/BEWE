@@ -16,7 +16,7 @@ exports.list = (type) => {
     }
     return res.json(result);
   }
-}
+};
 
 // 친구 추가
 exports.send = async(req, res, next) => {
@@ -31,7 +31,7 @@ exports.send = async(req, res, next) => {
     return next(error);
   }
   return res.status(201).json(result);
-}
+};
 
 // 친구 요청 수락, 거절
 exports.handleRequest = (type) => {
@@ -48,4 +48,4 @@ exports.handleRequest = (type) => {
     }
     return res.status(201).json(result);
   }
-}
+};
