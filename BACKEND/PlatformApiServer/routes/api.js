@@ -10,27 +10,25 @@ const notiCtrl = require('../controllers/NotiCtrl');
 module.exports = (router) => {
   /* Friend */
   router.route('/users/friends')
-    .get(authCtrl.auth, friendCtrl.list('all'));
+    .get(authCtrl.auth, friendCtrl.list('all'))
+    .post(authCtrl.auth, friendCtrl.send);
 
   router.route('/users/friends/send')
     .get(authCtrl.auth, friendCtrl.list('send'))
-    .post(authCtrl.auth, friendCtrl.send);
 
   router.route('/users/friends/receive')
     .get(authCtrl.auth, friendCtrl.list('receive'));
 
-  router.route('/users/friends/accept')
-    .post(authCtrl.auth, friendCtrl.handleRequest('accept'));
+  router.route('/users/friends/accept/:idx')
+    .get(authCtrl.auth, friendCtrl.accept);
 
-  router.route('/users/friends/reject')
-    .post(authCtrl.auth, friendCtrl.handleRequest('reject'));
+  router.route('/users/friends/reject/:idx')
+    .get(authCtrl.auth, friendCtrl.reject);
 
 
   /* Message */
   router.route('/messages')
-    .get(authCtrl.auth, messageCtrl.list('conversations'));
-
-  router.route('/messages/create')
+    .get(authCtrl.auth, messageCtrl.list('conversations'))
     .post(authCtrl.auth, messageCtrl.openConversation);
 
   router.route('/messages/:idx')
@@ -41,9 +39,6 @@ module.exports = (router) => {
   /* Notification */  
   router.route('/users/noti')
     .get(authCtrl.auth, notiCtrl.list);
-
-  router.route('/users/noti')
-    .post(authCtrl.auth, notiCtrl.create);
   
   router.route('/users/noti/:idx')
     .get(authCtrl.auth, notiCtrl.check);

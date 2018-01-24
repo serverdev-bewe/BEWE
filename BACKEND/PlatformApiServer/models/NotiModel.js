@@ -29,7 +29,7 @@ exports.create = (notificationData) => {
         contents = `${notificationData.info.nickname}님이 친구 요청을 수락하셨습니다.`;
         url = `/users/friends/${userIdx}`;
         break;
-      case 'friend_received':
+      case 'friend_receive':
         contents = `${notificationData.info.nickname}님에게 친구 요청이 왔습니다.`;
         url = `/users/friends/${userIdx}`;
         break;

@@ -60,6 +60,12 @@
     "message": "잘못된 친구 요청입니다.",
     "desciption": "Wrong friendship request"
   },
+  "2403": {
+    "status": 400,
+    "code": 0,
+    "message": "해당 친구 요청이 없습니다.",
+    "desciption": "Already send friendship request"
+  },
 
   "2411": {
     "status": 400,

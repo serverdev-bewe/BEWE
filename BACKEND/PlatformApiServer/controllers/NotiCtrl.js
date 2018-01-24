@@ -18,22 +18,21 @@ module.exports.list = async (req, res, next) => {
 };
 
 // 알림 생성
-module.exports.create = async (req, res, next) => {
+module.exports.create = async (usersIdx, type, info) => {
   let result = '';
-
   try {
     const notificationData = {
-      usersIdx: req.body.users_idx,
-      type: req.body.type,
-      info: req.body.info
-    }    
+      usersIdx,
+      type,
+      info
+    };
 
     result = await notiModel.create(notificationData);    
   } catch (error) {
     console.log(error);
     return next(error);
   }
-  return res.status(201).json(result);
+  return result;
 };
 
 // 알림 확인
