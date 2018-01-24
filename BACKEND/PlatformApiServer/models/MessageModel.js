@@ -19,7 +19,7 @@ exports.listConversation = (userData) => {
       }
     });
   });
-}
+};
 
 // 대화방 내 채팅 리스트
 exports.getConversation = (userData, conversationId) => {
@@ -31,9 +31,9 @@ exports.getConversation = (userData, conversationId) => {
         console.log(err);
         reject(err);
       }else{
-        if (rows.length == 1 && 
-           (rows[0].users_idx_1 == userData || 
-            rows[0].users_idx_2 == userData)) {
+        if (rows.length === 1 &&
+           (rows[0].users_idx_1 === userData ||
+            rows[0].users_idx_2 === userData)) {
           resolve(conversationId);
         } else {
           reject(2412);
@@ -55,12 +55,12 @@ exports.getConversation = (userData, conversationId) => {
       });
     });
   });
-}
+};
 
 // 대화방이 존재하는지 확인하고 없으면 새로 생성한다
 exports.openConversation = (userData, receiverData) => {
   return new Promise((resolve, reject) => {
-    if (userData == receiverData) {
+    if (userData === receiverData) {
       reject(2411);
     }
 
@@ -88,7 +88,7 @@ exports.openConversation = (userData, receiverData) => {
     .then((context) => {
       return new Promise((resolve, reject) => {
         console.dir(context.result);
-        if (context.result != ''){ // 이미 대화방이 있을 경우 생성하지 않는다.
+        if (context.result !== ''){ // 이미 대화방이 있을 경우 생성하지 않는다.
           context.result.insertId = JSON.parse(JSON.stringify(context.result))[0].idx;
           resolve(context);
         } else {
@@ -101,7 +101,7 @@ exports.openConversation = (userData, receiverData) => {
               console.log(err);
               reject(err);
             }else{
-              if (rows.affectedRows == 1) { // 대화방 생성
+              if (rows.affectedRows === 1) { // 대화방 생성
                 context.result = rows;
                 resolve(context);
               } else {
@@ -125,7 +125,7 @@ exports.openConversation = (userData, receiverData) => {
       });
     });
   });
-}
+};
 
 // 메시지 전송하기
 exports.sendMessage = (messageData) => {
@@ -136,7 +136,7 @@ exports.sendMessage = (messageData) => {
         console.log(err);
         reject(err);
       } else {
-        if (rows.length == 1) {
+        if (rows.length === 1) {
           resolve(rows);
         } else {
           reject(2412);
@@ -149,9 +149,9 @@ exports.sendMessage = (messageData) => {
       let sql = '';
       let receiver_idx = 0;
 
-      if (rows[0].users_idx_1 == messageData.sender_idx) { // users_idx_2 = receiver_idx
+      if (rows[0].users_idx_1 === messageData.sender_idx) { // users_idx_2 = receiver_idx
         receiver_idx = rows[0].users_idx_2;
-      } else if (rows[0].users_idx_2 == messageData.sender_idx) { // users_idx_1 = receiver_idx
+      } else if (rows[0].users_idx_2 === messageData.sender_idx) { // users_idx_1 = receiver_idx
         receiver_idx = rows[0].users_idx_1;
       }
       sql = 
@@ -167,7 +167,7 @@ exports.sendMessage = (messageData) => {
           console.log(err);
           reject(err);
         }else{
-          if (rows.affectedRows == 1) { // 메시지 생성
+          if (rows.affectedRows === 1) { // 메시지 생성
             resolve(rows);
           } else {
             const _err = new Error("Send Message Custom error");
@@ -188,7 +188,7 @@ exports.sendMessage = (messageData) => {
           console.log(err);
           reject(err);
         }else{
-          if (rows.affectedRows == 1) { // conversation 업데이트 완료
+          if (rows.affectedRows === 1) { // conversation 업데이트 완료
             resolve(rows);
           } else {
             const _err = new Error("Update Conversation Custom error");
@@ -198,4 +198,4 @@ exports.sendMessage = (messageData) => {
       });
     });
   });
-}
+};

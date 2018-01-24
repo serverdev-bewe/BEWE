@@ -1,11 +1,11 @@
 'use strict';
 
-var socketIO = require('socket.io');
-var io = null;
+const socketIO = require('socket.io');
+let io = null;
 
 exports.io = () => {
   return io;
-}
+};
 
 exports.initialize = (server) => {
   io = socketIO(server);
@@ -27,4 +27,4 @@ exports.initialize = (server) => {
   
     socket.on('disconnect', () => {});
   });  
-}
+};

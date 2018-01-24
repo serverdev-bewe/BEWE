@@ -22,7 +22,7 @@ exports.list = (type) => {
     }
     return res.json(result);
   }
-}
+};
 
 // 방 생성하기!
 exports.openConversation = async(req, res, next) => {
@@ -38,7 +38,7 @@ exports.openConversation = async(req, res, next) => {
     return next(error);
   }
   return res.status(201).json({"conversationId" : result});
-}
+};
 
 // 메시지 보내기. 방이 열려 있지 않은 경우에는 일단 방부터 연다.
 exports.sendMessage = async(req, res, next) => {
@@ -49,7 +49,7 @@ exports.sendMessage = async(req, res, next) => {
       contents: req.body.contents,
       sender_idx: req.userIdx,
       conversation_idx: req.params.idx
-    }
+    };
     const conversationId = req.body.conversation_idx;
     result = await messageModel.sendMessage(messageData);
       
@@ -59,4 +59,4 @@ exports.sendMessage = async(req, res, next) => {
   } 
   
   return res.status(201).json(result);
-}
+};

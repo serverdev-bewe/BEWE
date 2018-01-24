@@ -120,4 +120,4 @@ exports.handleRequest = (type, userData, idx) => {
       });
     });
   });
-}
+};
