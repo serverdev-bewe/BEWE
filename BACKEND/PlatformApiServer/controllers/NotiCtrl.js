@@ -15,4 +15,4 @@ module.exports.list = async (req, res, next) => {
 module.exports.create = async (req, res, next) => {
   console.log("noti create");
   return res.json({"asdf" : "asdf"});
-}
+};
