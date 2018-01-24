@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-const http = require('http');
 const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -38,7 +37,7 @@ require('./routes')(app);
 require('./ErrorHandler')(app);
 
 const PORT = 3457;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
 
