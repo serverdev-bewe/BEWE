@@ -12,7 +12,7 @@ exports.list = (type) => {
       result = await friendModel.list(type, userData)
     } catch (error) {
       console.log(error);
-      return next(error)
+      return next(error);
     }
     return res.status(200).json(result);
   }

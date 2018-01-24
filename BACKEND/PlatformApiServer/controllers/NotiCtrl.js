@@ -9,15 +9,44 @@ module.exports.list = async (req, res, next) => {
   try {
     const userData = req.userIdx;
 
-    result = await friendModel.list(userData);
+    result = await notiModel.list(userData);
   } catch (error) {
     console.log(error);
+    return next(error);
   }
   return res.status(200).json(result);
 };
 
 // 알림 생성
 module.exports.create = async (req, res, next) => {
-  console.log("noti create");
-  return res.json({"asdf" : "asdf"});
+  let result = '';
+
+  try {
+    const notificationData = {
+      usersIdx: req.body.users_idx,
+      type: req.body.type,
+      info: req.body.info
+    }    
+
+    result = await notiModel.create(notificationData);    
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+  return res.status(201).json(result);
+};
+
+// 알림 확인
+module.exports.check = async (req, res, next) => {
+  let result = '';
+  try {
+    const notiIdx = req.params.idx;
+    const userData = req.userIdx;
+
+    result = await notiModel.check(notiIdx, userData);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+  return res.status(201).json(result);
 };

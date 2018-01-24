@@ -25,7 +25,7 @@ exports.listConversation = (userData) => {
 exports.getConversation = (userData, conversationId) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM conversations WHERE idx = ?';
-    console.log(conversationId);
+    
     pool.query(sql, [conversationId], (err, rows) => {
       if(err){
         console.log(err);

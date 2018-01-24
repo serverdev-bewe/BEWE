@@ -51,7 +51,8 @@ exports.send = (userData, receiverIdx) => {
         }
       }
     });
-  }).then(() => {
+  })
+  .then(() => {
     return new Promise((resolve, reject) => {
       const sql = 
         `INSERT INTO friends

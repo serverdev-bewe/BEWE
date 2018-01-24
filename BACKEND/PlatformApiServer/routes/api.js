@@ -39,14 +39,14 @@ module.exports = (router) => {
 
 
   /* Notification */  
-  router.route('/noti/list')
-    .get(notiCtrl.list);
+  router.route('/users/noti')
+    .get(authCtrl.auth, notiCtrl.list);
 
-  router.route('/noti/create')
-    .get(notiCtrl.create);
+  router.route('/users/noti')
+    .post(authCtrl.auth, notiCtrl.create);
   
-  // router.route('/noti/check')
-  //   .get(notiCtrl.check);
+  router.route('/users/noti/:idx')
+    .get(authCtrl.auth, notiCtrl.check);
 
   return router;
 };
