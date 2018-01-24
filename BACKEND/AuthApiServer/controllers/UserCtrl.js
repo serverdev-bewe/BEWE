@@ -9,7 +9,6 @@ const resMsg = require('../errors.json');
  *  Register
  ********************/
 exports.register = async(req, res, next) => {
-
   // if (!req.body.id || !req.body.pw1 ||!req.body.pw2|| !req.body.nickname ) {
   //   return res.status(400).end();
   // }
@@ -58,7 +57,6 @@ exports.register = async(req, res, next) => {
 
   // success
   return res.status(201).json(result[0]);
-
 
 };
 
@@ -118,7 +116,7 @@ exports.login = async(req, res, next) => {
   } catch (error) {
     return next(error);
   }
-
+  console.log(result.profile.nickname);
   // success
   return res.json(result);
 };

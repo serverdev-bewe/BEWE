@@ -38,9 +38,10 @@ require('./routes')(app);
 require('./ErrorHandler')(app);
 
 const PORT = 3457;
-const server = http.createServer(app).listen(PORT, () => {
+app.listen(PORT, () => {
   console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
+
 
 /* socket 붙이기 */
 const io = require('./controllers/SocketCtrl').initialize(server);
