@@ -44,7 +44,7 @@ exports.register = async(req, res, next) => {
 
   } catch (error) {
     // TODO 에러 잡았을때 응답메세지, 응답코드 수정할것
-    //   if (isNaN(error)) {
+    //   if (isNaN(error)) {`
     //     // console.log(error);
     //     return res.status(500).json(resMsg[9500]);
     //   } else {
