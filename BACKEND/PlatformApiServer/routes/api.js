@@ -12,14 +12,12 @@ module.exports = (router) => {
   router.route('/users/friends')
     .get(authCtrl.auth, friendCtrl.list('all'));
 
-  router.route('/users/friends/sendList')
-    .get(authCtrl.auth, friendCtrl.list('send'));
-
-  router.route('/users/friends/receiveList')
-    .get(authCtrl.auth, friendCtrl.list('receive'));
-
   router.route('/users/friends/send')
+    .get(authCtrl.auth, friendCtrl.list('send'))
     .post(authCtrl.auth, friendCtrl.send);
+
+  router.route('/users/friends/receive')
+    .get(authCtrl.auth, friendCtrl.list('receive'));
 
   router.route('/users/friends/accept')
     .post(authCtrl.auth, friendCtrl.handleRequest('accept'));
@@ -31,14 +29,12 @@ module.exports = (router) => {
   /* Message */
   router.route('/messages')
     .get(authCtrl.auth, messageCtrl.list('conversations'));
-  
-  router.route('/messages/:idx')
-    .get(authCtrl.auth, messageCtrl.list('messages'));
 
   router.route('/messages/create')
-    .post(authCtrl.auth, messageCtrl.openConversation);  
-  
+    .post(authCtrl.auth, messageCtrl.openConversation);
+
   router.route('/messages/:idx')
+    .get(authCtrl.auth, messageCtrl.list('messages'))
     .post(authCtrl.auth, messageCtrl.sendMessage);
 
   router.route('/noti/list')
@@ -51,4 +47,4 @@ module.exports = (router) => {
   //   .get(notiCtrl.check);
 
   return router;
-}
+};
