@@ -1,4 +1,5 @@
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -29,13 +30,15 @@ app.use((req, res, next) => {
 
 require('./routes')(app);
 
-// error handler
-// require('./ErrorHandler')(app);
+//error handler
+require('./ErrorHandler')(app);
 
 const PORT = 3457;
-app.listen(PORT, () => {
-  console.info(`[BEWE-AuthApiServer] Listening on Port ${PORT}`);
+var server = http.createServer(app).listen(PORT, () => {
   console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
+
+/* socket 붙이기 */
+const io = require('./controllers/SocketCtrl').initialize(server);
 
 module.exports = app;
