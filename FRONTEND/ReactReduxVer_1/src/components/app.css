@@ -1,0 +1,20 @@
+.up{
+    margin-top: 76px;
+}
+.center{
+    text-align: center;
+}
+.wi3{
+    margin-top: 5%;
+    width: 30%;
+}
+.wi7{
+    margin-top: 5%;
+    width: 70%;
+    margin-left: 5%;
+    /* float: left; */
+}
+.leftCenter{
+    margin: auto;
+    text-align: left;
+}
