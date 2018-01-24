@@ -37,6 +37,7 @@ const PORT = 3457;
 var server = http.createServer(app).listen(PORT, () => {
   console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
+//adfasdf
 
 /* socket 붙이기 */
 const io = require('./controllers/SocketCtrl').initialize(server);
