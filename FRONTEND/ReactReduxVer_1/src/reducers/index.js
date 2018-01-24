@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import NotiReducer from './users/notiReducer';
 
 const rootReducer = combineReducers({
-  state: (state = {}) => state
+  notifications: NotiReducer
 });
 
 export default rootReducer;
