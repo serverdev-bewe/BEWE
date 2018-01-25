@@ -10,7 +10,7 @@ class NotiList extends Component {
   }
 
   renderNoties(){
-    return this.props.notifications.map((noti, index) => {
+    return this.props.noties.map((noti, index) => {
       return (
         <tr key={index}>
           <td>index</td>
@@ -19,7 +19,9 @@ class NotiList extends Component {
       )
     })
   }
-  render() {
+  render() {if( this.noties === undefined ) {
+    return <div>Loading...</div>
+}
     return(
       <div>
         <Table hover>
@@ -38,7 +40,7 @@ class NotiList extends Component {
   }
 }
 function mapStateToProps(state){
-  return { posts: state.notis.all }
+  return { noties: state.noties.all }
 }
 
 export default connect(mapStateToProps, { fetchNoties })(NotiList);

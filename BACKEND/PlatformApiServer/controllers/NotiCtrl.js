@@ -5,6 +5,7 @@ const io = require('../controllers/SocketCtrl');
 
 // 알림 리스트
 module.exports.list = async (req, res, next) => {
+  console.log("1");
   let result = '';
   try {
     const userData = req.userIdx;
@@ -14,7 +15,9 @@ module.exports.list = async (req, res, next) => {
     console.log(error);
     return next(error);
   }
+  console.log("2");
   return res.status(200).json(result);
+  next();
 };
 
 // 알림 생성
