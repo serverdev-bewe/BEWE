@@ -25,7 +25,7 @@ exports.listConversation = (userData) => {
 exports.getConversation = (userData, conversationId) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM conversations WHERE idx = ?';
-    console.log(conversationId);
+    
     pool.query(sql, [conversationId], (err, rows) => {
       if(err){
         console.log(err);
@@ -87,7 +87,6 @@ exports.openConversation = (userData, receiverData) => {
     })
     .then((context) => {
       return new Promise((resolve, reject) => {
-        console.dir(context.result);
         if (context.result !== ''){ // 이미 대화방이 있을 경우 생성하지 않는다.
           context.result.insertId = JSON.parse(JSON.stringify(context.result))[0].idx;
           resolve(context);
