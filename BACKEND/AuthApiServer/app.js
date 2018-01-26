@@ -33,7 +33,7 @@ require('./routes')(app);
 // error handler
 require('./ErrorHandler')(app);
 
-const PORT = 4005;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.info(`[BEWE-AuthApiServer] Listening on Port ${PORT}`);
 });
