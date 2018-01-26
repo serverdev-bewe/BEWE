@@ -28,9 +28,9 @@ exports.list = (type, userData) => {
 };
 
 // 친구 요청 전송
-exports.send = (userData, receiver_idx) => {
+exports.send = (userData, receiverIdx) => {
   return new Promise((resolve, reject) => {
-    if(userData == receiver_idx){ // 요청한 사람과 받은 사람의 id가 같을 경우 캔슬
+    if(userData == receiverIdx){ // 요청한 사람과 받은 사람의 id가 같을 경우 캔슬
       reject(2402);
     }
 
@@ -40,30 +40,31 @@ exports.send = (userData, receiver_idx) => {
         WHERE (sender_idx = ? AND receiver_idx = ?) OR
               (receiver_idx = ? AND sender_idx = ?)`;
     
-    pool.query(sql, [userData, receiver_idx, userData, receiver_idx], (err, rows) => {
+    pool.query(sql, [userData, receiverIdx, userData, receiverIdx], (err, rows) => {
       if (err) {
         reject(err);
       } else {
         if (rows.length !== 0) { // 이미 친구 요청을 보냈을 경우
           reject(2401);
-        }else{
+        } else {
           resolve(null);
         }
       }
     });
-  }).then(() => {
+  })
+  .then(() => {
     return new Promise((resolve, reject) => {
       const sql = 
         `INSERT INTO friends
           (flag, sender_idx, receiver_idx) VALUES (0, ?, ?)`;
 
-      pool.query(sql, [userData, receiver_idx], (err, rows) => {
+      pool.query(sql, [userData, receiverIdx], (err, rows) => {
         if(err){
           console.log(err);
           reject(err);
         }else{
           if (rows.affectedRows === 1) {
-            resolve(rows);
+            resolve(null);
           } else {
             const _err = new Error("Friends send Custom error");
             reject(_err);
@@ -71,14 +72,35 @@ exports.send = (userData, receiver_idx) => {
         }
       });
     });
-  });
+  })
+  .then(() => {
+    return new Promise((resolve, reject) => {
+      const sql = 
+        "SELECT nickname FROM users WHERE idx = ?";
+      
+      pool.query(sql, [userData], (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          if (rows.length == 0) { 
+            reject(400);
+          } else {
+            resolve(rows[0].nickname);
+          }
+        }
+      });
+    })
+  })
 };
 
 // 친구 요청 수락, 거절
 exports.handleRequest = (type, userData, idx) => {  
   return new Promise((resolve, reject) => {
     const sql = 
-      "SELECT flag, receiver_idx FROM friends WHERE idx=?";
+      `SELECT flag, sender_idx, receiver_idx, nickname
+         FROM friends join users
+           ON friends.receiver_idx = users.idx
+        WHERE friends.idx = ?`;
     pool.query(sql, [idx], (err, rows) => {
       if (err) {
         reject(err);
@@ -86,32 +108,37 @@ exports.handleRequest = (type, userData, idx) => {
         if (rows.length !== 0) { // 일치하는 친구 요청이 있을 경우 
           if (rows[0].receiver_idx == userData && rows[0].flag == 0){ 
             // 친구 요청의 수신자와 current_user의 id가 같고, flag가 0일 때만 업데이트
-            resolve({type: type, idx: idx});
+            const userName = rows[0].nickname;
+            resolve(userName);
           } else {
             reject(2402);
           }
         } else {
-          reject(400);
+          reject(2403);
         }
       }
     });
-  }).then((param) => {
+  }).then((userName) => {
     return new Promise((resolve, reject) => {
       let sql = '';
 
-      if (param.type == 'accept') {
+      if (type == 'accept') {
         sql = "UPDATE friends SET flag = 1 WHERE idx = ?";
-      } else if (param.type == 'reject') {
+      } else if (type == 'reject') {
         sql = "UPDATE friends SET flag = 2 WHERE idx = ?";
       }
 
-      pool.query(sql, [param.idx], (err, rows) => {
+      pool.query(sql, [idx], (err, rows) => {
         if(err){
           console.log(err);
           reject(err);
         }else{
           if (rows.affectedRows === 1) {
-            resolve(rows);
+            if (type === 'accept') {
+              resolve(userName);
+            } else {
+              resolve(rows);
+            }
           } else {
             const _err = new Error("Friends accept Custom error");
             reject(_err);
