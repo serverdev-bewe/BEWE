@@ -84,7 +84,6 @@ exports.check = async(req, res, next) => {
 
 /*******************
  *  Login
- *  TODO validation
  ********************/
 exports.login = async(req, res, next) => {
 
