@@ -30,7 +30,7 @@ exports.register = async(req, res, next) => {
 
   let result = '';
   try {
-    const configData = config.doChipher(pw, undefined);
+    const configData = config.doCipher(pw, undefined);
     const userData = {
       id: req.body.id,
       pw: configData.pw,
@@ -102,7 +102,7 @@ exports.login = async(req, res, next) => {
     //TODO salt of undefined 예외 처리
     const userData = {
       id: req.body.id,
-      pw: config.doChipher(req.body.pw, getSalt.salt).pw
+      pw: config.doCipher(req.body.pw, getSalt.salt).pw
     };
 
     result = await userModel.login(userData);
