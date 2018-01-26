@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
 import { fetchNoties } from '../../../actions/users/notiActions';
+import Noti from './Noti';
 
 class NotiList extends Component {
   componentWillMount(){
@@ -10,31 +13,20 @@ class NotiList extends Component {
   }
 
   renderNoties(){
-    return this.props.noties.map((noti, index) => {
-      return (
-        <tr key={index}>
-          <td>index</td>
-          <td>noti.title</td>
-        </tr>
+    return this.props.noties.reverse().map((noti) => {
+      return (         
+        <Noti noti={noti} key={noti.idx}/>
       )
     })
   }
-  render() {if( this.noties === undefined ) {
-    return <div>Loading...</div>
-}
+  render() {
+    if( this.props.noties === undefined ) {
+      return <div>Loading...</div>
+    }
+
     return(
       <div>
-        <Table hover>
-          <thead>
-          <tr>
-            <th>No.</th>
-            <th>내용</th>
-          </tr>
-          </thead>
-          <tbody>
-            {this.renderNoties()}
-          </tbody>
-        </Table>
+        {this.renderNoties()}
       </div>
     )
   }

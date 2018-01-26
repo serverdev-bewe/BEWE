@@ -21,6 +21,8 @@ import {
   DropdownItem, 
   ButtonGroup} from 'reactstrap';
 
+import { fetchNoties } from '../actions/users/notiActions';
+
 export default class Example extends React.Component {
   constructor(props) {
     super(props);

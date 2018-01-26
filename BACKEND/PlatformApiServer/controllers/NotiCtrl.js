@@ -2,6 +2,7 @@
 
 const notiModel = require('../models/NotiModel');
 const io = require('../controllers/SocketCtrl');
+const eventEmitter = require('../controllers/EventCtrl');
 
 // 알림 리스트
 module.exports.list = async (req, res, next) => {
@@ -35,6 +36,9 @@ module.exports.create = async (usersIdx, type, info) => {
     console.log(error);
     return next(error);
   }
+
+  eventEmitter.emit('create_noti');
+
   return result;
 };
 
