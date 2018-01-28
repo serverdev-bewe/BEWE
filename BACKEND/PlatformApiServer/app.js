@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -44,5 +42,8 @@ const server = app.listen(PORT, () => {
 
 /* socket 붙이기 */
 const io = require('./controllers/SocketCtrl').initialize(server);
+
+const eventEmitter = require('./controllers/EventCtrl');
+eventEmitter.emit('connection');
 
 module.exports = app;

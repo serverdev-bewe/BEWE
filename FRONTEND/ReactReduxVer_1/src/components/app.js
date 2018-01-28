@@ -1,10 +1,13 @@
 import './app.css';
 import React, { Component } from 'react';
+import Notification from 'react-web-notification';
 
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Switch, IndexRoute } from "react-router-dom";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import reducers from '../reducers';
+import * as DataActions from '../actions/appActions';
 
 import Header from "../header/Header";
 import Home from "../routes/Home";
@@ -12,32 +15,130 @@ import Login from '../login/Login';
 import Footer from '../footer/Footer';
 import SignUp from "../login/SignUp";
 import MyGame from "../header/MyGame";
+import Dashboard from "../components/users/dashboard/Dashboard";
+import NotiList from "../components/users/noti/NotiList";
 import GameRoomList from './GameRoomList';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+function mapStateToProps(state) {  
+  return {
+    new: state.app.data,
+    isFetching: state.app.isFetching,
+    ignore: state.app.ignore
+  };
+}
+ 
+function mapDispatchToProps(dispatch) {  
+  return {
+      dataActions: bindActionCreators(DataActions, dispatch)
+  };
+}
 
+class App extends Component {
+  handlePermissionGranted(){
+    console.log('Permission Granted');
+    //this.props.ignore = false;
+  }
+  handlePermissionDenied(){
+    console.log('Permission Denied');
+    //this.props.ignore = true;
+  }
+  handleNotSupported(){
+    console.log('Web Notification not Supported');
+    //this.props.ignore = true;
+  }
 
-export default class App extends Component {
+  handleNotificationOnError(e, tag){
+    console.log(e, 'Notification error tag:' + tag);
+  }
+
+  handleButtonClick() {
+
+    // if(this.state.ignore) {
+    //   return;
+    // }
+
+    const now = Date.now();
+
+    const title = 'React-Web-Notification' + now;
+    const body = 'Hello' + new Date();
+    const tag = now;
+    const icon = 'http://georgeosddev.github.io/react-web-notification/example/Notifications_button_24.png';
+    // const icon = 'http://localhost:3000/Notifications_button_24.png';
+
+    // Available options
+    // See https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification
+    const options = {
+      tag: tag,
+      body: body,
+      icon: icon,
+      lang: 'en',
+      dir: 'ltr',
+      sound: './sound.mp3'  // no browsers supported https://developer.mozilla.org/en/docs/Web/API/notification/sound#Browser_compatibility
+    }
+    this.setState({
+      title: title,
+      options: options
+    });
+  }
+
+  // 받아온 props이 이전 props과 다르다면 timeout 새로 시간 세팅
+  componentWillReceiveProps(nextProps) {
+    if (this.props.new !== nextProps.new) {
+      clearTimeout(this.timeout);
+
+      if (!nextProps.isFetching) {
+          this.startPoll();
+      }
+    }
+  }
+
+  // 앱이 시작될 때 Fetch 해오기 시작
+  componentWillMount() {
+    this.props.dataActions.dataFetch();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
+  // 폴링 시작
+  startPoll() {
+      this.timeout = setTimeout(() => this.props.dataActions.dataFetch(), 15000);
+  }
+
   render() {
     return (
-      <Provider store={createStoreWithMiddleware(reducers)}>
       <BrowserRouter >
-        <div>
-        <Header  />
-        <div className="up">
-          </div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/mygame" component={MyGame} />
-            <Route path="/gameRoomList" component={GameRoomList} />
-            <Route render={()=> <h1>Not found</h1>} />
-          </Switch>
-        <Footer/>
+        <div style={{ "width" : "100%", "height" : "100%"}}>
+          <Header  />
+          <button onClick={this.handleButtonClick.bind(this)}>Notif!</button>
+        <Notification
+          ignore={this.props.ignore && this.props.title !== ''}
+          notSupported={this.handleNotSupported.bind(this)}
+          onPermissionGranted={this.handlePermissionGranted.bind(this)}
+          onPermissionDenied={this.handlePermissionDenied.bind(this)}
+          onError={this.handleNotificationOnError.bind(this)}
+          timeout={5000}
+          // title={this.state.title}
+          // options={this.state.options}
+        />
+          <div className="up">
+            </div>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={SignUp} />
+              <Route path="/mygame" component={MyGame} />
+              <Route path="/gameRoomList" component={GameRoomList} />
+              <Route path="/users" component={Dashboard} >
+              </Route>
+              <Route render={()=> <h1>Not found</h1>} />
+            </Switch>
+          <Footer/>
         </div>
         </BrowserRouter>
-    </Provider>
     );
-  }
+  }  
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
