@@ -15,7 +15,7 @@ const createNotiHandler = () => {
   console.log("create noti event 발생");
 }
 
-eventEmitter.on('connection', connectHandler);
+eventEmidtter.on('connection', connectHandler);
 eventEmitter.on('create_noti', createNotiHandler);
 
 module.exports = eventEmitter;

@@ -6,8 +6,8 @@ import { Table, Button,
     ,Container
 } from 'reactstrap';
 
-import ListView from '../chatt/ListView';
-import ChatApp from '../chatt/ChatApp';
+import ListView from './chatt/ListView';
+import ChatApp from './chatt/ChatApp';
 
 import { NavLink } from 'react-router-dom';
 

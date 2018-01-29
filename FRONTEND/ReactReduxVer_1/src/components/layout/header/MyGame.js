@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Login from '../login/Login';
+import Login from '../../users/login/Login';
 import {Redirect} from 'react-router-dom';
-import MyGameList from '../components/MyGameList';
+import MyGameList from '../../MyGameList';
 
 class MyGame extends Component {
     constructor(props) {

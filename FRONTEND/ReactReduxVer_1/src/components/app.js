@@ -9,14 +9,14 @@ import { connect } from 'react-redux';
 import reducers from '../reducers';
 import * as DataActions from '../actions/appActions';
 
-import Header from "../header/Header";
+import Header from "./layout/header/Header";
 import Home from "../routes/Home";
-import Login from '../login/Login';
-import Footer from '../footer/Footer';
-import SignUp from "../login/SignUp";
-import MyGame from "../header/MyGame";
-import Dashboard from "../components/users/dashboard/Dashboard";
-import NotiList from "../components/users/noti/NotiList";
+import Login from './users/login/Login';
+import SignUp from "./users/login/SignUp";
+import Footer from './layout/footer/Footer';
+import MyGame from "./layout/header/MyGame";
+import Dashboard from "./users/dashboard/Dashboard";
+import NotiList from "./users/noti/NotiList";
 import GameRoomList from './GameRoomList';
 import GameRoomCreate from './GameRoomCreate';
 
