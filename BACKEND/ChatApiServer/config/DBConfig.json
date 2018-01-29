@@ -1,0 +1,8 @@
+{
+  "host" : "aksgurdb.cg8ihtyn6h4a.ap-northeast-2.rds.amazonaws.com",
+	"port" : 3306,
+	"user" : "aksgur",
+	"password" : "aksguraksgur",
+	"database" : "bewe",
+  "connectionLimit" : 100
+}

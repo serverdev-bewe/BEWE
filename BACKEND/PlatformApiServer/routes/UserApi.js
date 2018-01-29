@@ -16,10 +16,10 @@ module.exports = (router) => {
     .get(authCtrl.auth, friendCtrl.list('receive'));
 
   router.route('/users/friends/accept')
-    .post(authCtrl.auth, friendCtrl.handleRequest('accept'));
+    .post(authCtrl.auth, friendCtrl.accept);
 
   router.route('/users/friends/reject')
-    .post(authCtrl.auth, friendCtrl.handleRequest('reject'));
+    .post(authCtrl.auth, friendCtrl.reject);
 
   return router;
 };

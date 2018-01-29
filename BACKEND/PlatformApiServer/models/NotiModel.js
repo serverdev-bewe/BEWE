@@ -21,16 +21,20 @@ exports.list = (userIdx) => {
 
 exports.create = (notificationData) => {
   return new Promise((resolve, reject) => {
-    let contents, url = '';
+    let contents, url, type, image = '';
     const userIdx = notificationData.usersIdx;
 
     switch (notificationData.type) {
       case 'friend_accepted':
-        contents = `${notificationData.info.nickname}님이 친구 요청을 수락하셨습니다.`;
+        image = notificationData.info.avatar;
+        type = 'friend';
+        contents = `<strong>${notificationData.info.nickname}</strong>님이 친구 요청을 수락하셨습니다.`;
         url = `/users/friends/${userIdx}`;
         break;
       case 'friend_receive':
-        contents = `${notificationData.info.nickname}님에게 친구 요청이 왔습니다.`;
+        image = notificationData.info.avatar;
+        type = 'friend';
+        contents = `<strong>${notificationData.info.nickname}</strong>님에게 친구 요청이 왔습니다.`;
         url = `/users/friends/${userIdx}`;
         break;
       case 'achievement':
@@ -38,9 +42,9 @@ exports.create = (notificationData) => {
     }
 
     const sql = 
-      "INSERT INTO notifications (users_idx, contents, url) VALUES (?, ?, ?)";
+      "INSERT INTO notifications (users_idx, contents, url, type, image) VALUES (?, ?, ?)";
 
-    pool.query(sql, [notificationData.usersIdx, contents, url], (err, rows) => {
+    pool.query(sql, [notificationData.usersIdx, contents, url, type, image], (err, rows) => {
       if (err) {
         console.log(err);
         reject(err);
