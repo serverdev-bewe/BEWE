@@ -6,11 +6,11 @@ const friendCtrl = require('../controllers/FriendCtrl');
 module.exports = (router) => {
   /* Friend */
   router.route('/users/friends')
-    .get(authCtrl.auth, friendCtrl.list('all'));
+    .get(authCtrl.auth, friendCtrl.list('all'))
+    .post(authCtrl.auth, friendCtrl.send);
 
   router.route('/users/friends/send')
-    .get(authCtrl.auth, friendCtrl.list('send'))
-    .post(authCtrl.auth, friendCtrl.send);
+    .get(authCtrl.auth, friendCtrl.list('send'));
 
   router.route('/users/friends/receive')
     .get(authCtrl.auth, friendCtrl.list('receive'));

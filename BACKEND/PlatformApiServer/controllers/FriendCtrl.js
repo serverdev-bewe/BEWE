@@ -41,7 +41,7 @@ exports.send = async(req, res, next) => {
       
       try {
         result = await notiCtrl.create(receiverIdx, 'friend_receive', 
-          {nickname: senderInfo.nickname, avatar:senderinfo.avatar});
+          {nickname: senderInfo.nickname, avatar:senderInfo.avatar});
       } catch (error) {
         console.log(error);
         return next(2402);

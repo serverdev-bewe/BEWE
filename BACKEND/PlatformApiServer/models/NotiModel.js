@@ -9,20 +9,35 @@ exports.list = (userIdx) => {
     const sql = "SELECT * FROM notifications WHERE users_idx = ?";
     
     pool.query(sql, [userIdx], (err, rows) => {
-      if(err){
+      if (err) {
         console.log(err);
         reject(err);
-      }else{
+      } else {
         resolve(rows);
       }
     });
   });  
 };
 
+exports.polling = (userIdx, date) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM notifications WHERE users_idx = ? AND created_at > ?";
+
+    pool.query(sql, [userIdx, date], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
 exports.create = (notificationData) => {
   return new Promise((resolve, reject) => {
     let contents, url, type, image = '';
-    const userIdx = notificationData.usersIdx;
+    const userIdx = parseInt(notificationData.usersIdx);
 
     switch (notificationData.type) {
       case 'friend_accepted':
@@ -42,7 +57,7 @@ exports.create = (notificationData) => {
     }
 
     const sql = 
-      "INSERT INTO notifications (users_idx, contents, url, type, image) VALUES (?, ?, ?)";
+      "INSERT INTO notifications (users_idx, contents, url, type, image) VALUES (?, ?, ?, ?, ?)";
 
     pool.query(sql, [notificationData.usersIdx, contents, url, type, image], (err, rows) => {
       if (err) {

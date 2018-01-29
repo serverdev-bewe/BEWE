@@ -1,22 +1,21 @@
-import {DATA_FETCH_BEGIN, DATA_FETCH_ERROR, DATA_FETCH_SUCCESS } from '../actions/appActions.js'
+import { FETCH_NOTIES, SET_WEB_NOTIFY_ENABLE, SET_WEB_NOTIFY_UNABLE } from '../actions/appActions.js'
 
 const initialState = {  
   new: {},
-  isFetching: false,
-  ignore: true
+  grant: false
 };
 
 export default function data (state = initialState, action) {  
-  switch (action.type) {
-    case DATA_FETCH_BEGIN: 
-      return { ...state, isFetching: true };
+  switch (action.type) {    
+    case FETCH_NOTIES: 
+      return { ...state, new: action.payload.data };
     
-    case DATA_FETCH_SUCCESS: 
-      return { isFetching: false, data: { ...state.data, new: action.payload }};
+    case SET_WEB_NOTIFY_ENABLE:
+      return { ...state, grant: payload};
     
-    case DATA_FETCH_ERROR: 
-      return { ...state, isFetching: false };
-      
+    case SET_WEB_NOTIFY_UNABLE:
+      return { ...state, grant: payload};
+    
     default:
       return state;
   }
