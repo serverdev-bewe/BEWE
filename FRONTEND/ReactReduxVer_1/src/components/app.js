@@ -51,36 +51,6 @@ class App extends Component {
     console.log(e, 'Notification error tag:' + tag);
   }
 
-  handleButtonClick() {
-
-    // if(this.state.ignore) {
-    //   return;
-    // }
-
-    const now = Date.now();
-
-    const title = 'React-Web-Notification' + now;
-    const body = 'Hello' + new Date();
-    const tag = now;
-    const icon = 'http://georgeosddev.github.io/react-web-notification/example/Notifications_button_24.png';
-    // const icon = 'http://localhost:3000/Notifications_button_24.png';
-
-    // Available options
-    // See https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification
-    const options = {
-      tag: tag,
-      body: body,
-      icon: icon,
-      lang: 'en',
-      dir: 'ltr',
-      sound: './sound.mp3'  // no browsers supported https://developer.mozilla.org/en/docs/Web/API/notification/sound#Browser_compatibility
-    }
-    this.setState({
-      title: title,
-      options: options
-    });
-  }
-
   // 받아온 props이 이전 props과 다르다면 timeout 새로 시간 세팅
   componentWillReceiveProps(nextProps) {
     if (this.props.new !== nextProps.new) {
@@ -103,25 +73,14 @@ class App extends Component {
 
   // 폴링 시작
   startPoll() {
-      this.timeout = setTimeout(() => this.props.dataActions.dataFetch(), 15000);
+    this.timeout = setTimeout(() => this.props.dataActions.dataFetch(), 15000);
   }
 
   render() {
     return (
       <BrowserRouter >
         <div style={{ "width" : "100%", "height" : "100%"}}>
-          <Header  />
-          <button onClick={this.handleButtonClick.bind(this)}>Notif!</button>
-        <Notification
-          ignore={this.props.ignore && this.props.title !== ''}
-          notSupported={this.handleNotSupported.bind(this)}
-          onPermissionGranted={this.handlePermissionGranted.bind(this)}
-          onPermissionDenied={this.handlePermissionDenied.bind(this)}
-          onError={this.handleNotificationOnError.bind(this)}
-          timeout={5000}
-          // title={this.state.title}
-          // options={this.state.options}
-        />
+          <Header  />        
           <div className="up">
             </div>
             <Switch>
