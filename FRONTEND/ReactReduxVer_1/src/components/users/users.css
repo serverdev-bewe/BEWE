@@ -105,10 +105,45 @@
  * 대시보드 : 알림
  */
 
+.tab-slider-nav{
+  display: block;
+  position: relative;
+  width: 850px;
+  height: 70px;
+  margin: 0 auto;
+}
+
 .tab-slider-tabs{
-  width: 150px;
+  display: inline-block;
+  position: relative;
+  width: auto;
+  list-style: none;
   list-style-type: none;
- }
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 50px;
+}
+
+.tab-slider-item{
+  position: relative;
+  width: 150px;
+  display: inline-block !important;
+  line-height: 1;
+  text-align: center;
+  padding: 11px;
+  z-index: 2;
+  cursor: pointer;
+  transition: border 250ms ease-in-out;
+  user-select: none; 
+  font-weight: bold;
+  color: #777777;
+}
+
+.tab-slider-item.tab-active{
+  border-bottom: 4px solid #4789CF;
+  color: black;
+}
 
 .noti-wrapper{
   display: block;
@@ -117,7 +152,13 @@
   margin: 0 auto;
   border-top: 1px solid #D1D1D1;
   padding: 7px 15px;
- }
+}
+
+.noti-more-button{
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
+}
 
 .noti-wrapper:hover{
   background-color: #F9F9F9

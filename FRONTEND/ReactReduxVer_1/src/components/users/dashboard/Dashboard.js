@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { default as Fade } from 'react-fade'
+
 import DashboardLeft from './DashboardLeft';
 import DashboardRight from './DashboardRight';
 
@@ -10,9 +12,9 @@ class Dashboard extends Component {
                    "minHeight": "100%", "height": "auto"}}>
         <DashboardLeft />       
         
-        <div className="dashboard-right-wrapper">
+        <Fade className="dashboard-right-wrapper">
           <DashboardRight />
-        </div> 
+        </Fade> 
       </div>
     )
   }

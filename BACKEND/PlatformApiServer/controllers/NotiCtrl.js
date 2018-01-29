@@ -8,9 +8,11 @@ let status = 'DEFAULT';
 // 알림 리스트
 module.exports.list = async (req, res, next) => {
   let result = '';
+  const page = req.params.page || 1;
+
   try {
     const userData = req.userIdx;
-    result = await notiModel.list(userData);
+    result = await notiModel.list(userData, page);
   } catch (error) {
     console.log(error);
     return next(error);
@@ -72,7 +74,6 @@ module.exports.polling = async (req, res, next) => {
     }   
     await sleep(1000);
   }
-  console.log(result);
   return res.status(200).json(result);
 }
 

@@ -5,17 +5,10 @@ const DBConfig = require('./../config/DBConfig');
 const pool = mysql.createPool(DBConfig);
 
 // 친구 리스트
-exports.list = (type, userData) => {
+exports.list = (userData) => {
   return new Promise((resolve, reject) => {
-    let sql ='';
-
-    if (type == 'all') {
-      sql = "SELECT * FROM friends WHERE (flag = 0) AND (sender_idx = ? OR receiver_idx = ?)";
-    } else if (type == 'send') {
-      sql = "SELECT * FROM friends WHERE flag = 0 AND receiver_idx = ?";
-    } else if (type == 'receive') {
-      sql = "SELECT * FROM friends WHERE flag = 0 AND sender_idx = ?";
-    }
+    const sql = 
+      `SELECT * FROM friends WHERE (sender_idx = ? OR receiver_idx = ?)`;
     pool.query(sql, [userData, userData], (err, rows) => {
       if(err){
         console.log(err);
