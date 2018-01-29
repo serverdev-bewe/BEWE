@@ -13,7 +13,7 @@ module.exports = (router) => {
 
   // USER
   router.route('/users/register')
-    .post(authCtrl.auth, userCtrl.register);
+    .post(userCtrl.register);
   router.route('/users/check')
     .post(userCtrl.check);
 
