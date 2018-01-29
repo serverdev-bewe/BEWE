@@ -14,14 +14,14 @@ class Login extends Component {
             id:'',
             pw:'',
             chk:false
-        }
+        };
         this.useSubmitHandler = this.useSubmitHandler.bind(this);
         this.idTextChangeHandler = this.idTextChangeHandler.bind(this);
         this.pwTextChangeHandler = this.pwTextChangeHandler.bind(this);
     }
     useSubmitHandler(e){
         e.preventDefault();
-        fetch('http://localhost:4005/api/users/login', {
+        fetch('http://localhost:3000/api/users/login', {
             method: 'post',
             // mode: "cors",
             headers: {
@@ -94,7 +94,7 @@ class Login extends Component {
                     onChange={this.pwTextChangeHandler}
                     required />
                 </div>
-            {this.state.chk == true ? <div>
+            {this.state.chk === true ? <div>
                 <h3><Badge color="danger">아이디 혹은 비밀번호를 확인해 주세요.</Badge></h3>
                 </div> : ''}
                 

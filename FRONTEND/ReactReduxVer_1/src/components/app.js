@@ -13,6 +13,8 @@ import Footer from '../footer/Footer';
 import SignUp from "../login/SignUp";
 import MyGame from "../header/MyGame";
 import GameRoomList from './GameRoomList';
+import ContentsList from './CMS/ContentsList';
+
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
