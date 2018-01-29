@@ -2,46 +2,63 @@ require('./ChatApp.css');
 
 import React from 'react';
 import io from 'socket.io-client';
+import {Button } from 'reactstrap';
 
 import Messages from './Messages';
 import ChatInput from './ChatInput';
 import RoomReadyBar from './RoomReadyBar';
 
 class ChatApp extends React.Component {
-    
-    constructor(props) {
-      super(props);
-      this.state = { 
-          messages: [],
-          socket: {},
-          userList: [],
-          query : this.props.query
-      };
-      this.sendHandler = this.sendHandler.bind(this);
-      
-      // Connect to the server
-      this.socket = io('http://localhost:4008', { query: `username=${props.username}` }).connect();
-  
-      this.socket.emit('joinRoom', {
-        username : this.props.username, 
-        idx : this.props.idx
-      });
-      // Listen for messages from the server
-      this.socket.on('server:message', message => {
-        console.log(message);
-        this.addMessage(message);
-      });
-  
-      this.socket.on('addMember', data =>{
-        this.addUsers(data);
-      });
-    }
+  constructor(props) {
+    super(props);
+    this.state = { 
+        messages: [],
+        socket: {},
+        userList: [],
+        query : this.props.query,
+        readyUsers : [],
+        roomName: this.props.roomName
+    };
+    this.sendHandler = this.sendHandler.bind(this);
+    this.readyHandler = this.readyHandler.bind(this);
+    this.exitHandler = this.exitHandler.bind(this);
+    this.onReadyBadge = this.onReadyBadge.bind(this);
+    // Connect to the server
+    this.socket = io('http://localhost:4000', { query: `username=${props.username}` }).connect();
 
+    this.socket.emit('joinRoom', {
+      username : this.props.username, 
+      roomSeq : this.props.roomSeq
+    });
+    // Listen for messages from the server
+    this.socket.on('server:message', message => {
+      console.log(message);
+      this.addMessage(message);
+    });
+
+    this.socket.on('addMember', data =>{
+      this.addUsers(data);
+    });
+
+    this.socket.on('chattReadyOk', data=>{
+      this.onReadyBadge(data.readyUsers);
+    });
+  }
+
+  onReadyBadge(readyUsers){
+    this.setState({
+      readyUsers
+    });
+  }
+
+  componentWillUnmount(){
+    this.socket.disconnect();
+  }
     
   sendHandler(message) {
     const messageObject = {
       username: this.props.username,
-      idx : this.state.idx,
+      roomSeq : this.state.roomSeq,
       message
     };
 
@@ -50,14 +67,27 @@ class ChatApp extends React.Component {
     messageObject.fromMe = true;
     this.addMessage(messageObject);
   }
-  addUsers(data){
+
+  readyHandler(){
+    this.socket.emit('chattReady', {
+      username: this.props.username
+    });
     // this.setState({
-    //   userList : data.rooms
-    // });
-    const userList = this.state.userList;
-    userList.push(data);
-    this.setState({ userList, idx : data.idx });
-    console.log(this.state.idx);
+    //   readyColorChk : "success",
+    //   readyChk : "준비"
+    // })
+  }
+  exitHandler(){
+    this.socket.disconnect();
+    this.props.exitHandler();
+  }
+
+  addUsers(data){
+    this.setState({ 
+      userList : data.rooms,
+      roomSeq : data.roomSeq,
+      userName: data.name
+    });
   }
   addMessage(message) {
     // Append the message to the component state
@@ -69,14 +99,24 @@ class ChatApp extends React.Component {
   render() {
     return (
       <div className="containerm">
-      <h3>{this.state.idx}. {this.props.username}</h3>
-        <RoomReadyBar userList={this.state.userList}/>
+        <h3>{this.state.roomSeq}. {this.state.roomName}
+        <Button outline color="danger" 
+          onClick={this.readyHandler}
+        >READY</Button>
+        </h3>
+        <RoomReadyBar userList={this.state.userList} 
+          readyUsers={this.state.readyUsers}
+        />
         <Messages messages={this.state.messages} />
         <ChatInput onSend={this.sendHandler} />
+        <div>
+        <Button color="info" className="exitButton" block
+          onClick={this.exitHandler}
+        >나가기</Button>
+        </div>
       </div>
     );
   }
-
 }
 ChatApp.defaultProps = {
   username: 'Anonymous'

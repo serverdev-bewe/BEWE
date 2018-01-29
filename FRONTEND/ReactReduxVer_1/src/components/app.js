@@ -18,6 +18,7 @@ import MyGame from "../header/MyGame";
 import Dashboard from "../components/users/dashboard/Dashboard";
 import NotiList from "../components/users/noti/NotiList";
 import GameRoomList from './GameRoomList';
+import GameRoomCreate from './GameRoomCreate';
 
 function mapStateToProps(state) {  
   return {
