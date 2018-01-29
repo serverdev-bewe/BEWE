@@ -6,9 +6,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 
-if (process.env.NODE_ENV !== 'test') {
-  app.use(logger('dev'));
-}
 app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -33,7 +30,7 @@ require('./routes')(app);
 // error handler
 require('./ErrorHandler')(app);
 
-const PORT = 4005;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.info(`[BEWE-AuthApiServer] Listening on Port ${PORT}`);
 });

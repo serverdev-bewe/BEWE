@@ -4,22 +4,26 @@ class ListView extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            roomSeq : this.props.seq
+            roomSeq : this.props.seq,
+            roomName : this.props.roomName
         }
         this.roomHandler = this.roomHandler.bind(this);
     }
     roomHandler(e){
         e.preventDefault();
-        this.props.roomHandler(this.state.roomSeq);
+        this.props.roomHandler({
+            roomSeq: this.state.roomSeq,
+            roomName : this.state.roomName
+        });
     }
     render(){
 
         return(
             <tr>
-                <th>1</th>
+                <th>{this.props.idx}</th>
                 <td>
                     <a href="#" onClick={this.roomHandler}>
-                    {this.props.roomName}
+                        {this.props.roomName}
                     </a>
                 </td>
                 <td>{this.props.roomAdmin}</td>

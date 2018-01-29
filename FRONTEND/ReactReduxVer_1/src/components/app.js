@@ -13,6 +13,7 @@ import Footer from '../footer/Footer';
 import SignUp from "../login/SignUp";
 import MyGame from "../header/MyGame";
 import GameRoomList from './GameRoomList';
+import GameRoomCreate from './GameRoomCreate';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
@@ -32,6 +33,7 @@ export default class App extends Component {
             <Route path="/signup" component={SignUp} />
             <Route path="/mygame" component={MyGame} />
             <Route path="/gameRoomList" component={GameRoomList} />
+            <Route path="/createGameRoom" component={GameRoomCreate} />
             <Route render={()=> <h1>Not found</h1>} />
           </Switch>
         <Footer/>
