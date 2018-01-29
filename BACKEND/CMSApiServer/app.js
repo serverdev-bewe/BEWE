@@ -1,17 +1,10 @@
-'use strict';
-
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
 const app = express();
-
-if (process.env.NODE_ENV !== 'test') {
-  app.use(logger('dev'));
-}
 
 app.use(cors());
 app.use(logger('dev'));
@@ -22,27 +15,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
   res.r = (result) => {
-    res.json({
-      status: true,
-      message: "success",
-      result,
-    });
-  };
-  next();
+  res.json({
+    status: true,
+    message: "success",
+    result,
+  });
+};
+next();
 });
+
 
 require('./routes')(app);
 
-//error handler
+// error handler
 require('./ErrorHandler')(app);
 
-const PORT = 3001;
-const server = app.listen(PORT, () => {
-  console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
+const PORT = 3003;
+app.listen(PORT, () => {
+  console.info(`[BEWE-CMSApiServer] Listening on Port ${PORT}`);
 });
-
-
-/* socket 붙이기 */
-const io = require('./controllers/SocketCtrl').initialize(server);
 
 module.exports = app;

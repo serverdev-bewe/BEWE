@@ -45,59 +45,6 @@
   },
 
 
-
-
-
-  "2401": {
-    "status": 400,
-    "code": 0,
-    "message": "이미 친구 요청을 보낸 유저입니다.",
-    "desciption": "Already send friendship request"
-  },
-  "2402": {
-    "status": 400,
-    "code": 0,
-    "message": "잘못된 친구 요청입니다.",
-    "desciption": "Wrong friendship request"
-  },
-  "2403": {
-    "status": 400,
-    "code": 0,
-    "message": "해당 친구 요청이 없습니다.",
-    "desciption": "Already send friendship request"
-  },
-
-  "2411": {
-    "status": 400,
-    "code": 0,
-    "message": "잘못된 대화방 개설 요청입니다",
-    "desciption": "Wrong conversation request"
-  },
-
-  "2412": {
-    "status": 400,
-    "code": 0,
-    "message": "해당 대화방이 없습니다",
-    "desciption": "Wrong conversation request"
-  },
-
-  "2421": {
-    "status": 400,
-    "code": 0,
-    "message": "잘못된 알림 요청입니다.",
-    "desciption": "Wrong notification request"
-  },
-  "2422": {
-    "status": 400,
-    "code": 0,
-    "message": "해당 알림이 없습니다.",
-    "desciption": "Wrong notification request"
-  },
-
-
-
-
-
   "9401": {
     "status": 400,
     "code": 0,
