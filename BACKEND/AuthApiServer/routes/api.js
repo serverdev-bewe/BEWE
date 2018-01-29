@@ -22,10 +22,7 @@ module.exports = (router) => {
 
   // PROFILE
   router.route('/users')
-    .get(authCtrl.auth, userCtrl.profile);
-
-
-
+    .get(authCtrl.checkSession, authCtrl.auth, userCtrl.profile);
 
 
   return router;

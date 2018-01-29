@@ -9,7 +9,6 @@ const resMsg = require('../errors.json');
  *  Register
  ********************/
 exports.register = async(req, res, next) => {
-
   // if (!req.body.id || !req.body.pw1 ||!req.body.pw2|| !req.body.nickname ) {
   //   return res.status(400).end();
   // }
@@ -31,7 +30,7 @@ exports.register = async(req, res, next) => {
 
   let result = '';
   try {
-    const configData = config.doChipher(pw, undefined);
+    const configData = config.doCypher(pw, undefined);
     const userData = {
       id: req.body.id,
       pw: configData.pw,
@@ -45,7 +44,7 @@ exports.register = async(req, res, next) => {
 
   } catch (error) {
     // TODO 에러 잡았을때 응답메세지, 응답코드 수정할것
-    //   if (isNaN(error)) {
+    //   if (isNaN(error)) {`
     //     // console.log(error);
     //     return res.status(500).json(resMsg[9500]);
     //   } else {
@@ -58,7 +57,6 @@ exports.register = async(req, res, next) => {
 
   // success
   return res.status(201).json(result[0]);
-
 
 };
 
@@ -86,6 +84,7 @@ exports.check = async(req, res, next) => {
 
 /*******************
  *  Login
+ *  TODO validation
  ********************/
 exports.login = async(req, res, next) => {
 
@@ -99,9 +98,11 @@ exports.login = async(req, res, next) => {
   try {
     const getSalt = await userModel.getSalt(req.body.id);
 
+    //TODO 회원가입을 안하고 로그인할 경우
+    //TODO salt of undefined 예외 처리
     const userData = {
       id: req.body.id,
-      pw: config.doChipher(req.body.pw, getSalt.salt).pw
+      pw: config.doCypher(req.body.pw, getSalt.salt).pw
     };
 
     result = await userModel.login(userData);
@@ -114,11 +115,11 @@ exports.login = async(req, res, next) => {
       // ip: req.body.ip,
       ip: '127.0.0.1'
     };
-    const setSession = await userModel.setSession(sessionData);
+    await userModel.setSession(sessionData);
   } catch (error) {
     return next(error);
   }
-
+  console.log(result.profile.nickname);
   // success
   return res.json(result);
 };
