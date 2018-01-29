@@ -119,7 +119,6 @@ exports.login = async(req, res, next) => {
   } catch (error) {
     return next(error);
   }
-  console.log(result.profile.nickname);
   // success
   return res.json(result);
 };
