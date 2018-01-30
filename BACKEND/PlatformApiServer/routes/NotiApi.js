@@ -11,6 +11,9 @@ module.exports = (router) => {
 
   router.route('/users/noti/:idx')
     .get(authCtrl.auth, notiCtrl.check);
+  
+  router.route('/users/long_poll_noti')
+    .get(authCtrl.auth, notiCtrl.polling);
 
   return router;
 };

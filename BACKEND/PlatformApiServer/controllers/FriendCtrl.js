@@ -4,19 +4,17 @@ const friendModel = require('../models/FriendModel');
 const notiCtrl = require('./NotiCtrl');
 
 // 내 친구 리스트
-exports.list = (type) => {
-  return async(req, res, next) => {
-    let result ='';
-    try {
-      const userData = req.userIdx;
+exports.list = async(req, res, next) => {
+  let result ='';
+  try {
+    const userData = req.userIdx;
 
-      result = await friendModel.list(type, userData)
-    } catch (error) {
-      console.log(error);
-      return next(error);
-    }
-    return res.status(200).json(result);
+    result = await friendModel.list(userData)
+  } catch (error) {
+    console.log(error);
+    return next(error);
   }
+  return res.status(200).json(result);
 };
 
 // 친구 추가
@@ -41,7 +39,7 @@ exports.send = async(req, res, next) => {
       
       try {
         result = await notiCtrl.create(receiverIdx, 'friend_receive', 
-          {nickname: senderInfo.nickname, avatar:senderinfo.avatar});
+          {nickname: senderInfo.nickname, avatar:senderInfo.avatar});
       } catch (error) {
         console.log(error);
         return next(2402);

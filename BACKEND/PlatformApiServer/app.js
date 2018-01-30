@@ -39,8 +39,4 @@ const server = app.listen(PORT, () => {
   console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
 
-
-/* socket 붙이기 */
-const io = require('./controllers/SocketCtrl').initialize(server);
-
 module.exports = app;

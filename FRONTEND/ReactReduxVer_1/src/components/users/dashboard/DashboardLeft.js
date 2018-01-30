@@ -1,13 +1,13 @@
 import '../users.css';
 
 import React, { Component } from 'react';
-import ProfileAvatar from './ProfileAvatar';
+import DashboardAvatar from './DashboardAvatar';
 import DashboardNav from './DashboardNav';
 
 const DashboardLeft = () => {
   return(
     <div className="dashboard-left-navigation">
-      <ProfileAvatar />
+      <DashboardAvatar />
       <DashboardNav />
     </div>
   )
