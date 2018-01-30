@@ -29,20 +29,22 @@ class App extends Component {
     if (this.props.new !== nextProps.new) {
       clearTimeout(this.timeout);
       
-      nextProps.new.map((noti) => {
-        let contents = noti.contents.replace(/<\/?[^>]+(>|$)/g, "");
-        let options = {
-          icon: noti.image || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
-        }
-        if(this.props.grant){
-          var notification = new Notification(contents, options);
-          notification.onclick = function(event) {
-            event.preventDefault();
-            window.location.replace(noti.url);
+      if(rextProps.new) {
+        nextProps.new.map((noti) => {
+          let contents = noti.contents.replace(/<\/?[^>]+(>|$)/g, "");
+          let options = {
+            icon: noti.image || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
           }
-        setTimeout(notification.close.bind(notification), 15000); 
-        }
-      });
+          if(this.props.grant){
+            var notification = new Notification(contents, options);
+            notification.onclick = function(event) {
+              event.preventDefault();
+              window.location.replace(noti.url);
+            }
+          setTimeout(notification.close.bind(notification), 15000); 
+          }
+        });
+      }
       
       this.startPoll();
     }
@@ -88,8 +90,7 @@ class App extends Component {
               <Route path="/signup" component={SignUp} />
               <Route path="/mygame" component={MyGame} />
               <Route path="/gameRoomList" component={GameRoomList} />
-              <Route path="/users" component={Dashboard} >
-              </Route>
+              <Route path="/users" component={Dashboard} />
               <Route render={()=> <h1>Not found</h1>} />
             </Switch>
           <Footer/>

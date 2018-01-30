@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { fetchFriends } from '../../../../actions/users/FriendActions';
 import Friend from './Friend';
-
-const fadeDuration = 10;
 
 class FriendList extends Component {
   constructor(){

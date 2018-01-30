@@ -101,7 +101,7 @@ exports.handleRequest = (type, userData, idx) => {
       if (err) {
         reject(err);
       } else {
-        if (rows.length !== 0) { // 일치하는 친구 요청이 있을 경우 
+        if (rows.length !== 0) { // 일치하는 친구 요청이 있을 경우
           if (rows[0].receiver_idx == userData && rows[0].flag == 0){ 
             // 친구 요청의 수신자와 current_user의 id가 같고, flag가 0일 때만 업데이트
             

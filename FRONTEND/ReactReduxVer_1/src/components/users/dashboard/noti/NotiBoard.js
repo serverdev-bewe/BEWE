@@ -11,7 +11,8 @@ export default class Noti extends Component {
 
     this.state = {
       type: true,
-      fadeOut: false
+      fadeOut: false,
+      page: 1
     }
 
     this.onClickButtonAll = this.handleButtonChange.bind(this, true);
@@ -26,6 +27,12 @@ export default class Noti extends Component {
         })
       }, fadeDuration);
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      page: 1
+    });
   }
 
   handleButtonChange(value) {
@@ -48,7 +55,7 @@ export default class Noti extends Component {
           out={this.state.fadeOut}
           duration={fadeDuration}
         >
-          <NotiList type={this.state.type} />
+          <NotiList type={this.state.type} page={this.state.page} />
         </Fade>
       </div>
     )

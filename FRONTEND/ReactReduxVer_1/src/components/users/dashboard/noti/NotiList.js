@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
@@ -11,20 +10,20 @@ import Noti from './Noti';
 const fadeDuration = 10;
 
 class NotiList extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
-      page: 1
-    };
+      page: this.props.page
+    }
 
-    this.onClickButton = this.handleButton.bind(this);
+    this.onClickButton = this.onClickButton.bind(this);
   }
 
-  handleButton() {
+  onClickButton() {
     this.setState({
       page: this.state.page + 1
-    });
+    })
   }
 
   componentWillMount(){
