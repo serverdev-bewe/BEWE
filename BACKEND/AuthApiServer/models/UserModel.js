@@ -205,7 +205,11 @@ exports.setSession = (sessionData) => {
 };
 
 
-
+/**********
+ * 다른 유저 정보 조회
+ * @param userIdx
+ * @returns {Promise<any>}
+ */
 exports.list = (userIdx) => {
   return new Promise((resolve, reject) => {
     const sql =

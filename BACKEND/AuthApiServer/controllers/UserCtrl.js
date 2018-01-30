@@ -145,7 +145,13 @@ exports.profile = async(req, res, next) => {
 };
 
 
-
+/**********
+ * 다른 유저 정보 조회
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
+ */
 exports.list = async(req, res, next) => {
   let result = '';
 
