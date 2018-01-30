@@ -119,12 +119,17 @@ exports.login = async(req, res, next) => {
   } catch (error) {
     return next(error);
   }
-  console.log(result.profile.nickname);
   // success
   return res.json(result);
 };
 
-
+/***********
+ * 유저 프로필 조회
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
+ */
 exports.profile = async(req, res, next) => {
   let result ='';
   try {
@@ -139,3 +144,23 @@ exports.profile = async(req, res, next) => {
   return res.json(result);
 };
 
+
+/**********
+ * 다른 유저 정보 조회
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
+ */
+exports.list = async(req, res, next) => {
+  let result = '';
+
+  try{
+    const userIdx = req.params.idx;
+
+    result = await userModel.list(userIdx);
+  } catch (error) {
+    return next(error);
+  }
+  return res.r(result);
+};
