@@ -123,7 +123,13 @@ exports.login = async(req, res, next) => {
   return res.json(result);
 };
 
-
+/***********
+ * 유저 프로필 조회
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
+ */
 exports.profile = async(req, res, next) => {
   let result ='';
   try {
@@ -138,3 +144,17 @@ exports.profile = async(req, res, next) => {
   return res.json(result);
 };
 
+
+
+exports.list = async(req, res, next) => {
+  let result = '';
+
+  try{
+    const userIdx = req.params.idx;
+
+    result = await userModel.list(userIdx);
+  } catch (error) {
+    return next(error);
+  }
+  return res.r(result);
+};

@@ -206,7 +206,23 @@ exports.setSession = (sessionData) => {
 
 
 
-
+exports.list = (userIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+      SELECT idx, nickname, email, avatar
+      FROM users
+      WHERE idx = ?
+      `;
+    pool.query(sql, userIdx, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows[0]);
+      }
+    });
+  })
+};
 
 
 
