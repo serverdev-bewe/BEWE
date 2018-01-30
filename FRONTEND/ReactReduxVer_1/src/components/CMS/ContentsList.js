@@ -13,9 +13,6 @@ class ContentsList extends Component{
       <div>
         <div>
           asdlkfasldjf hihi
-          <Link to="/cms/new" className="btn">
-            add to contents
-          </Link>
 
         </div>
       </div>

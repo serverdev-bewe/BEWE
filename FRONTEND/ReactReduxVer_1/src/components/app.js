@@ -19,6 +19,7 @@ import Dashboard from "./users/dashboard/Dashboard";
 import NotiList from "./users/noti/NotiList";
 import GameRoomList from './GameRoomList';
 import GameRoomCreate from './GameRoomCreate';
+import ContentsList from './CMS/ContentsList';
 
 function mapStateToProps(state) {  
   return {
@@ -90,8 +91,8 @@ class App extends Component {
               <Route path="/signup" component={SignUp} />
               <Route path="/mygame" component={MyGame} />
               <Route path="/gameRoomList" component={GameRoomList} />
-              <Route path="/users" component={Dashboard} >
-              </Route>
+              <Route path="/users" component={Dashboard} />
+              <Route path="/contents" component={ContentsList}/>
               <Route render={()=> <h1>Not found</h1>} />
             </Switch>
           <Footer/>
