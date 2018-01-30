@@ -5,11 +5,32 @@ import DashboardLeft from './DashboardLeft';
 import DashboardRight from './DashboardRight';
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { width: 0, height: 0 };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
+  
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+  
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
   render() {
+    let height = this.state.height - 294;
+
     return(
       <div className="container" 
            style={{"backgroundColor": "white", "padding": "0", 
-                   "minHeight": "100%", "height": "auto"}}>
+                   "minHeight": height, "height": "auto"}}>
         <DashboardLeft />       
         
         <Fade className="dashboard-right-wrapper">

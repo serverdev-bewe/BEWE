@@ -126,6 +126,22 @@
   width: auto;
 }
 
+.profile-text{
+  text-align: center;
+  margin: 15px 0;
+}
+
+.profile-update-button{
+  display: block;
+  font-weight: bold;
+  padding: 20px 25px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.profile-update-button a{
+  color: white;
+}
 /*
  * 대시보드 : 알림
  */
@@ -167,6 +183,10 @@
 
 .tab-slider-item.tab-active{
   border-bottom: 4px solid #4789CF;
+  color: #4789CF;
+}
+
+.tab-slider-item:hover{
   color: black;
 }
 
@@ -177,6 +197,11 @@
   margin: 0 auto;
   border-top: 1px solid #D1D1D1;
   padding: 7px 15px;
+  cursor: pointer;
+}
+
+.noti-wrapper:last-of-type{
+  border-bottom: 1px solid #D1D1D1;
 }
 
 .noti-more-button{
