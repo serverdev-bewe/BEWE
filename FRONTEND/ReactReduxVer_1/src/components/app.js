@@ -30,7 +30,7 @@ class App extends Component {
     if (this.props.new !== nextProps.new) {
       clearTimeout(this.timeout);
       
-      if(rextProps.new) {
+      if(nextProps.new) {
         nextProps.new.map((noti) => {
           let contents = noti.contents.replace(/<\/?[^>]+(>|$)/g, "");
           let options = {
