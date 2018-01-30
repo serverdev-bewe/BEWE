@@ -3,9 +3,6 @@ var path = require('path')
     ,http = require('http')
     ,express = require('express')
     ,bodyParser = require('body-parser')
-    ;
-
-var config = require('./config/config.json')
     ,room = require('./routes/room')
     ;
 
@@ -27,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 // Start listening
-server.listen(process.env.PORT || config.port);
-console.log(`Started on port ${config.port}`);
+server.listen(process.env.PORT || '4000');
+console.log(`Started on port 4000`);
 
 module.exports = app;
