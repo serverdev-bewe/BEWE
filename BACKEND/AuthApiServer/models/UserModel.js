@@ -205,8 +205,28 @@ exports.setSession = (sessionData) => {
 };
 
 
-
-
+/**********
+ * 다른 유저 정보 조회
+ * @param userIdx
+ * @returns {Promise<any>}
+ */
+exports.list = (userIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+      SELECT idx, nickname, email, avatar
+      FROM users
+      WHERE idx = ?
+      `;
+    pool.query(sql, userIdx, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows[0]);
+      }
+    });
+  })
+};
 
 
 

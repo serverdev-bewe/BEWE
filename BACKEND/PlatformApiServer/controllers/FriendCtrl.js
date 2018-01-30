@@ -26,21 +26,22 @@ exports.send = async(req, res, next) => {
   const receiverIdx = req.body.receiver_idx;
 
   await new Promise(async (resolve, reject) => {
-    let senderName = '';
+    let senderInfo = '';
     try {
-      senderName = await friendModel.send(userData, receiverIdx);
+      senderInfo = await friendModel.send(userData, receiverIdx);
     } catch (error) {
       console.log(error);
       return next(2402);
     }
-    resolve(senderName);
+    resolve(senderInfo);
   })
-  .then(async (senderName) => {
+  .then(async (senderInfo) => {
     await new Promise(async (resolve, reject) => {
       let notiResult = '';
       
       try {
-        result = await notiCtrl.create(receiverIdx, 'friend_receive', {nickname: senderName})
+        result = await notiCtrl.create(receiverIdx, 'friend_receive', 
+          {nickname: senderInfo.nickname, avatar:senderinfo.avatar});
       } catch (error) {
         console.log(error);
         return next(2402);
@@ -60,21 +61,22 @@ exports.accept = async(req, res, next) => {
   const idx = req.params.idx;
 
   await new Promise(async (resolve, reject) => {
-    let userName = '';
+    let senderInfo = '';
     try {
-      userName = friendModel.handleRequest('accept', userData, idx);
+      senderInfo = friendModel.handleRequest('accept', userData, idx);
     } catch (error) {
       console.log(error);
       reject(500);
     }
-    resolve(userName);
+    resolve(senderInfo);
   })
-  .then(async (userName) => {
+  .then(async (senderInfo) => {
     await new Promise(async (resolve, reject) => {
       let notiResult = '';
       
       try {
-        result = await notiCtrl.create(userData, 'friend_accepted', {nickname: userName})
+        result = await notiCtrl.create(userData, 'friend_accepted', 
+          {nickname: senderInfo.nickname, avatar:senderinfo.avatar});
       } catch (error) {
         console.log(error);
         reject(500);
