@@ -1,6 +1,5 @@
 import './app.css';
 import React, { Component } from 'react';
-import { NavLink } from "react-router-dom";
 
 import { Jumbotron, Button,Badge,
     Card, CardImg, CardText, CardBody, CardLink,
@@ -8,24 +7,23 @@ import { Jumbotron, Button,Badge,
   Container, Row, Col
 } from 'reactstrap';
 import Coverflow from 'react-coverflow';
-import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
+import {withRouter} from 'react-router';
 
 class MyGameList extends Component {
-    constructor(props){
-        super(props);
+    static contextTypes={
+        router : PropTypes.object
+    }
+    constructor(props, context){
+        super(props, context);
         this.state={
-            active:0
+            active:0,
+            roomNumber: 0
         }
-        this.fn= this.fn.bind(this);
     }
 
-    fn(){
-        // return(
-        //     (<Redirect to="/gameRoomList" />)
-        // )
-        // this.props.history.push('/gameRoomList')
-    }
     render() {
+
         return (
             <div className="center">
                 <p/>
@@ -64,8 +62,8 @@ class MyGameList extends Component {
                 </Coverflow>
                 </Row>
                 <p/>
-                <Row>
-                    <Col  xs="6" sm="3">
+                <Row >
+                    <Col  xs="6" sm="3" >
                         <Card>
                         <CardImg width="100%" src="https://i.ytimg.com/vi/S4Hnc_iRuBk/maxresdefault.jpg" alt="Card image cap" />
                         <p/><CardTitle>Game Title</CardTitle>
@@ -76,7 +74,12 @@ class MyGameList extends Component {
                             <div  className="leftCenter"><h5><Badge color="danger">HOT!</Badge></h5></div>
                         </CardImgOverlay>
                         <CardText>
-                        <NavLink to="/gameRoomList" ><Button outline color="danger" >START!</Button></NavLink>
+                        <Button color="danger" outline onClick={ 
+                            ()=>{
+                                this.context.router.history.push(
+                                    `/gamegamelist/1`
+                                );
+                            }} >START!</Button>
                         </CardText>
                         <p/>
                         </Card>
@@ -92,7 +95,12 @@ class MyGameList extends Component {
                             <div  className="leftCenter"><h5><Badge color="warning">↑40%</Badge></h5></div>
                         </CardImgOverlay>
                         <CardText>
-                        <Button outline color="danger">START!</Button>
+                        <Button outline color="danger" onClick={ 
+                            ()=>{
+                                this.context.router.history.push(
+                                    `/gamegamelist/2`
+                                );
+                            }} >START!</Button>
                         </CardText>
                         <p/>
                         </Card>

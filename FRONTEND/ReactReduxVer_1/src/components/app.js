@@ -18,7 +18,7 @@ import MyGame from "../header/MyGame";
 import Dashboard from "../components/users/dashboard/Dashboard";
 import NotiList from "../components/users/noti/NotiList";
 import GameRoomList from './GameRoomList';
-import GameRoomCreate from './GameRoomCreate';
+import StartGame from './StartGame';
 
 function mapStateToProps(state) {  
   return {
@@ -89,7 +89,8 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
               <Route path="/mygame" component={MyGame} />
-              <Route path="/gameRoomList" component={GameRoomList} />
+              <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
+              <Route path="/startgame" component={StartGame} />
               <Route path="/users" component={Dashboard} >
               </Route>
               <Route render={()=> <h1>Not found</h1>} />
