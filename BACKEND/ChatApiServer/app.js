@@ -10,6 +10,7 @@ var path = require('path')
 const app = express();
 const server = http.createServer(app);
 var io = require('./socket/socketService')(server);
+require('./socket/messageSocket').initialize();
 
 app.use('/', express.static(__dirname + './public'));
 app.use(bodyParser.urlencoded({extended: true}));

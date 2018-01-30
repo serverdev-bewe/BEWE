@@ -42,7 +42,7 @@ class ProfileBoard extends Component{
 
   render(){
     return(
-      <div style={{"height":"100%", "padding": "30px"}}>
+      <div className="dashboard-right-contents">
         <Fade duration={fadeDuration}>
           <div className="tab-slider-nav">
             <ul className="tab-slider-tabs">

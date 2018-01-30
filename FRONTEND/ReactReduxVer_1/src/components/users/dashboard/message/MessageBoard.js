@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { default as Fade } from 'react-fade'
 
-import FriendList from './FriendList';
+import ConversationList from './ConversationList';
+import MessageList from './MessageList';
 
 const fadeDuration = 0.5;
 
-export default class FriendBoard extends Component {
+export default class MessageBoard extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      type: 'all',
+      index: 0,
       fadeOut: false
     }
   }
@@ -27,7 +28,7 @@ export default class FriendBoard extends Component {
 
   handleButtonChange(value) {
     this.setState({
-      type: value,
+      index: value,
       fadeOut: true
     });
   }
@@ -39,7 +40,12 @@ export default class FriendBoard extends Component {
           out={this.state.fadeOut}
           duration={fadeDuration}
         >
-          <FriendList type={this.state.type} />
+          <div className="message=left-contents">
+            <ConversationList />
+          </div>
+          <div className="message-right-contents">
+            {/* <MessageList /> */}
+          </div>
         </Fade>
       </div>
     )

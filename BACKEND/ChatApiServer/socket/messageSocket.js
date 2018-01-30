@@ -7,9 +7,11 @@ exports.io = () => {
   return io;
 };
 
-exports.initialize = (server) => {
-  io = socketIO(server);
-
+exports.initialize = () => {
+  const PORT = 4002;
+  io = socketIO().listen(PORT);
+  console.info(`[BEWE-MessageSocketServer] Listening on Port ${PORT}`);
+  
   io.on('connection', (socket) => { // 웹 소켓 연결
     console.log('Socket 연결이 시작되었습니다!');
 

@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 
 import reducers from '../reducers';
 import { dataFetch, setWebNotifyEnable, setWebNotifyUnable } from '../actions/AppActions';
-
 import Header from "./layout/header/Header";
 import Home from "../routes/Home";
 import Login from './users/login/Login';
