@@ -1,4 +1,4 @@
-import { FETCH_NOTIES } from '../../actions/users/notiActions';
+import { FETCH_FRIENDS } from '../../actions/users/FriendActions';
 
 const INITIAL_STATE = {
   all: []
@@ -6,9 +6,9 @@ const INITIAL_STATE = {
 
 export default function(state = INITIAL_STATE, action){
   switch(action.type){
-    case FETCH_NOTIES:
+    case FETCH_FRIENDS:
       return { ...state, all: action.payload.data }
-
+      
     default:
       return state;
   }

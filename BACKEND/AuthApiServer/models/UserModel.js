@@ -164,7 +164,7 @@ exports.login = (userData) => {
 exports.profile = (userData) => {
   return new Promise((resolve, reject) =>{
     const sql =
-      "SELECT idx, id, nickname, avatar, created_at " +
+      "SELECT idx, id, nickname, avatar, email, created_at " +
       "FROM users " +
       "WHERE idx = ?";
 
