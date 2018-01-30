@@ -5,8 +5,8 @@ import { Table, Button,
     InputGroup, Input
 } from 'reactstrap';
 
-import ListView from '../chatt/ListView';
-import ChatApp from '../chatt/ChatApp';
+import ListView from './chatt/ListView';
+import ChatApp from './chatt/ChatApp';
 import axios from 'axios';
 
 import PropTypes from 'prop-types';

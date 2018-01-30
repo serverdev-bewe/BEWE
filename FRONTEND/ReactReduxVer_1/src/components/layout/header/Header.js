@@ -1,5 +1,5 @@
 import './Header.css';
-import '../../style/style.css';
+import '../../../../style/style.css'
 
 import React from 'react';
 import {NavLink} from 'react-router-dom';
@@ -77,19 +77,19 @@ export default class Example extends React.Component {
             }
           
           
-          <NavbarToggler onClick={this.navToggle} />
+          {/* <NavbarToggler onClick={this.navToggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 1
-                {/* <NavLink href="/components/">Components</NavLink> */}
+                <NavLink href="/components/">Components</NavLink>
               </NavItem>
               <NavItem>
                 2
-                {/* <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink> */}
+                <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink>
               </NavItem>
             </Nav>
-          </Collapse>
+          </Collapse> */}
         </Navbar>
       </div>
       </div>

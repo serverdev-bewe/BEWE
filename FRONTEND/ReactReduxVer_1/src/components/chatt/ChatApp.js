@@ -30,7 +30,8 @@ class ChatApp extends React.Component {
     this.exitHandler = this.exitHandler.bind(this);
     this.onReadyBadge = this.onReadyBadge.bind(this);
     // Connect to the server
-    this.socket = io(`http://localhost:4000/${this.state.paramsGameNumber}`, {
+    // this.socket = io(`http://localhost:4000/${this.state.paramsGameNumber}`, {
+    this.socket = io(`http://localhost:4000`, {
       query: `username=${props.username}` 
     }).connect();
 
