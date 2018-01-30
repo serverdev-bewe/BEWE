@@ -4,45 +4,60 @@ const mysql = require('mysql');
 const DBConfig = require('./../config/DBConfig');
 const pool = mysql.createPool(DBConfig);
 
-exports.list = (userIdx) => {
+exports.list = (userIdx, page) => {
   return new Promise((resolve, reject) => {
     const sql = "SELECT * FROM notifications WHERE users_idx = ?";
     
     pool.query(sql, [userIdx], (err, rows) => {
-      if(err){
+      if (err) {
         console.log(err);
         reject(err);
-      }else{
+      } else {
         resolve(rows);
       }
     });
   });  
 };
 
+exports.polling = (userIdx, date) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM notifications WHERE users_idx = ? AND created_at > ?";
+
+    pool.query(sql, [userIdx, date], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
+
 exports.create = (notificationData) => {
   return new Promise((resolve, reject) => {
     let contents, url, type, image = '';
-    const userIdx = notificationData.usersIdx;
+    const userIdx = parseInt(notificationData.usersIdx);
 
     switch (notificationData.type) {
       case 'friend_accepted':
         image = notificationData.info.avatar;
         type = 'friend';
         contents = `<strong>${notificationData.info.nickname}</strong>님이 친구 요청을 수락하셨습니다.`;
-        url = `/users/friends/${userIdx}`;
+        url = `/users/friends`;
         break;
       case 'friend_receive':
         image = notificationData.info.avatar;
         type = 'friend';
         contents = `<strong>${notificationData.info.nickname}</strong>님에게 친구 요청이 왔습니다.`;
-        url = `/users/friends/${userIdx}`;
+        url = `/users/friends`;
         break;
       case 'achievement':
         break;
     }
 
     const sql = 
-      "INSERT INTO notifications (users_idx, contents, url, type, image) VALUES (?, ?, ?)";
+      "INSERT INTO notifications (users_idx, contents, url, type, image) VALUES (?, ?, ?, ?, ?)";
 
     pool.query(sql, [notificationData.usersIdx, contents, url, type, image], (err, rows) => {
       if (err) {

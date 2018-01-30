@@ -5,9 +5,9 @@ class DashboardNav extends Component {
   render() {    
     return(
       <div className="dashboard-left-navigation-wrapper">
-        <NavLink to = "/users" 
+        <NavLink to = "/users/profile" 
           className={`dashboard-left-navigation-item 
-            ${(window.location.pathname) === '/users' ? 'dashboard-nav-active' : ''}`}>
+            ${(window.location.pathname) === '/users/profile' ? 'dashboard-nav-active' : ''}`}>
           <p className="ion-ios-gear"></p>
           <p>내 프로필</p>
         </NavLink>

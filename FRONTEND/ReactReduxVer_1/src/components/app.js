@@ -1,13 +1,11 @@
 import './app.css';
 import React, { Component } from 'react';
-import Notification from 'react-web-notification';
 
 import { BrowserRouter, Route, Switch, IndexRoute } from "react-router-dom";
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import reducers from '../reducers';
-import * as DataActions from '../actions/appActions';
+import { dataFetch, setWebNotifyEnable, setWebNotifyUnable } from '../actions/AppActions';
 
 import Header from "./layout/header/Header";
 import Home from "../routes/Home";
@@ -16,56 +14,58 @@ import SignUp from "./users/login/SignUp";
 import Footer from './layout/footer/Footer';
 import MyGame from "./layout/header/MyGame";
 import Dashboard from "./users/dashboard/Dashboard";
-import NotiList from "./users/noti/NotiList";
 import GameRoomList from './GameRoomList';
 import GameRoomCreate from './GameRoomCreate';
 
 function mapStateToProps(state) {  
   return {
-    new: state.app.data,
-    isFetching: state.app.isFetching,
-    ignore: state.app.ignore
-  };
-}
- 
-function mapDispatchToProps(dispatch) {  
-  return {
-      dataActions: bindActionCreators(DataActions, dispatch)
+    new: state.app.new,
+    grant: state.app.grant
   };
 }
 
-class App extends Component {
-  handlePermissionGranted(){
-    console.log('Permission Granted');
-    //this.props.ignore = false;
-  }
-  handlePermissionDenied(){
-    console.log('Permission Denied');
-    //this.props.ignore = true;
-  }
-  handleNotSupported(){
-    console.log('Web Notification not Supported');
-    //this.props.ignore = true;
-  }
-
-  handleNotificationOnError(e, tag){
-    console.log(e, 'Notification error tag:' + tag);
-  }
-
-  // 받아온 props이 이전 props과 다르다면 timeout 새로 시간 세팅
+class App extends Component {  
   componentWillReceiveProps(nextProps) {
     if (this.props.new !== nextProps.new) {
       clearTimeout(this.timeout);
-
-      if (!nextProps.isFetching) {
-          this.startPoll();
+      
+      if(rextProps.new) {
+        nextProps.new.map((noti) => {
+          let contents = noti.contents.replace(/<\/?[^>]+(>|$)/g, "");
+          let options = {
+            icon: noti.image || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
+          }
+          if(this.props.grant){
+            var notification = new Notification(contents, options);
+            notification.onclick = function(event) {
+              event.preventDefault();
+              window.location.replace(noti.url);
+            }
+          setTimeout(notification.close.bind(notification), 15000); 
+          }
+        });
       }
+      
+      this.startPoll();
     }
   }
 
   // 앱이 시작될 때 Fetch 해오기 시작
   componentWillMount() {
-    this.props.dataActions.dataFetch();
+    this.props.dataFetch();
+    
+    if (!("Notification" in window)) {
+      alert("This browser does not support system notifications");
+      this.props.setWebNotifyUnable();
+    } else if (!this.props.grant) {
+      Notification.requestPermission((permission) => {
+        if (permission === "granted") {
+          this.props.setWebNotifyEnable();
+        } else {
+          this.props.setWebNotifyUnable();
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -74,7 +74,7 @@ class App extends Component {
 
   // 폴링 시작
   startPoll() {
-    this.timeout = setTimeout(() => this.props.dataActions.dataFetch(), 15000);
+    this.timeout = setTimeout(() => this.props.dataFetch(), 1000);
   }
 
   render() {
@@ -90,8 +90,7 @@ class App extends Component {
               <Route path="/signup" component={SignUp} />
               <Route path="/mygame" component={MyGame} />
               <Route path="/gameRoomList" component={GameRoomList} />
-              <Route path="/users" component={Dashboard} >
-              </Route>
+              <Route path="/users" component={Dashboard} />
               <Route render={()=> <h1>Not found</h1>} />
             </Switch>
           <Footer/>
@@ -101,4 +100,4 @@ class App extends Component {
   }  
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, { dataFetch, setWebNotifyEnable, setWebNotifyUnable })(App);
