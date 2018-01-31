@@ -42,15 +42,17 @@ class ProfileBoard extends Component{
 
   render(){
     return(
-      <Fade duration={fadeDuration} style={{"height":"100%", "padding": "30px"}}>
-        <div className="tab-slider-nav">
-          <ul className="tab-slider-tabs">
-            <li className={`tab-slider-item ${(this.state.type) ? 'tab-active' : ''}`} onClick={this.onClickButtonAll}>내 정보</li>
-            <li className={`tab-slider-item ${(this.state.type) ? '' : 'tab-active'}`} onClick={this.onClickButtonUnchecked}>내 게임</li>
-          </ul>
-        </div>  
-        {this.renderResult()} 
-      </Fade>
+      <div style={{"height":"100%", "padding": "30px"}}>
+        <Fade duration={fadeDuration}>
+          <div className="tab-slider-nav">
+            <ul className="tab-slider-tabs">
+              <li className={`tab-slider-item ${(this.state.type) ? 'tab-active' : ''}`} onClick={this.onClickButtonAll}>내 정보</li>
+              <li className={`tab-slider-item ${(this.state.type) ? '' : 'tab-active'}`} onClick={this.onClickButtonUnchecked}>내 게임</li>
+            </ul>
+          </div>  
+          {this.renderResult()} 
+        </Fade>
+      </div>
     )
   }
 }

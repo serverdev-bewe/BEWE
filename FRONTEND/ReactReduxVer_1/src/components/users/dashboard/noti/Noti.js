@@ -33,7 +33,8 @@ class Noti extends Component {
 
   render(){
     return(
-      <div onClick={this.onCheckNoti} className={`noti-wrapper ${(this.props.noti.flag === 0) ? 'noti-checked' : ''}`}>
+      <div onClick={this.onCheckNoti} 
+        className={`noti-wrapper ${(this.props.noti.flag === 0) ? 'noti-checked' : ''}`}>
         <div className="noti-avatar-wrapper">
           <img className="avatar-image" src={(this.props.noti.image) !== null ? this.props.noti.image : "http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg"}/>
         </div>

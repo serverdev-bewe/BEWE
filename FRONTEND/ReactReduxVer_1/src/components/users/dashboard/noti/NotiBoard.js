@@ -44,13 +44,14 @@ export default class Noti extends Component {
  
   render() {
     return (
-      <div style={{"height":"100%", "padding": "30px"}}>
+      <div className="dashboard-right-contents">
         <div className="tab-slider-nav">
           <ul className="tab-slider-tabs">
             <li className={`tab-slider-item ${(this.state.type) ? 'tab-active' : ''}`} onClick={this.onClickButtonAll}>모든 알림</li>
             <li className={`tab-slider-item ${(this.state.type) ? '' : 'tab-active'}`} onClick={this.onClickButtonUnchecked}>읽지 않은 알림</li>
           </ul>
         </div>   
+        
         <Fade
           out={this.state.fadeOut}
           duration={fadeDuration}

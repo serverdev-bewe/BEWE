@@ -22,7 +22,6 @@ class ContentsRegister extends Component{
         </div>
 
         <button type="submit" className="btn"> 등록 </button>
-        
       </form>
     );
   }

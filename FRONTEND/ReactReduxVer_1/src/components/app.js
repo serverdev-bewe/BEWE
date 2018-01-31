@@ -15,7 +15,7 @@ import Footer from './layout/footer/Footer';
 import MyGame from "./layout/header/MyGame";
 import Dashboard from "./users/dashboard/Dashboard";
 import GameRoomList from './GameRoomList';
-import GameRoomCreate from './GameRoomCreate';
+import StartGame from './StartGame';
 import ContentsList from './CMS/ContentsList';
 import ContentsRegister from './CMS/register/ContentsRegister';
 
@@ -31,7 +31,7 @@ class App extends Component {
     if (this.props.new !== nextProps.new) {
       clearTimeout(this.timeout);
       
-      if(rextProps.new) {
+      if(nextProps.new) {
         nextProps.new.map((noti) => {
           let contents = noti.contents.replace(/<\/?[^>]+(>|$)/g, "");
           let options = {
@@ -91,12 +91,15 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
               <Route path="/mygame" component={MyGame} />
+
               <Route path="/gameRoomList" component={GameRoomList} />
               <Route path="/users" component={Dashboard} />
               <Route path="/contents/new" component={ContentsRegister} />
               <Route path="/contents" component={ContentsList} />
 
 
+              <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
+              <Route path="/startgame" component={StartGame} />
               <Route render={()=> <h1>Not found</h1>} />
             </Switch>
           <Footer/>

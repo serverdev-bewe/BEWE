@@ -3,17 +3,20 @@ import React, { Component } from 'react';
 import ReactModal from 'react-modal';
 import { Table, Button,
     InputGroup, Input
-    ,Container
 } from 'reactstrap';
 
 import ListView from './chatt/ListView';
 import ChatApp from './chatt/ChatApp';
+import axios from 'axios';
 
-import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class GameRoomList extends Component {
-    constructor(props) {
-        super(props);
+    static contextTypes={
+        router : PropTypes.object
+    }
+    constructor(props, context) {
+        super(props, context);
         this.state={
             rows: [],
             keyword: '',
@@ -21,7 +24,8 @@ class GameRoomList extends Component {
             roomName :''
             , showModal: false,
             createRoomName : '',
-            createRoomSize : ''
+            createRoomSize : '',
+            paramsGameNumber:0
         }
         this.handleChange = this.handleChange.bind(this);
         this.roomHandler = this.roomHandler.bind(this);
@@ -36,25 +40,23 @@ class GameRoomList extends Component {
       }
 
       handleCreateRoomModal(e){
-        fetch(`http://localhost:4001/api/createroom`,{
-            method: 'get',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-              },
-            body: JSON.stringify({
+          if(this.state.createRoomName == ''){
+            return 
+          }
+        axios.post(`http://localhost:4001/api/createroom`,{
                 'name': this.state.createRoomName,
                 'adminUser' : JSON.parse(localStorage.getItem("profile")).nickname,
-                'cnt' : this.state.createRoomSize
-            })
-        })//Login.js 에 예시 있슴.
-        .then((response)=> response.json())
+                'cnt' : this.state.createRoomSize,
+                'gameNumber' : this.state.paramsGameNumber
+        })
         .then((responseDate)=>{
             console.log(responseDate);
-            // this.setState({rows : responseDate});
+            this.setState({rows : responseDate.data});
         }).catch((err)=>{
             console.log(err);
-        });
+        }).then(
+            this.handleCloseModal            
+        )
       }
 
       handleRoomSizeChange(e){
@@ -82,7 +84,14 @@ class GameRoomList extends Component {
         })
     }
     componentWillMount(){
-        fetch(`http://localhost:4001/api/roomList`,{
+        this.setState({
+            paramsGameNumber : this.props.match.params.gamenumber
+        })
+    }
+    componentDidMount(){
+
+        // console.log(this.state.paramsRoomNumber);
+        fetch(`http://localhost:4001/api/roomlist/${this.state.paramsGameNumber}`,{
             method: 'get',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -112,7 +121,8 @@ class GameRoomList extends Component {
 
     
     render() {
-
+        // console.log(this.state.paramsRoomNumber);
+        
         const mapToComponents = (data)=>{
             data = data.filter(
                 (contact)=>{
@@ -147,8 +157,11 @@ class GameRoomList extends Component {
                 <Button color="info" 
                     onClick={this.handleOpenModal}
                 >방 만들기</Button>
-                <NavLink to="/gameRoomList" ><Button color="info" 
-                >리스트 다시 불러오기</Button></NavLink>
+                <Button color="info"  onClick={()=> 
+                    this.context.router.history.push(`/gamegamelist/${this.state.paramsGameNumber}`) 
+                }
+                >리스트 다시 불러오기</Button>
+                //////////////////
         <div >
         <ReactModal 
            isOpen={this.state.showModal}
@@ -165,11 +178,11 @@ class GameRoomList extends Component {
             ariaHideApp={false}
         >
           <h1 style={{"marginTop":"5%"}}>방을 만들어 보세요</h1>
-          <input type="text" required style={{width:"50%"}} 
+          <input type="text" required style={{width:"50%"}} name="name"
             onChange={this.handleRoomNameChange} value={this.state.createRoomName}
             placeholder="제목을 입력해 주세요"  maxLength="20"/>
             <br/>
-          <input type="text" required style={{width:"50%"}} 
+          <input type="text" required style={{width:"50%"}} name="size"
             onChange={this.handleRoomSizeChange} value={this.state.createRoomSize}
             placeholder="인원은 몇명으로 설정하실껀가요? (최대 9명)" maxLength="1" />
             <p/>
@@ -177,10 +190,8 @@ class GameRoomList extends Component {
           <button onClick={this.handleCloseModal}>돌아가기</button>
         </ReactModal>
         </div>
-                <NavLink to="/rank">
                 &nbsp;
                 <Button color="secondary" >Rank 시작</Button>
-                </NavLink>
                 <p/>
                 </div>
                 <Table hover>
@@ -204,7 +215,8 @@ class GameRoomList extends Component {
                 <h1>Room IDX = {this.state.roomSeq}</h1>
                 {
                     this.state.roomSeq ? 
-                    <ChatApp roomSeq={this.state.roomSeq} 
+                    <ChatApp paramsGameNumber={this.state.paramsGameNumber} 
+                        roomSeq={this.state.roomSeq} 
                         roomName={this.state.roomName}
                         username={(JSON.parse(localStorage.getItem("profile")).nickname)}
                         exitHandler={this.exitHandler}

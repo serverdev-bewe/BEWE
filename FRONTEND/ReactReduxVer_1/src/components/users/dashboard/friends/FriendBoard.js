@@ -34,12 +34,14 @@ export default class FriendBoard extends Component {
  
   render() {
     return (      
-      <Fade
-        out={this.state.fadeOut}
-        duration={fadeDuration}
-      >
-        <FriendList type={this.state.type} />
-      </Fade>
+      <div style={{"height":"100%", "padding": "30px"}}>
+        <Fade
+          out={this.state.fadeOut}
+          duration={fadeDuration}
+        >
+          <FriendList type={this.state.type} />
+        </Fade>
+      </div>
     )
   }
 }

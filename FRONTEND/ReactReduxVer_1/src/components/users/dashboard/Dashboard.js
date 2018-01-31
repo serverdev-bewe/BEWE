@@ -25,7 +25,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    let height = this.state.height - 294;
+    let height = this.state.height - 220;
 
     return(
       <div className="container" 
