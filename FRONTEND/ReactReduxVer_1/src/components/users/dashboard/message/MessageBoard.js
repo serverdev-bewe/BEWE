@@ -6,12 +6,13 @@ import MessageList from './MessageList';
 
 const fadeDuration = 0.5;
 
-export default class MessageBoard extends Component {
+class MessageBoard extends Component {
   constructor(props){
     super(props);
 
     this.state = {
       index: 0,
+      conversationIdx: 0,
       fadeOut: false
     }
   }
@@ -35,13 +36,13 @@ export default class MessageBoard extends Component {
  
   render() {
     return (      
-      <div className="dashboard-right-contents">
+      <div className="dashboard-right-contents" style={{"padding":"30px 0"}}>
         <Fade
           out={this.state.fadeOut}
           duration={fadeDuration}
         >
-          <div className="message=left-contents">
-            <ConversationList />
+          <div className="message-left-contents">
+            <ConversationList conversationIdx={this.state.conversationIdx}/>
           </div>
           <div className="message-right-contents">
             {/* <MessageList /> */}
@@ -51,3 +52,5 @@ export default class MessageBoard extends Component {
     )
   }
 }
+
+export default MessageBoard;

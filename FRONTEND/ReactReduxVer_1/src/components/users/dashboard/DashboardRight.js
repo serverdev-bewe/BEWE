@@ -7,7 +7,8 @@ import ProfileBoard from './profile/ProfileBoard';
 import MessageBoard from './message/MessageBoard';
 
 const DashboardRight = () => {
-  if((window.location.pathname) === '/users/profile') {
+  if((window.location.pathname) === '/users/profile' ||
+     (window.location.pathname) === '/users') {
     return <ProfileBoard />
   } else if((window.location.pathname) === '/users/friends') {
     return <FriendBoard />

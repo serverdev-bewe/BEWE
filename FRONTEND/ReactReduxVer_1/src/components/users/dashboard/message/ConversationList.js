@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { getConversations } from '../../../../actions/users/MessageActions';
+import Conversation from './Conversation';
 
 class ConversationList extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
       page: 1
@@ -31,9 +32,8 @@ class ConversationList extends Component {
       // .slice(0, 15 * this.state.page - 1)
       .map((conversation) => {
         // if(this.props.type === 'all') {
-          return (         
-            {conversation.idx}
-            // <Friend friend={friend} key={friend.idx}/>
+          return (      
+            <Conversation conversation={conversation} key={conversation.idx} />
           )
          // } else {
           // if(noti.flag == 0) {
@@ -51,7 +51,11 @@ class ConversationList extends Component {
     }
 
     else {
-      {this.renderConversations()}
+      return(
+        <div>
+          {this.renderConversations()}
+        </div>
+      )
       // if(this.props.friends.length > this.state.page * 15) {
       //   return(
       //     <div>

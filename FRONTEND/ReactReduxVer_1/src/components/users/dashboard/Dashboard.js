@@ -23,9 +23,8 @@ class Dashboard extends Component {
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
-
   render() {
-    let height = this.state.height - 220;
+    let height = this.state.height - 318;
 
     return(
       <div className="container" 

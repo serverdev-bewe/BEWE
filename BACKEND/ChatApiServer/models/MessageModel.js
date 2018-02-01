@@ -92,7 +92,7 @@ exports.openConversation = (userData, receiverData) => {
           resolve(context);
         } else {
           console.log("새 대화방 생성");
-          const last_message = "이제 Messager에서 친구와 쪽지를 주고 받을 수 있습니다!";
+          const last_message = "이제 Messager에서 친구와 메시지를 주고 받을 수 있습니다!";
           const sql = 
             'INSERT INTO conversations (users_idx_1, users_idx_2, last_message) VALUES (?, ?, ?)';
           context.conn.query(sql, [userData, receiverData, last_message], (err, rows) => {

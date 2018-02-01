@@ -73,9 +73,10 @@ module.exports.polling = async (req, res, next) => {
       console.log(error);
       return next(error);
     }   
-    await sleep(1000);
+    await sleep(500);
   }
   console.log(">> LONG POLLING END");
+  console.log(result);
   return res.status(200).json(result);
 }
 

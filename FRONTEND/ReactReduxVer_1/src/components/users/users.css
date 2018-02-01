@@ -97,15 +97,14 @@
   display: block;
   max-width: 940px;
   margin-left: 200px;
-  max-height: 100% !important;
+  height: 100% !important;
 }
 
 .dashboard-right-contents{
   width: 100%;
-  padding: 30px
+  height: 100%;
+  padding: 30px;
 }
-
-
 
 /* 
  * 대시보드 : 프로필
@@ -149,7 +148,6 @@
 .profile-update-button a{
   color: white;
 }
-
 
 /*
  * 대시보드 : 친구
@@ -252,7 +250,7 @@
 }
 
 .noti-wrapper:last-of-type{
-  border-bottom: 1px solid #D1D1D1;
+  border-top: 1px solid #D1D1D1;
 }
 
 .noti-more-button{
@@ -313,4 +311,58 @@
   position: absolute;
   top: 0;
   left: 23px;
+}
+
+/*
+ * 대시보드 : 메시지
+ */
+
+.message-left-contents{
+  width: 30%;
+  height: 100%;
+  border-right: 1px solid #E1E1E1;
+  position: relative;
+}
+
+.conversation-list-left{
+  width: 50px;
+  display: inline-block;
+  position: absolute;
+}
+
+.conversation-list-right{
+  padding-left: 55px;
+}
+
+.conversation-list-item{
+  cursor: pointer;
+  padding: 20px;
+  border-bottom: 1px solid #D1D1D1;
+}
+
+.conversation-list-item:last-of-type{
+  border-bottom: none;
+}
+
+.conversation-list-item:hover{
+  background-color: #F9F9F9;
+}
+
+.conversation-list-nickname{
+  font-weight: bold;
+  margin-bottom: 10px;
+  line-height: 0.9;
+}
+
+.conversation-list-date{
+  font-size: 13px;
+  color: #666666;
+}
+
+.conversation-list-last-message{
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 0; 
 }

@@ -8,7 +8,6 @@ export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const SEND_RESPONSE = 'SEND_RESONSE';
 
 const ROOT_URL = 'http://localhost:4000/api/messages';
-const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
 const token = JSON.parse(localStorage.getItem('token')); 
     
 export function getConversations(){
@@ -21,6 +20,7 @@ export function getConversations(){
 }
 
 export function getMessages(){
+  const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
   const request = axios.get(`${ROOT_URL}/${userIdx}`, {headers: {'token' : token}});
 
   return {

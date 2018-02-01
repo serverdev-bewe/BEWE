@@ -36,7 +36,7 @@ class App extends Component {
             icon: noti.image || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
           }
           if(this.props.grant){
-            var notification = new Notification(contents, options);
+            const notification = new Notification(contents, options);
             notification.onclick = function(event) {
               event.preventDefault();
               window.location.replace(noti.url);
@@ -80,7 +80,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter >
-        <div style={{ "width" : "100%", "height" : "100%"}}>
+        <div>
           <Header  />        
           <div className="up">
             </div>
