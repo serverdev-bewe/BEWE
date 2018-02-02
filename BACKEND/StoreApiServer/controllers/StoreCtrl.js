@@ -2,7 +2,32 @@
 
 const storeModel = require('../models/StoreModel');
 
-exports.list = async(req, res, next) => {
+
+
+exports.listAll = async(req, res, next) => {
+
+  let result = '';
+
+  try{
+
+    result = await storeModel.listAll();
+  } catch (error) {
+    return next(error);
+  }
+
+  return res.r(result);
+};
+
+
+
+/*******
+ * 유저가 구매한 게임 리스트 조회
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise.<*>}
+ */
+exports.myList = async(req, res, next) => {
   let result = '';
   try {
     const inputData = {
@@ -32,7 +57,7 @@ exports.purchase = async(req, res, next) => {
   try {
     const inputData = {
       userIdx: req.userIdx,
-      gameIdx: req.body.gameIdx,
+      gameIdx: req.params.idx,
     };
 
     result = await storeModel.purchase(inputData);
