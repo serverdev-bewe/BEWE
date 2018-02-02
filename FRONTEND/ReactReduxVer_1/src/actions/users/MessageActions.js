@@ -19,10 +19,9 @@ export function getConversations(){
   }
 }
 
-export function getMessages(){
-  const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
-  const request = axios.get(`${ROOT_URL}/${userIdx}`, {headers: {'token' : token}});
-
+export function getMessages(conversationIdx){
+  const request = axios.get(`${ROOT_URL}/${conversationIdx}`, {headers: {'token' : token}});
+  console.log('action : ', request);
   return {
     type: GET_MESSAGES,
     payload: request

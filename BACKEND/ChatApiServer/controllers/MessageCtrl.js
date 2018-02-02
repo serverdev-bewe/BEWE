@@ -14,6 +14,7 @@ exports.list = (type) => {
         result = await messageModel.listConversation(userData);
       } else if (type == 'messages') {
         const conversationId = req.params.idx;
+        console.log('id ', conversationId);
         result = await messageModel.getConversation(userData, conversationId);
       }
     } catch (error) {

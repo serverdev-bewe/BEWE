@@ -13,27 +13,22 @@ class ConversationList extends Component {
     this.state = {
       page: 1
     };
-
-    this.onClickButton = this.handleButton.bind(this);
-  }
-
-  handleButton() {
-    this.setState({
-      page: this.state.page + 1
-    });
   }
 
   componentWillMount(){
     this.props.getConversations();    
   }
-
+  
   renderConversations(){
     return this.props.conversations
       // .slice(0, 15 * this.state.page - 1)
       .map((conversation) => {
         // if(this.props.type === 'all') {
           return (      
-            <Conversation conversation={conversation} key={conversation.idx} />
+            <Conversation 
+              onConversationClick={this.props.onConversationSelect}
+              conversation={conversation} 
+              key={conversation.idx} />
           )
          // } else {
           // if(noti.flag == 0) {

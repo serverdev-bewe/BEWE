@@ -47,7 +47,8 @@ class Conversation extends Component {
       return <div>Loading...</div>
     } else {
       return (
-        <div className="conversation-list-item" to='/'>
+        <div className="conversation-list-item" 
+             onClick={() => this.props.onConversationClick(this.props.conversation.idx)}>
           <div className="conversation-list-left">
             <div className="noti-avatar-wrapper">
               <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg"}/>

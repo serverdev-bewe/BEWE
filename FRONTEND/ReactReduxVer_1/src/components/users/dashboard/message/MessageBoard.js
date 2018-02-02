@@ -12,40 +12,46 @@ class MessageBoard extends Component {
 
     this.state = {
       index: 0,
-      conversationIdx: 0,
-      fadeOut: false
+      conversationIdx: 0
     }
   }
 
-  componentWillUpdate(nextProps, { fadeOut }) {
-    if (fadeOut) {
-      setTimeout(() => {
-        this.setState({
-          fadeOut: false
-        })
-      }, fadeDuration);
+  componentDidUpdate() {
+    console.log(this.state.conversationIdx);
+  }
+
+  renderMessageList(){
+    if(this.state.conversationIdx === 0) {
+      return(
+        <div>Loading...</div>
+      )
+    } else {
+      return(
+        <MessageList conversationIdx={this.state.conversationIdx} />
+      )
     }
   }
 
-  handleButtonChange(value) {
-    this.setState({
-      index: value,
-      fadeOut: true
-    });
-  }
- 
   render() {
     return (      
-      <div className="dashboard-right-contents" style={{"padding":"30px 0"}}>
+      <div className="dashboard-right-contents" 
+           style={{"padding":"30px 0"}}>
         <Fade
-          out={this.state.fadeOut}
           duration={fadeDuration}
         >
-          <div className="message-left-contents">
-            <ConversationList conversationIdx={this.state.conversationIdx}/>
+          <div className="message-left-contents" 
+               style={{"height": this.props.height-65}}>
+            <ConversationList
+              onConversationSelect={selectedConversation => {
+                this.setState({
+                  conversationIdx: selectedConversation
+                });
+              }}
+              conversationIdx={this.state.conversationIdx}/>
           </div>
-          <div className="message-right-contents">
-            {/* <MessageList /> */}
+          <div className="message-right-contents"
+               style={{"height": this.props.height-65}}>
+            {this.renderMessageList()}
           </div>
         </Fade>
       </div>
