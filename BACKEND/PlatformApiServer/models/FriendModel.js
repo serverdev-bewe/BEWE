@@ -5,17 +5,10 @@ const DBConfig = require('./../config/DBConfig');
 const pool = mysql.createPool(DBConfig);
 
 // 친구 리스트
-exports.list = (type, userData) => {
+exports.list = (userData) => {
   return new Promise((resolve, reject) => {
-    let sql ='';
-
-    if (type == 'all') {
-      sql = "SELECT * FROM friends WHERE (flag = 0) AND (sender_idx = ? OR receiver_idx = ?)";
-    } else if (type == 'send') {
-      sql = "SELECT * FROM friends WHERE flag = 0 AND receiver_idx = ?";
-    } else if (type == 'receive') {
-      sql = "SELECT * FROM friends WHERE flag = 0 AND sender_idx = ?";
-    }
+    const sql = 
+      `SELECT * FROM friends WHERE (sender_idx = ? OR receiver_idx = ?)`;
     pool.query(sql, [userData, userData], (err, rows) => {
       if(err){
         console.log(err);
@@ -76,7 +69,7 @@ exports.send = (userData, receiverIdx) => {
   .then(() => {
     return new Promise((resolve, reject) => {
       const sql = 
-        "SELECT nickname FROM users WHERE idx = ?";
+        "SELECT nickname, avatar FROM users WHERE idx = ?";
       
       pool.query(sql, [userData], (err, rows) => {
         if (err) {
@@ -85,7 +78,10 @@ exports.send = (userData, receiverIdx) => {
           if (rows.length == 0) { 
             reject(400);
           } else {
-            resolve(rows[0].nickname);
+            resolve({
+              nickname: rows[0].nickname, 
+              avatar: rows[0].avatar
+            });
           }
         }
       });
@@ -97,7 +93,7 @@ exports.send = (userData, receiverIdx) => {
 exports.handleRequest = (type, userData, idx) => {  
   return new Promise((resolve, reject) => {
     const sql = 
-      `SELECT flag, sender_idx, receiver_idx, nickname
+      `SELECT flag, sender_idx, receiver_idx, nickname, avatar
          FROM friends join users
            ON friends.receiver_idx = users.idx
         WHERE friends.idx = ?`;
@@ -105,11 +101,11 @@ exports.handleRequest = (type, userData, idx) => {
       if (err) {
         reject(err);
       } else {
-        if (rows.length !== 0) { // 일치하는 친구 요청이 있을 경우 
+        if (rows.length !== 0) { // 일치하는 친구 요청이 있을 경우
           if (rows[0].receiver_idx == userData && rows[0].flag == 0){ 
             // 친구 요청의 수신자와 current_user의 id가 같고, flag가 0일 때만 업데이트
-            const userName = rows[0].nickname;
-            resolve(userName);
+            
+            resolve(rows[0].nickname, rows[0].avatar);
           } else {
             reject(2402);
           }
@@ -118,7 +114,7 @@ exports.handleRequest = (type, userData, idx) => {
         }
       }
     });
-  }).then((userName) => {
+  }).then((userName, userAvatar) => {
     return new Promise((resolve, reject) => {
       let sql = '';
 
@@ -135,7 +131,10 @@ exports.handleRequest = (type, userData, idx) => {
         }else{
           if (rows.affectedRows === 1) {
             if (type === 'accept') {
-              resolve(userName);
+              resolve({
+                nickname: userName, 
+                avatar: userAvatar
+              });
             } else {
               resolve(rows);
             }

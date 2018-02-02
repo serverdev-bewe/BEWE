@@ -1,8 +1,4 @@
-node_modules
-.DS_Store
-npm-debug.log
-lib
-coverage
-xunit.xml
-tests-xunit.xml
-.sonar
+config/
+node_modules/
+
+.idea/

@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -40,9 +38,5 @@ const PORT = 3001;
 const server = app.listen(PORT, () => {
   console.info(`[BEWE-PlatformApiServer] Listening on Port ${PORT}`);
 });
-
-
-/* socket 붙이기 */
-const io = require('./controllers/SocketCtrl').initialize(server);
 
 module.exports = app;
