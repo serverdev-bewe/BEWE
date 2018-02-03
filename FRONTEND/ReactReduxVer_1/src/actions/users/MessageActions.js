@@ -21,7 +21,7 @@ export function getConversations(){
 
 export function getMessages(conversationIdx){
   const request = axios.get(`${ROOT_URL}/${conversationIdx}`, {headers: {'token' : token}});
-  console.log('action : ', request);
+  
   return {
     type: GET_MESSAGES,
     payload: request

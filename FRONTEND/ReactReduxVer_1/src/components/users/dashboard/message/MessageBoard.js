@@ -12,12 +12,9 @@ class MessageBoard extends Component {
 
     this.state = {
       index: 0,
-      conversationIdx: 0
+      conversationIdx: 0,
+      conversationNickname: ''
     }
-  }
-
-  componentDidUpdate() {
-    console.log(this.state.conversationIdx);
   }
 
   renderMessageList(){
@@ -27,7 +24,9 @@ class MessageBoard extends Component {
       )
     } else {
       return(
-        <MessageList conversationIdx={this.state.conversationIdx} />
+        <MessageList 
+          conversationIdx={this.state.conversationIdx} 
+          conversationNickname={this.state.conversationNickname}/>
       )
     }
   }
@@ -42,12 +41,16 @@ class MessageBoard extends Component {
           <div className="message-left-contents" 
                style={{"height": this.props.height-65}}>
             <ConversationList
-              onConversationSelect={selectedConversation => {
-                this.setState({
-                  conversationIdx: selectedConversation
-                });
-              }}
-              conversationIdx={this.state.conversationIdx}/>
+              conversationIdx={this.state.conversationIdx}
+              onConversationSelect={
+                (selectedConversationIdx, selectedConversationNickname) => {
+                  this.setState({
+                    conversationIdx: selectedConversationIdx,
+                    conversationNickname: selectedConversationNickname
+                  });
+                }
+              }
+            />
           </div>
           <div className="message-right-contents"
                style={{"height": this.props.height-65}}>

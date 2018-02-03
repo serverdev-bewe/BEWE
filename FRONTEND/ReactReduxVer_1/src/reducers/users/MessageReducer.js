@@ -12,7 +12,6 @@ export default function(state = INITIAL_STATE, action){
       return { ...state, conversations: action.payload.data }
 
     case GET_MESSAGES:
-      console.log('reducer : ', action.payload.data);
       return { ...state, messages: action.payload.data }
       
     case SEND_MESSAGE:

@@ -47,8 +47,9 @@ class Conversation extends Component {
       return <div>Loading...</div>
     } else {
       return (
-        <div className="conversation-list-item" 
-             onClick={() => this.props.onConversationClick(this.props.conversation.idx)}>
+        <div className={`conversation-list-item ${(this.props.flag) ? 'active' : ''}`}
+            onClick={() => this.props.onConversationClick(
+            this.props.conversation.idx, this.state.profile.nickname)}>
           <div className="conversation-list-left">
             <div className="noti-avatar-wrapper">
               <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg"}/>
@@ -60,9 +61,10 @@ class Conversation extends Component {
               {this.state.profile.nickname}
             </p>
             <p className="conversation-list-date">
-              <Moment fromNow locale="ko">{this.props.conversation.updated_at}</Moment>
+              <Moment fromNow locale="ko">{this.props.conversation.updated_at}</Moment> &nbsp;
               <Moment format="YYYY/MM/DD">{this.props.conversation.updated_at}</Moment>
             </p>            
+            <p className="conversation-list-icon"><span className="ion-arrow-right-b"></span></p>
           </div>
           <p className="conversation-list-last-message">
             {this.props.conversation.last_message}

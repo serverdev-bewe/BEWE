@@ -13,6 +13,8 @@ class ConversationList extends Component {
     this.state = {
       page: 1
     };
+
+    this.renderConversations = this.renderConversations.bind(this);
   }
 
   componentWillMount(){
@@ -24,12 +26,23 @@ class ConversationList extends Component {
       // .slice(0, 15 * this.state.page - 1)
       .map((conversation) => {
         // if(this.props.type === 'all') {
-          return (      
-            <Conversation 
-              onConversationClick={this.props.onConversationSelect}
-              conversation={conversation} 
-              key={conversation.idx} />
-          )
+          if(this.props.conversationIdx === conversation.idx) {
+            return (
+              <Conversation 
+                flag={1}
+                onConversationClick={this.props.onConversationSelect}
+                conversation={conversation} 
+                key={conversation.idx} />
+            )
+          } else {
+            return (
+              <Conversation 
+                flag={0}
+                onConversationClick={this.props.onConversationSelect}
+                conversation={conversation} 
+                key={conversation.idx} />
+            )
+          }
          // } else {
           // if(noti.flag == 0) {
           //   return (
