@@ -32,7 +32,7 @@ exports.openConversation = async(req, res, next) => {
   try{
     const userData = req.userIdx;
     const receiverData = req.body.receiver_idx;
-
+    
     result = await messageModel.openConversation(userData, receiverData);   
   } catch (error) {
     console.log(error);

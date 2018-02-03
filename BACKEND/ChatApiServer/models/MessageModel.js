@@ -11,7 +11,7 @@ exports.listConversation = (userData) => {
     const sql = 
       `SELECT * FROM conversations 
         WHERE users_idx_1 = ? OR users_idx_2 = ? 
-        ORDER BY created_at DESC`;
+        ORDER BY updated_at DESC`;
 
     pool.query(sql, [userData, userData], (err, rows) => {
       if(err){
@@ -67,46 +67,93 @@ exports.openConversation = (userData, receiverData) => {
       reject(2411);
     }
 
-    const sql = 
-      `
-      SELECT idx 
-        FROM conversations 
-        WHERE (users_idx_1 = ? AND users_idx_2 = ?) OR (users_idx_1 = ? AND users_idx_2 = ?)
-      `;
-    pool.query(sql, [userData, receiverData, receiverData, userData], (err, rows) => {
-      if (err) {
-        console.log(err);
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  })
-  .then((rows) => {
-    return new Promise((resolve, reject) => {
-      if (rows === undefined){ // 이미 대화방이 있을 경우 생성하지 않는다.
-        rows.insertId = JSON.parse(JSON.stringify(rows))[0].idx;
-        resolve(rows.insertId);
-      } else {
-        console.log("새 대화방 생성");
-        const last_message = "이제 Messager에서 친구와 메시지를 주고 받을 수 있습니다!";
+    transactionWrapper.getConnection(pool)
+    .then(transactionWrapper.beginTransaction)
+    .then((context) => {
+      return new Promise((resolve, reject) => {
         const sql = 
-          'INSERT INTO conversations (users_idx_1, users_idx_2, last_message) VALUES (?, ?, ?)';
-        pool.query(sql, [userData, receiverData, last_message], (err, rows) => {
-          if(err){
+          `
+          SELECT idx 
+            FROM conversations 
+           WHERE (users_idx_1 = ? AND users_idx_2 = ?) OR (users_idx_1 = ? AND users_idx_2 = ?)
+          `;
+
+        context.conn.query(sql, [userData, receiverData, receiverData, userData], (err, rows) => {
+          if (err) {
             console.log(err);
             reject(err);
-          }else{
-            if (rows.affectedRows === 1) { // 대화방 생성
-              resolve(rows);
-            } else {
-              error = new Error("Create Conversation Custom Error 1");
-              reject(error);
-            }
+          } else {
+            context.result = rows;
+            resolve(context);
           }
         });
-      }
-    });         
+      });
+    })
+    .then((context) => {
+      return new Promise((resolve, reject) => {
+        if (context.result.length === 0) {
+          console.log("새 대화방 생성");
+          const last_message = "이제 Messager에서 친구와 쪽지를 주고 받을 수 있습니다!";
+          const sql = 
+            'INSERT INTO conversations (users_idx_1, users_idx_2, last_message) VALUES (?, ?, ?)';
+          context.conn.query(sql, [userData, receiverData, last_message], (err, rows) => {
+            if(err){
+              console.log(err);
+              reject(err);
+            }else{
+              if (rows.affectedRows === 1) { // 대화방 생성
+                context.flag = 1;
+                context.msg = last_message;
+                context.result = rows;
+                resolve(context);
+              } else {
+                context.error = new Error("Create Conversation Custom Error 1");
+                reject(context);
+              }
+            }
+          });
+        } else { // 이미 대화방이 있을 경우 생성하지 않는다.
+          context.flag = 0;
+          context.result.insertId = JSON.parse(JSON.stringify(context.result))[0].idx;
+          resolve(context);
+        }
+      });         
+    })
+    .then((context) => {
+      return new Promise((resolve, reject) => {
+        if(context.flag === 1) {
+          const sql = 
+              'INSERT INTO messages (contents, sender_idx, receiver_idx, conversation_idx) VALUES (?, ?, ?, ?)';
+            context.conn.query(sql, [context.msg, userData, receiverData, context.result.insertId], (err, rows) => {
+              if(err){
+                console.log(err);
+                reject(err);
+              }else{
+                console.dir(context);
+                if (rows.affectedRows === 1) { // 메시지 생성
+                  resolve(context);
+                } else {
+                  context.error = new Error("Create Conversation Custom Error 1");
+                  reject(context);
+                }
+              }
+            });
+          } else if(context.flag === 0) {
+            resolve(context);
+          }
+        });
+    })
+    .then(transactionWrapper.commitTransaction)
+    .then((context) => {
+      context.conn.release();
+      resolve(context.result.insertId);
+    })
+    .catch((context) => {
+      context.conn.rollback(() => {
+        context.conn.release();
+        reject(context.error);
+      });
+    });
   });
 };
 
