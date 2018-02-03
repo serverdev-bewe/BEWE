@@ -28,9 +28,14 @@ export function getMessages(conversationIdx){
   }
 }
 
-export function sendMessage(){
+export function sendMessage(values, conversationIdx){
+  console.log(values);
+  const request = axios.post(`${ROOT_URL}/${conversationIdx}`, 
+    values, {headers: {'token' : token}});
+
   return {
-    type: GET_MESSEND_MESSAGE
+    type: SEND_MESSAGE,
+    payload: request
   }
 }
 

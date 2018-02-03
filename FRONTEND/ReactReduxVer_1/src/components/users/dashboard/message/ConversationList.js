@@ -25,31 +25,23 @@ class ConversationList extends Component {
     return this.props.conversations
       // .slice(0, 15 * this.state.page - 1)
       .map((conversation) => {
-        // if(this.props.type === 'all') {
-          if(this.props.conversationIdx === conversation.idx) {
-            return (
-              <Conversation 
-                flag={1}
-                onConversationClick={this.props.onConversationSelect}
-                conversation={conversation} 
-                key={conversation.idx} />
-            )
-          } else {
-            return (
-              <Conversation 
-                flag={0}
-                onConversationClick={this.props.onConversationSelect}
-                conversation={conversation} 
-                key={conversation.idx} />
-            )
-          }
-         // } else {
-          // if(noti.flag == 0) {
-          //   return (
-          //     <Noti friend={noti} key={noti.idx}/>
-          //   )
-          // }
-        // }
+        if(this.props.conversationIdx === conversation.idx) {
+          return (
+            <Conversation 
+              flag={1}
+              onConversationClick={this.props.onConversationSelect}
+              conversation={conversation} 
+              key={conversation.idx} />
+          )
+        } else {
+          return (
+            <Conversation 
+              flag={0}
+              onConversationClick={this.props.onConversationSelect}
+              conversation={conversation} 
+              key={conversation.idx} />
+          )
+        }
     });
   }
 

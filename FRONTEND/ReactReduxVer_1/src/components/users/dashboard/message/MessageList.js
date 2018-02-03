@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { getMessages } from '../../../../actions/users/MessageActions';
 import Message from './Message';
+import MessageForm from './MessageForm';
 
 const fadeDuration = 0.5;
 
@@ -78,10 +79,7 @@ class MessageList extends Component {
               {this.renderMessages()}
             </Fade>
           </div>
-          <div className="message-write">
-            <input className="message-text" type="text" />
-            <a><span className="ion-ios-paperplane-outline"></span></a>
-          </div>
+          <MessageForm conversationIdx={this.props.conversationIdx}/>
         </div>
       )
       // if(this.props.friends.length > this.state.page * 15) {

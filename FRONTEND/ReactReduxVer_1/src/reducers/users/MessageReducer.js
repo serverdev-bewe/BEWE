@@ -13,8 +13,6 @@ export default function(state = INITIAL_STATE, action){
 
     case GET_MESSAGES:
       return { ...state, messages: action.payload.data }
-      
-    case SEND_MESSAGE:
     
     default:
       return state;
