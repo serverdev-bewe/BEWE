@@ -5,7 +5,7 @@
   "main": "lib/app.js",
   "author": "Jackson Lee <1ilsang@naver.com> <1ilsang.blog.me>",
   "scripts": {
-    "start": "node ./app.js",
+    "start": "nodemon ./app.js",
     "compile": "babel -d lib/ src/",
     "run": "babel -d lib/ src/ && node lib/app"
   },

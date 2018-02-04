@@ -7,14 +7,14 @@ module.exports = (router) => {
 
   /* Message */
   router.route('/messages')
-    .get(authCtrl.auth, messageCtrl.list('conversations'));
-
-  router.route('/messages/create')
+    .get(authCtrl.auth, messageCtrl.list('conversations'))
     .post(authCtrl.auth, messageCtrl.openConversation);
 
   router.route('/messages/:idx')
-    .get(authCtrl.auth, messageCtrl.list('messages'))
-    .post(authCtrl.auth, messageCtrl.sendMessage);
+    .get(authCtrl.auth, messageCtrl.list('messages'));
+  
+  router.route('/message/:idx')
+    .get(authCtrl.auth, messageCtrl.list('last'));
 
   return router;
 };
