@@ -7,6 +7,7 @@ import AppReducer from './AppReducer';
 import FriendReducer from './users/FriendReducer';
 import UserReducer from './users/UserReducer';
 import MessageReducer from './users/MessageReducer';
+import CMSReducer from './CMS/CMSReducer';
 
 const rootReducer = combineReducers({
   app: AppReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   noties: NotiReducer,
   friends: FriendReducer,
   messages: MessageReducer,
-  form: formReducer
+  form: formReducer,
+  CMS: CMSReducer
 });
 
 export default rootReducer;
