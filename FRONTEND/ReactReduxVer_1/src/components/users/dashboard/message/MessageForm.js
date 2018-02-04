@@ -8,9 +8,6 @@ import Message from './Message';
 const renderInput = field =>
   <div>
     <input {...field.input} type={field.type} className="message-text" />
-    {field.meta.touched &&
-     field.meta.error &&
-     <span className="error">{field.meta.error}</span>}
   </div>
 
 class MessageForm extends Component{
