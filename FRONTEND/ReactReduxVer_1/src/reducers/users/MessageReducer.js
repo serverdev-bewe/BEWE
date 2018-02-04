@@ -1,9 +1,11 @@
-import { GET_CONVERSATIONS, GET_MESSAGES, SEND_MESSAGE } from '../../actions/users/MessageActions';
+import { GET_CONVERSATIONS, GET_MESSAGES, SEND_MESSAGE, MESSAGE_MAKE_UPDATE, MESSAGE_MAKE_NOT_UPDATE } 
+  from '../../actions/users/MessageActions';
 
 const INITIAL_STATE = {
   conversations: [],
   messages: [],
-  message: ''
+  message: '',
+  update: false
 }
 
 export default function(state = INITIAL_STATE, action){
@@ -14,6 +16,12 @@ export default function(state = INITIAL_STATE, action){
     case GET_MESSAGES:
       return { ...state, messages: action.payload.data }
     
+    case MESSAGE_MAKE_UPDATE:
+      return { ...state, update: true}
+    
+    case MESSAGE_MAKE_NOT_UPDATE:
+      return { ...state, update: false}
+
     default:
       return state;
   }

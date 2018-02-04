@@ -3,7 +3,7 @@
 const messageModel = require('../models/MessageModel');
 
 // 전체 대화방 리스트
-exports.list = (type) => {
+exports.list = (type) => {  
   return async(req, res, next) => {
     let result = '';
 
@@ -15,6 +15,9 @@ exports.list = (type) => {
       } else if (type == 'messages') {
         const conversationId = req.params.idx;
         result = await messageModel.getConversation(userData, conversationId);
+      } else if (type == 'last') {
+        const messageId = req.params.idx;
+        result = await messageModel.getNewMessage(messageId);
       }
     } catch (error) {
       console.log(error);
@@ -41,22 +44,25 @@ exports.openConversation = async(req, res, next) => {
 };
 
 // 메시지 보내기. 방이 열려 있지 않은 경우에는 일단 방부터 연다.
-exports.sendMessage = async(req, res, next) => {
+// exports.sendMessage = async(req, res, next) => {
+exports.sendMessage = async(conversationIdx, userIdx, contents) => {
+  const socket = require('../socket/messageSocket').io();
   let result = '';
 
   try {
     const messageData = {
-      contents: req.body.contents,
-      sender_idx: req.userIdx,
-      conversation_idx: req.params.idx
+      contents: contents,
+      sender_idx: userIdx,
+      conversation_idx: conversationIdx
     };
-    const conversationId = req.body.conversation_idx;
+    // const conversationId = req.body.conversation_idx;
+
     result = await messageModel.sendMessage(messageData);
-      
   } catch (error) {
     console.log(error);
     return next(error);
   } 
   
-  return res.status(201).json(result);
+  // return res.status(201).json(result);
+  return result;
 };

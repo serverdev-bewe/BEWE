@@ -14,15 +14,30 @@ exports.listConversation = (userData) => {
         ORDER BY updated_at DESC`;
 
     pool.query(sql, [userData, userData], (err, rows) => {
-      if(err){
+      if (err) {
         console.log(err);
         reject(err);
-      }else{
+      } else {
         resolve(rows);
       }
     });
   });
 };
+
+exports.getNewMessage = (messageIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM messages WHERE idx = ?';
+
+    pool.query(sql, [messageIdx], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
 
 // 대화방 내 채팅 리스트
 exports.getConversation = (userData, conversationId) => {
@@ -30,10 +45,10 @@ exports.getConversation = (userData, conversationId) => {
     const sql = 'SELECT * FROM conversations WHERE idx = ?';
     
     pool.query(sql, [conversationId], (err, rows) => {
-      if(err){
+      if (err) {
         console.log(err);
         reject(err);
-      }else{
+      } else {
         if (rows.length === 1 &&
            (rows[0].users_idx_1 === userData ||
             rows[0].users_idx_2 === userData)) {
@@ -49,10 +64,10 @@ exports.getConversation = (userData, conversationId) => {
       const sql = 'SELECT * FROM messages WHERE conversation_idx = ?';
       
       pool.query(sql, [conversationId], (err, rows) => {
-        if(err){
+        if (err) {
           console.log(err);
           reject(err);
-        }else{
+        } else {
           resolve(rows);
         }
       });
@@ -197,8 +212,9 @@ exports.sendMessage = (messageData) => {
           console.log(err);
           reject(err);
         }else{
-          if (rows.affectedRows === 1) { // 메시지 생성
-            resolve(rows);
+          if (rows.affectedRows === 1) { // 메시지 생성 
+            resolve({receiverIdx: receiver_idx,
+            insertId: rows.insertId});
           } else {
             const _err = new Error("Send Message Custom error");
             reject(_err);
@@ -207,7 +223,7 @@ exports.sendMessage = (messageData) => {
       })
     });
   })
-  .then((rows) => {
+  .then((data) => {
     // 마지막으로 해당 conversation 업데이트
     return new Promise((resolve, reject) => {
       const sql = 
@@ -219,7 +235,7 @@ exports.sendMessage = (messageData) => {
           reject(err);
         }else{
           if (rows.affectedRows === 1) { // conversation 업데이트 완료
-            resolve(rows);
+            resolve(data);
           } else {
             const _err = new Error("Update Conversation Custom error");
             reject(_err);

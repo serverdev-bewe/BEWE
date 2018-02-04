@@ -502,17 +502,22 @@
   background-color: #ECEFF1;
 }
 
-.message-write a{
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  display: inline-block;
-  width: 50px;
-  height: 100%;
-  text-align: center;
-  cursor: pointer;
+.message-write button{
+  position: absolute !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  right: 0px !important;
+  top: 0px !important;
+  display: inline-block !important;
+  background: none !important;
+  width: 50px !important;
+  box-shadow: none !important;
+  height: 100% !important;
+  text-align: center !important;
+  cursor: pointer !important;
 }
-.message-write a span{
+
+.message-write button span{
   font-size: 35px;
   font-weight: lighter;
   line-height: 1.4;

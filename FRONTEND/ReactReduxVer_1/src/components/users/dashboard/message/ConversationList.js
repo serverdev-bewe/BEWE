@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { getConversations } from '../../../../actions/users/MessageActions';
+import { getConversations, getNewMessage, makeNotUpdate } from '../../../../actions/users/MessageActions';
 import Conversation from './Conversation';
 
 class ConversationList extends Component {
@@ -19,6 +19,18 @@ class ConversationList extends Component {
 
   componentWillMount(){
     this.props.getConversations();    
+  }
+
+  componentWillUpdate(nextProps){
+    if(this.props.newMessage !== nextProps.newMessage || nextProps.update){
+      this.props.getConversations();
+    }
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.update){
+      this.props.makeNotUpdate();
+    }
   }
   
   renderConversations(){
@@ -75,7 +87,11 @@ class ConversationList extends Component {
 }
 
 function mapStateToProps(state){
-  return { conversations: state.messages.conversations }
+  return { 
+    conversations: state.messages.conversations,
+    update: state.messages.update, 
+    newMessage: state.app.newMessage 
+  }
 }
 
-export default connect(mapStateToProps, { getConversations })(ConversationList);
+export default connect(mapStateToProps, { getConversations, makeNotUpdate })(ConversationList);

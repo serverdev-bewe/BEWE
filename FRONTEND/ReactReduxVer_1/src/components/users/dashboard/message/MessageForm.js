@@ -1,27 +1,42 @@
 import React, { Component, PropTypes } from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { sendMessage } from '../../../../actions/users/MessageActions';
+import { bindActionCreators } from 'redux';
+import { sendMessage, makeUpdate } from '../../../../actions/users/MessageActions';
 import Message from './Message';
+
+const renderInput = field =>
+  <div>
+    <input {...field.input} type={field.type} className="message-text" />
+    {field.meta.touched &&
+     field.meta.error &&
+     <span className="error">{field.meta.error}</span>}
+  </div>
 
 class MessageForm extends Component{
   constructor(props){
     super(props);
   }
   
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.reRender) {
+      this.props.reset('MessageNewForm');
+    }
+  }
+
   onSubmit(values){
-    console.log(values);
     this.props.sendMessage(values, this.props.conversationIdx);
+    this.props.hasToUpdate();
+    this.props.makeUpdate();
+    this.props.reset('MessageNewForm');
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, submitMyForm } = this.props;
     
     return(
       <form className="message-write" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        <Field name="contents" component={contents => 
-          <input type="text" {...contents.input} className="message-text" />
-        }/>
+        <Field name="contents" component={renderInput}/>
         
         <button type="submit"><span className="ion-ios-paperplane-outline"></span></button>
       </form>
@@ -39,7 +54,7 @@ function validate(values){
   return errors;
 }
 
-MessageForm = connect(null, { sendMessage })(MessageForm);
+MessageForm = connect(null, { sendMessage, makeUpdate, reset })(MessageForm);
 
 export default reduxForm({
   form: 'MessageNewForm'
