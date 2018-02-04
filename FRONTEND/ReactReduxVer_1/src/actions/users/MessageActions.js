@@ -36,9 +36,8 @@ export function sendMessage(values, conversationIdx){
 
     // axios.post(`${ROOT_URL}/${conversationIdx}`, values, {headers: {'token' : token}})
     
-    console.log('[MessageActions] sendMessage1');
-    state.app.socket.emit('send-message', conversationIdx, userIdx, values.contents);
-    console.log('[MessageActions] sendMessage2');
+    state.app.socket.emit('send_message', conversationIdx, userIdx, values.contents);
+    
     dispatch({
       type: SEND_MESSAGE
     });

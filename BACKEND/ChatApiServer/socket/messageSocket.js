@@ -24,19 +24,16 @@ exports.initialize = () => {
   io = require('socket.io')(server, { origins: '*:*'});
   
   io.on('connection', (socket) => { // 웹 소켓 연결
-    socket.on('storeClientInfo', function (data) {
+    socket.on('store_client_info', function (data) {
       var clientInfo = new Object();
       clientInfo.customId = data.customId;
       clientInfo.clientId = socket.id;
       clients.push(clientInfo);
-      console.log('Socket 연결이 시작되었습니다!', data.customId);
     }); 
 
-    socket.on('send-message', async (conversationIdx, userIdx, contents) => {
-      console.log('server-received-send-message : ', contents);
-
+    socket.on('send_message', async (conversationIdx, userIdx, contents) => {
       const data = await messageCtrl.sendMessage(conversationIdx, userIdx, contents);
-      socket.to(getClientId(data.receiverIdx)).emit('new-message', data.insertId);
+      socket.to(getClientId(data.receiverIdx)).emit('new_message', data.insertId);
     });
 
     socket.on('enter conversation', (conversation) => {

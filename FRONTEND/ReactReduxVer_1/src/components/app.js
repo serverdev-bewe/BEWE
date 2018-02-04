@@ -77,7 +77,7 @@ class App extends Component {
   }
 
   componentDidUpdate(){
-    this.props.socket.on('new-message', (data) => {
+    this.props.socket.on('new_message', (data) => {
       this.props.getNewMessage(data);
     });
   }

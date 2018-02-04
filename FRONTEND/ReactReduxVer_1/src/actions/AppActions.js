@@ -37,8 +37,7 @@ export function setSocketConnected() {
     socket = io('http://localhost:4002', {transports: ['websocket', 'polling', 'flashsocket']});
 
     socket.on('connect', function() {
-      socket.emit('storeClientInfo', { customId: parseInt(JSON.parse(localStorage.getItem('profile')).idx) });
-      console.log('[Appactions] socket-connected : ', parseInt(JSON.parse(localStorage.getItem('profile')).idx));
+      socket.emit('store_client_info', { customId: parseInt(JSON.parse(localStorage.getItem('profile')).idx) });
     });
   }
   
