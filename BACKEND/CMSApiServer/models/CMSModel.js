@@ -141,12 +141,11 @@ exports.putData = (inputData) => {
               context.error = err;
               reject(context);
             } else {
-              console.log(1);
               if (rows.affectedRows === 1 ){
                 context.result = rows;
                 resolve(context);
               } else {
-                context.error = new Error("GAME EDIT CUSTOM ERROR1")
+                context.error = new Error("GAME EDIT CUSTOM ERROR1");
                 reject(context);
               }
             }
@@ -157,7 +156,7 @@ exports.putData = (inputData) => {
     //     return new Promise((resolve, reject) => {
     //       let images = [];
     //       for(let i = 0; i<inputData.images.length;i++) {
-    //         images[i] = [context.result.insertId];
+    //         images[i] = [inputData.gameIdx];
     //         images[i].push(inputData.images[i])
     //       }
     //       const sql =
@@ -168,8 +167,7 @@ exports.putData = (inputData) => {
     //         LIMIT ?;
     //         `;
     //       context.conn.query(sql, [
-    //         images, inputData.gameIdx, images.length
-    //       ], (err, rows) => {
+    //          images,images.length], (err, rows) => {
     //         if (err){
     //           context.error = err;
     //           reject(context);
