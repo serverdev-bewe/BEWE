@@ -13,7 +13,7 @@ module.exports = (router) => {
 
   // USER
   router.route('/users/register')
-    .post(userCtrl.register);
+    .post(imageCtrl.uploadSingle, userCtrl.register);
   router.route('/users/check')
     .post(userCtrl.check);
 
