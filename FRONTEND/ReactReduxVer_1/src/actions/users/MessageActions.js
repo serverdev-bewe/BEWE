@@ -10,7 +10,6 @@ export const MESSAGE_MAKE_NOT_UPDATE = 'MESSAGE_MAKE_NOT_UPDATE';
 
 const ROOT_URL = 'http://localhost:4000/api/messages';
 const token = JSON.parse(localStorage.getItem('token')); 
-const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
     
 export function getConversations(){
   const request = axios.get(`${ROOT_URL}`, {headers: {'token' : token}});
@@ -31,6 +30,8 @@ export function getMessages(conversationIdx){
 }
 
 export function sendMessage(values, conversationIdx){
+  const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
+  
   return (dispatch, getState) => {
     const state = getState();
 
