@@ -1,6 +1,6 @@
 import { FETCH_NOTIES_POLLING, FETCH_NEW_MESSAGE, SET_SOCKET_CONNECTED, 
   SET_WEB_NOTIFY_ENABLE, SET_WEB_NOTIFY_UNABLE,
-  GET_NEW_MESSAGE_COUNT, GET_NEW_NOTI_COUNT } 
+  GET_NEW_MESSAGE_COUNT, GET_NEW_NOTI_COUNT, GET_NEW_MESSAGE } 
   from '../actions/AppActions.js';
 
 let grant = '';
@@ -17,7 +17,8 @@ const initialState = {
   newMessageCount: 0,
   grant: grant,
   socket: null,
-  newMessage: {}
+  newMessage: {},
+  popUp: false
 };
 
 export default function data (state = initialState, action) {  

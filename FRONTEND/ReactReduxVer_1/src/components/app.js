@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 
 import { BrowserRouter, Route, Switch, IndexRoute } from "react-router-dom";
 import { connect } from 'react-redux';
-
 import reducers from '../reducers';
+import axios from 'axios';
+
 import { dataFetch, getNewMessage, setSocketConnected, 
   setWebNotifyEnable, setWebNotifyUnable, 
   getNewMessageCount, getNewNotiCount } from '../actions/AppActions';
+
 import Header from "./layout/header/Header";
 import Home from "../routes/Home";
 import Login from './users/login/Login';
@@ -21,19 +23,37 @@ import ContentsList from './CMS/ContentsList';
 import ContentsRegister from './CMS/register/ContentsRegister';
 import StoreLists from './store/StoreLists';
 
+const fetchOtherProfile = async (idx) => {  
+  let result = '';
+
+  await axios.get(`http://localhost:3000/api/users/${idx}`, 
+    {headers: {'token' : JSON.parse(localStorage.getItem('token'))}})
+    .then((response) => {result = response});
+    
+  return result;
+}
+
 function mapStateToProps(state) {  
   return {
     newNoti: state.app.newNoti,
-    newMessage: state.app.newMessage,
     newMessageCount: state.app.newMessageCount,
     newNotiCount: state.app.newNotiCount,
     grant: state.app.grant,
-    socket: state.app.socket
+    socket: state.app.socket,
+    popUp: state.app.popUp
   };
 }
 
-class App extends Component {  
-  componentWillReceiveProps(nextProps) {
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: null
+    }
+  }
+
+  async componentWillReceiveProps(nextProps, nextState) {
     if (this.props.newNoti !== nextProps.newNoti) {
       clearTimeout(this.timeout);
       
@@ -55,6 +75,26 @@ class App extends Component {
       }
       
       this.startPoll();
+    }
+
+    if (this.state.data && (this.state.data !== nextState.data)) {
+      const profile = await fetchOtherProfile(this.state.data.senderIdx);
+      
+      if ((window.location.pathname) !== '/users/messages') {
+        let contents = `${profile.data.result.nickname}님으로부터 메시지가 도착했습니다.`;
+        let options = {
+          body: this.state.data.contents,
+          icon: profile.avatar || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
+        }
+        if(this.props.grant){
+          const notification = new Notification(contents, options);
+          notification.onclick = function(event) {
+            event.preventDefault();
+            window.location.replace("/users/messages");
+          }
+          setTimeout(notification.close.bind(notification), 15000); 
+        }
+      }
     }
   }
 
@@ -86,7 +126,11 @@ class App extends Component {
   componentDidUpdate(){
     this.props.socket.on('new_message', (data) => {
       this.props.getNewMessage(data);
-      this.props.getNewMessageCount();
+      this.props.getNewMessageCount(); 
+      
+      this.setState({
+        data: data
+      })
     });
   }
 
