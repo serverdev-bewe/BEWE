@@ -23,19 +23,18 @@ class Dashboard extends Component {
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
-
   render() {
-    let height = this.state.height - 220;
+    let height = this.state.height - 296;
 
     return(
       <div className="container" 
            style={{"backgroundColor": "white", "padding": "0", 
-                   "minHeight": height, "height": "auto"}}>
+                   "minHeight": height, "height": "100%"}}>
         <DashboardLeft />       
         
-        <Fade className="dashboard-right-wrapper">
-          <DashboardRight />
-        </Fade> 
+        <div className="dashboard-right-wrapper">
+          <DashboardRight height={height}/>
+        </div> 
       </div>
     )
   }

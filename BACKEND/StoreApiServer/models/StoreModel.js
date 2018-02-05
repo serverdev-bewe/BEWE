@@ -4,12 +4,39 @@ const mysql = require('mysql');
 const DBConfig = require('./../config/DBConfig');
 const pool = mysql.createPool(DBConfig);
 
-/********
- * 구매 목록 조회
+
+exports.listAll = () => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+      SELECT
+        g.idx,
+        g.title,
+        g.genre,
+        g.description,
+        g.created_at,
+        GROUP_CONCAT(gi.url) AS urls
+      FROM games AS g
+        LEFT JOIN game_images AS gi ON gi.games_idx = g.idx
+      WHERE g.flag = 1
+      `;
+    pool.query(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+};
+
+
+/*********
+ * 유저가 구매한 게임 리스트 조회
  * @param inputData
- * @returns {Promise<any>}
+ * @returns {Promise}
  */
-exports.list = (inputData) => {
+exports.myList = (inputData) => {
   return new Promise((resolve, reject) => {
     const sql =
       `

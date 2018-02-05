@@ -2,20 +2,37 @@
 
 const storeModel = require('../models/StoreModel');
 
-/******
- * 구매 목록 조회
+
+exports.listAll = async(req, res, next) => {
+
+  let result = '';
+
+  try{
+
+    result = await storeModel.listAll();
+  } catch (error) {
+    return next(error);
+  }
+
+  return res.r(result);
+};
+
+
+
+/*******
+ * 유저가 구매한 게임 리스트 조회
  * @param req
  * @param res
  * @param next
- * @returns {Promise<*>}
+ * @returns {Promise.<*>}
  */
-exports.list = async(req, res, next) => {
+exports.myList = async(req, res, next) => {
   let result = '';
   try {
     const inputData = {
       userIdx: req.userIdx,
     };
-    result = await storeModel.list(inputData);
+    result = await storeModel.myList(inputData);
   } catch (error) {
     return next(error);
   }
@@ -39,7 +56,7 @@ exports.purchase = async(req, res, next) => {
   try {
     const inputData = {
       userIdx: req.userIdx,
-      gameIdx: req.body.gameIdx,
+      gameIdx: req.params.idx,
     };
 
     result = await storeModel.purchase(inputData);

@@ -32,7 +32,6 @@ class NotiList extends Component {
 
   renderNoties(){
     return this.props.noties
-      .reverse()
       .slice(0, 15 * this.state.page - 1)
       .map((noti) => {
         if(this.props.type) {
