@@ -16,7 +16,6 @@ exports.register = async(req, res, next) => {
   } else {
     pw = req.body.pw1
   }
-  console.log('req.body: ', req.body);
   let image;
   if (!req.file) { // 이미지가 없는 경우
     image = null;
