@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { default as Fade } from 'react-fade'
+import { HashLoader } from 'react-spinners';
 
 import ConversationList from './ConversationList';
 import MessageList from './MessageList';
@@ -19,9 +20,15 @@ class MessageBoard extends Component {
 
   renderMessageList(){
     if(this.state.conversationIdx === 0) {
-      return(
-        <div>Loading...</div>
-      )
+      return (
+        <div className="dashboard-loader">
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>확인할 메시지를 선택해주세요.</p>
+        </div>
+      );
     } else {
       return(
         <MessageList 

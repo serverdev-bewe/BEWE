@@ -20,6 +20,15 @@ export function getConversations(){
   }
 }
 
+export function getMessage(messageIdx){
+  const request = axios.get(`${ROOT_URL}/${conversationIdx}`, {headers: {'token' : token}});
+  
+  return {
+    type: GET_MESSAGES,
+    payload: request
+  }
+}
+
 export function getMessages(conversationIdx){
   const request = axios.get(`${ROOT_URL}/${conversationIdx}`, {headers: {'token' : token}});
   
