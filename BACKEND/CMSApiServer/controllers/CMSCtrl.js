@@ -26,7 +26,7 @@ exports.register = async(req, res, next) => {
     };
 
     result = await cmsModel.register(inputData);
-    result.urls = result.urls.split(',')
+    // result.urls = result.urls.split(',')
   } catch (error) {
     console.log(error);
     return next(error);

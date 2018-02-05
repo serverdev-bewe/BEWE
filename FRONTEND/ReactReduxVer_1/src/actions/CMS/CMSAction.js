@@ -23,7 +23,12 @@ exports.fetchContents = () => {
 
 
 exports.createContent = (props) => {
-  const request = axios.post(`${ROOT_URL}/register`, props);
+  const request = axios.post(`${ROOT_URL}/register`, props,
+    {
+      headers: {
+        'token': JSON.parse(localStorage.getItem('token'))
+      }
+    });
 
   return {
     type: FETCH_POST,

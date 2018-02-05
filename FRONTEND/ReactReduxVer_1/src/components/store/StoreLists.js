@@ -25,7 +25,6 @@ class StoreLists extends Component{
     })
   }
 
-
   render(){
     return(
       <div>

@@ -1,60 +1,71 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { reduxForm, Fields } from 'redux-form';
+import { createContent } from '../../../actions/CMS/CMSAction';
+
+const renderFields = (fields) => {
+  return (
+    <div>
+      <div>
+        <input {...fields.title.input} type="text" placeholder="title"/>
+        {
+          fields.title.meta.touch && fields.title.meta.error
+          && <span className="error">
+            {fields.title.meta.error}
+            </span>
+        }
+      </div>
+      <div>
+        <input {...fields.genre.input} type="text" placeholder="genre"/>
+        {
+          fields.genre.meta.touch && fields.genre.meta.error
+          && <span className="error">
+            {fields.genre.meta.error}
+            </span>
+        }
+      </div>
+      <div>
+        <input {...fields.description.input} type="text" placeholder="desc"/>
+        {
+          fields.description.meta.touch && fields.description.meta.error
+          && <span className="error">
+            {fields.description.meta.error}
+            </span>
+        }
+      </div>
+      <div>
+        <input {...fields.images} type="file" accept='image/*'/>
+      </div>
+    </div>
+  )
+};
 
 
 class ContentsRegister extends Component{
   constructor(props){
     super(props);
     this.state = {};
-    this.onSubmit = this.onSubmit.bind(this);
   };
 
-
-  onSubmit(e){
-    console.log(123);
-    e.preventDefault();
-
-    const inputData = {
-      title: e.target.title.value,
-    };
-
-    const requestData = {
-      headers: {
-        token: JSON.parse(localStorage.getItem('token'))
-      },
-      body: {
-        inputData
-      }
-    };
-    console.log(requestData.headers.token);
-
-    const ROOT_URL = 'http://127.0.0.1:3003/api';
-    axios.post(`${ROOT_URL}/cms/register`, requestData)
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        alert(error)
-      })
-
-
+  onSubmit(inputData){
+    console.log('inputData: ', inputData);
+    this.props.createContent(inputData)
   }
 
   render(){
-    return(
-      <form onSubmit={this.onSubmit.bind(this)} method="post">
-        <div>
-          <h3>Create a New Game</h3>
-          <p>title: <input type="text" id="title" name="title"/></p>
-          <p>genre: <input type="text"/></p>
-          <p>description: <input type="text"/></p>
-          <p>image: <input type="file"/></p>
-        </div>
+    const { handleSubmit } = this.props;
 
-        <button type="submit" className="btn"> Submit </button>
+    return(
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
+        <Fields names={['title', 'genre', 'description', 'image']} component={renderFields}/>
+        <button type="submit">Submit</button>
       </form>
     );
   }
 }
 
-export default ContentsRegister;
+ContentsRegister = connect(null, { createContent })(ContentsRegister);
+
+export default reduxForm({
+  form: 'ContentsRegisterForm'
+})(ContentsRegister);

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';  
 // import messageValidation from './validation/messageValidation';
 
 import NotiReducer from './users/NotiReducer';
