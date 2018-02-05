@@ -1,6 +1,44 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
-import { createPost } from "../../../actions/CMS/CMSAction";
+import { connect } from 'react-redux';
+import { reduxForm, Fields } from 'redux-form';
+import { createContent } from '../../../actions/CMS/CMSAction';
+
+const renderFields = (fields) => {
+  return (
+    <div>
+      <div>
+        <input {...fields.title.input} type="text" placeholder="title"/>
+        {
+          fields.title.meta.touch && fields.title.meta.error
+          && <span className="error">
+            {fields.title.meta.error}
+            </span>
+        }
+      </div>
+      <div>
+        <input {...fields.genre.input} type="text" placeholder="genre"/>
+        {
+          fields.genre.meta.touch && fields.genre.meta.error
+          && <span className="error">
+            {fields.genre.meta.error}
+            </span>
+        }
+      </div>
+      <div>
+        <input {...fields.description.input} type="text" placeholder="desc"/>
+        {
+          fields.description.meta.touch && fields.description.meta.error
+          && <span className="error">
+            {fields.description.meta.error}
+            </span>
+        }
+      </div>
+      <div>
+        <input {...fields.images} type="file" accept='image/*'/>
+      </div>
+    </div>
+  )
+};
 
 
 class ContentsRegister extends Component{
@@ -9,40 +47,25 @@ class ContentsRegister extends Component{
     this.state = {};
   };
 
-
+  onSubmit(inputData){
+    console.log('inputData: ', inputData);
+    this.props.createContent(inputData)
+  }
 
   render(){
-    const { fields: {title, genre, description } } = this.props;
-    return(
-      <form action="">
-        <div>
-          <h3>Create a New Game</h3>
-          <label htmlFor="">Title</label>
-          <input type="text" className="form-control" {...title}/>
-        </div>
+    const { handleSubmit } = this.props;
 
-        <button type="submit" className="btn"> 등록 </button>
+    return(
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
+        <Fields names={['title', 'genre', 'description', 'image']} component={renderFields}/>
+        <button type="submit">Submit</button>
       </form>
     );
   }
 }
 
-function validate(values){
-  const errors = {};
-  if(!values.title){
-    errors.title = 'Enter a title';
-  }
-  if(!values.genre){
-    errors.genre = 'Enter a genre';
-  }
-  if (!values.description){
-    errors.description = 'Enter a description';
-  }
-}
+ContentsRegister = connect(null, { createContent })(ContentsRegister);
 
 export default reduxForm({
-  form: 'ContentsCreateForm',
-  fields: ['title', 'genre', 'description', 'image'],
-  validate
-}, null, { createPost })(ContentsRegister);
-
+  form: 'ContentsRegisterForm'
+})(ContentsRegister);

@@ -19,6 +19,7 @@ import GameRoomList from './GameRoomList';
 import StartGame from './StartGame';
 import ContentsList from './CMS/ContentsList';
 import ContentsRegister from './CMS/register/ContentsRegister';
+import StoreLists from './store/StoreLists';
 
 function mapStateToProps(state) {  
   return {
@@ -114,9 +115,10 @@ class App extends Component {
 
             <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
             <Route path="/startgame" component={StartGame} />
+            <Route path="/store" component={StoreLists}/>
             <Route render={()=> <h1>Not found</h1>} />
           </Switch>
-          {/* <Footer/> */}
+        {/* <Footer/> */}
         </div>
       </BrowserRouter>
     );
