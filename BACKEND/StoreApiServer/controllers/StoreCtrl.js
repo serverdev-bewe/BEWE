@@ -3,7 +3,6 @@
 const storeModel = require('../models/StoreModel');
 
 
-
 exports.listAll = async(req, res, next) => {
 
   let result = '';
@@ -33,7 +32,7 @@ exports.myList = async(req, res, next) => {
     const inputData = {
       userIdx: req.userIdx,
     };
-    result = await storeModel.list(inputData);
+    result = await storeModel.myList(inputData);
   } catch (error) {
     return next(error);
   }

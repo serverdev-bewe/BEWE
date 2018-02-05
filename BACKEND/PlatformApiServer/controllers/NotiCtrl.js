@@ -17,8 +17,21 @@ module.exports.list = async (req, res, next) => {
     return next(error);
   }
   return res.status(200).json(result);
-  next();
 };
+
+module.exports.new = async (req, res, next) => {
+  let result = '';
+
+  try {
+    const userData = req.userIdx;
+
+    result = await notiModel.new(userData);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+  return res.status(200).json(result.length);
+}
 
 // 알림 생성
 module.exports.create = async (usersIdx, type, info) => {

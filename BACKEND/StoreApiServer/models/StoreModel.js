@@ -41,6 +41,7 @@ exports.myList = (inputData) => {
     const sql =
       `
       SELECT
+        g.idx,
         g.title,
         g.image,
         g.description,
