@@ -12,7 +12,7 @@ const s3 = new aws.S3();
 
 const storageS3 = multerS3({
   s3: s3,
-  bucket: 'bewe/games/images_origin',
+  bucket: 'bewe/games',
   acl: 'public-read',
   key: function (req, file, callback) {
     const fname = Date.now() + '_' + file.originalname;
