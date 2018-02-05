@@ -5,7 +5,9 @@ import { BrowserRouter, Route, Switch, IndexRoute } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import reducers from '../reducers';
-import { dataFetch, getNewMessage, setSocketConnected, setWebNotifyEnable, setWebNotifyUnable } from '../actions/AppActions';
+import { dataFetch, getNewMessage, setSocketConnected, 
+  setWebNotifyEnable, setWebNotifyUnable, 
+  getNewMessageCount, getNewNotiCount } from '../actions/AppActions';
 import Header from "./layout/header/Header";
 import Home from "../routes/Home";
 import Login from './users/login/Login';
@@ -22,6 +24,8 @@ function mapStateToProps(state) {
   return {
     newNoti: state.app.newNoti,
     newMessage: state.app.newMessage,
+    newMessageCount: state.app.newMessageCount,
+    newNotiCount: state.app.newNotiCount,
     grant: state.app.grant,
     socket: state.app.socket
   };
@@ -57,6 +61,8 @@ class App extends Component {
   componentWillMount() {
     this.props.dataFetch();
     this.props.setSocketConnected();
+    this.props.getNewMessageCount();
+    this.props.getNewNotiCount();
     
     if (!("Notification" in window)) {
       alert("This browser does not support system notifications");
@@ -79,6 +85,7 @@ class App extends Component {
   componentDidUpdate(){
     this.props.socket.on('new_message', (data) => {
       this.props.getNewMessage(data);
+      this.props.getNewMessageCount();
     });
   }
 
@@ -88,35 +95,35 @@ class App extends Component {
   }
 
   render() {
-    console.log('[App.js] render : ', this.props.newMessage);
     return (
       <BrowserRouter >
         <div>
-          <Header  />        
+          <Header newMessageCount={this.props.newMessageCount} newNotiCount={this.props.newNotiCount}/>        
           <div className="up">
-            </div>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/mygame" component={MyGame} />
+          </div>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/mygame" component={MyGame} />
 
-              <Route path="/gameRoomList" component={GameRoomList} />
-              <Route path="/users" component={Dashboard} />
-              <Route path="/contents/new" component={ContentsRegister} />
-              <Route path="/contents" component={ContentsList} />
+            <Route path="/gameRoomList" component={GameRoomList} />
+            <Route path="/users" component={Dashboard} />
+            <Route path="/contents/new" component={ContentsRegister} />
+            <Route path="/contents" component={ContentsList} />
 
-
-              <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
-              <Route path="/startgame" component={StartGame} />
-              <Route render={()=> <h1>Not found</h1>} />
-            </Switch>
-          <Footer/>
+            <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
+            <Route path="/startgame" component={StartGame} />
+            <Route render={()=> <h1>Not found</h1>} />
+          </Switch>
+          {/* <Footer/> */}
         </div>
-        </BrowserRouter>
+      </BrowserRouter>
     );
   }  
 }
 
 export default connect(mapStateToProps, 
-  { dataFetch, getNewMessage, setSocketConnected, setWebNotifyEnable, setWebNotifyUnable })(App);
+  { dataFetch, getNewMessage, setSocketConnected, 
+    setWebNotifyEnable, setWebNotifyUnable, 
+    getNewMessageCount, getNewNotiCount })(App);
