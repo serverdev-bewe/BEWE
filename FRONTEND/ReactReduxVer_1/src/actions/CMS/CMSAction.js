@@ -8,7 +8,7 @@ export const FETCH_POST = 'FETCH_POST';
 const ROOT_URL = 'http://127.0.0.1:3003/api/cms';
 
 
-export function fetchContents() {
+exports.fetchContents = () => {
   const request = axios.get(ROOT_URL, {
     headers: {
       'token': JSON.parse(localStorage.getItem('token'))
@@ -19,14 +19,14 @@ export function fetchContents() {
     type: FETCH_CONTENTS,
     payload: request
   }
-}
+};
 
 
-export function createPost(props) {
+exports.createContent = (props) => {
   const request = axios.post(`${ROOT_URL}/register`, props);
 
   return {
     type: FETCH_POST,
     payload: request
   }
-}
+};

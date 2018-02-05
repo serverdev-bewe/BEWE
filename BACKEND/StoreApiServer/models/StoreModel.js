@@ -4,11 +4,17 @@ const mysql = require('mysql');
 const DBConfig = require('./../config/DBConfig');
 const pool = mysql.createPool(DBConfig);
 
+/********
+ * 구매 목록 조회
+ * @param inputData
+ * @returns {Promise<any>}
+ */
 exports.list = (inputData) => {
   return new Promise((resolve, reject) => {
     const sql =
       `
       SELECT
+        g.idx,
         g.title,
         g.image,
         g.description,

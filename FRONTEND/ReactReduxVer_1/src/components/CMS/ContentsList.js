@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchContents } from "../../actions/CMS/CMSAction";
-import { NavLink, Route } from 'react-router-dom';
 
 class ContentsList extends Component{
   constructor(props){
@@ -11,7 +10,6 @@ class ContentsList extends Component{
 
   componentWillMount(){
     this.props.fetchContents();
-
   }
 
 
@@ -31,11 +29,8 @@ class ContentsList extends Component{
   render(){
     return(
       <div>
-        <div>
-
-        </div>
-
         {this.renderContents()}
+
       </div>
     );
   }

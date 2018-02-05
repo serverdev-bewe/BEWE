@@ -1,48 +1,60 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
-import { createPost } from "../../../actions/CMS/CMSAction";
+import axios from 'axios';
 
 
 class ContentsRegister extends Component{
   constructor(props){
     super(props);
     this.state = {};
+    this.onSubmit = this.onSubmit.bind(this);
   };
 
 
+  onSubmit(e){
+    console.log(123);
+    e.preventDefault();
+
+    const inputData = {
+      title: e.target.title.value,
+    };
+
+    const requestData = {
+      headers: {
+        token: JSON.parse(localStorage.getItem('token'))
+      },
+      body: {
+        inputData
+      }
+    };
+    console.log(requestData.headers.token);
+
+    const ROOT_URL = 'http://127.0.0.1:3003/api';
+    axios.post(`${ROOT_URL}/cms/register`, requestData)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        alert(error)
+      })
+
+
+  }
 
   render(){
-    const { fields: {title, genre, description } } = this.props;
     return(
-      <form action="">
+      <form onSubmit={this.onSubmit.bind(this)} method="post">
         <div>
           <h3>Create a New Game</h3>
-          <label htmlFor="">Title</label>
-          <input type="text" className="form-control" {...title}/>
+          <p>title: <input type="text" id="title" name="title"/></p>
+          <p>genre: <input type="text"/></p>
+          <p>description: <input type="text"/></p>
+          <p>image: <input type="file"/></p>
         </div>
 
-        <button type="submit" className="btn"> 등록 </button>
+        <button type="submit" className="btn"> Submit </button>
       </form>
     );
   }
 }
 
-function validate(values){
-  const errors = {};
-  if(!values.title){
-    errors.title = 'Enter a title';
-  }
-  if(!values.genre){
-    errors.genre = 'Enter a genre';
-  }
-  if (!values.description){
-    errors.description = 'Enter a description';
-  }
-}
-
-export default reduxForm({
-  form: 'ContentsCreateForm',
-  fields: ['title', 'genre', 'description', 'image'],
-  validate
-}, null, { createPost })(ContentsRegister);
-
+export default ContentsRegister;
