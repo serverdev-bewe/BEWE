@@ -2,6 +2,8 @@ module.exports = function(server) {
   var io = require('socket.io')(server);
   var rooms = [];
   var readyUsers = [];
+  // let roomReadyCount = 0;
+  // var a = io.of('/')
   io.on('connection', socket => {
     const username = socket.handshake.query.username;
     const usernamea = socket.handshake.query.username;
@@ -38,15 +40,21 @@ module.exports = function(server) {
 
 
     socket.on('chattReady', data=>{
+      // roomReadyCount++;
       readyUsers.push(data.username);
-      // readyUsers = rooms.filter(function(ele){
-      //   return ele 
-      // })
       io.sockets.in(roomIdx).emit('chattReadyOk', {
         readyUsers: readyUsers
-        // readyUsers: data.username
+        // , readyCnt : 1
+      });
+
+      io.sockets.in(roomIdx).emit('chattReadyCnt', {
+        data: 1
       });
     });
+
+    socket.on('gameStart', data=>{
+      console.log(data);
+    })
 
 
     socket.on('disconnect', (data) => {
@@ -74,6 +82,11 @@ module.exports = function(server) {
       });
 
       console.log(`${username} disconnected`);
+
+      // if(roomReadyCount == 0){
+      //   return
+      // }
+      // roomReadyCount--;
     });
   });
 

@@ -5,8 +5,7 @@ import { BrowserRouter, Route, Switch, IndexRoute } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import reducers from '../reducers';
-import { dataFetch, setWebNotifyEnable, setWebNotifyUnable } from '../actions/AppActions';
-
+import { dataFetch, getNewMessage, setSocketConnected, setWebNotifyEnable, setWebNotifyUnable } from '../actions/AppActions';
 import Header from "./layout/header/Header";
 import Home from "../routes/Home";
 import Login from './users/login/Login';
@@ -15,29 +14,33 @@ import Footer from './layout/footer/Footer';
 import MyGame from "./layout/header/MyGame";
 import Dashboard from "./users/dashboard/Dashboard";
 import GameRoomList from './GameRoomList';
-import GameRoomCreate from './GameRoomCreate';
+import StartGame from './StartGame';
 import ContentsList from './CMS/ContentsList';
+import ContentsRegister from './CMS/register/ContentsRegister';
+import StoreLists from './store/StoreLists';
 
 function mapStateToProps(state) {  
   return {
-    new: state.app.new,
-    grant: state.app.grant
+    newNoti: state.app.newNoti,
+    newMessage: state.app.newMessage,
+    grant: state.app.grant,
+    socket: state.app.socket
   };
 }
 
 class App extends Component {  
   componentWillReceiveProps(nextProps) {
-    if (this.props.new !== nextProps.new) {
+    if (this.props.newNoti !== nextProps.newNoti) {
       clearTimeout(this.timeout);
       
-      if(rextProps.new) {
-        nextProps.new.map((noti) => {
+      if(nextProps.newNoti) {
+        nextProps.newNoti.map((noti) => {
           let contents = noti.contents.replace(/<\/?[^>]+(>|$)/g, "");
           let options = {
             icon: noti.image || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
           }
           if(this.props.grant){
-            var notification = new Notification(contents, options);
+            const notification = new Notification(contents, options);
             notification.onclick = function(event) {
               event.preventDefault();
               window.location.replace(noti.url);
@@ -54,6 +57,7 @@ class App extends Component {
   // 앱이 시작될 때 Fetch 해오기 시작
   componentWillMount() {
     this.props.dataFetch();
+    this.props.setSocketConnected();
     
     if (!("Notification" in window)) {
       alert("This browser does not support system notifications");
@@ -66,11 +70,17 @@ class App extends Component {
           this.props.setWebNotifyUnable();
         }
       });
-    }
+    }        
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
+  }
+
+  componentDidUpdate(){
+    this.props.socket.on('new_message', (data) => {
+      this.props.getNewMessage(data);
+    });
   }
 
   // 폴링 시작
@@ -79,9 +89,10 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render : ', this.props.newMessage);
     return (
       <BrowserRouter >
-        <div style={{ "width" : "100%", "height" : "100%"}}>
+        <div>
           <Header  />        
           <div className="up">
             </div>
@@ -90,11 +101,16 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
               <Route path="/mygame" component={MyGame} />
+
               <Route path="/gameRoomList" component={GameRoomList} />
               <Route path="/users" component={Dashboard} />
+              <Route path="/contents/new" component={ContentsRegister} />
+              <Route path="/contents" component={ContentsList} />
 
-              <Route path="/contents" component={ContentsList}/>
 
+              <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
+              <Route path="/startgame" component={StartGame} />
+              <Route path="/store" component={StoreLists}/>
               <Route render={()=> <h1>Not found</h1>} />
             </Switch>
           <Footer/>
@@ -104,4 +120,5 @@ class App extends Component {
   }  
 }
 
-export default connect(mapStateToProps, { dataFetch, setWebNotifyEnable, setWebNotifyUnable })(App);
+export default connect(mapStateToProps, 
+  { dataFetch, getNewMessage, setSocketConnected, setWebNotifyEnable, setWebNotifyUnable })(App);

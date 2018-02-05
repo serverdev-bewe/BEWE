@@ -7,24 +7,33 @@ import {Button } from 'reactstrap';
 import Messages from './Messages';
 import ChatInput from './ChatInput';
 import RoomReadyBar from './RoomReadyBar';
+import PropTypes from 'prop-types';
 
 class ChatApp extends React.Component {
-  constructor(props) {
-    super(props);
+  static contextTypes={
+    router: PropTypes.object
+  }
+  constructor(props, context) {
+    super(props, context);
     this.state = { 
         messages: [],
         socket: {},
         userList: [],
         query : this.props.query,
         readyUsers : [],
-        roomName: this.props.roomName
+        readyCnt : 0,
+        roomName: this.props.roomName,
+        paramsGameNumber: this.props.paramsGameNumber
     };
     this.sendHandler = this.sendHandler.bind(this);
     this.readyHandler = this.readyHandler.bind(this);
     this.exitHandler = this.exitHandler.bind(this);
     this.onReadyBadge = this.onReadyBadge.bind(this);
     // Connect to the server
-    this.socket = io('http://localhost:4000', { query: `username=${props.username}` }).connect();
+    // this.socket = io(`http://localhost:4000/${this.state.paramsGameNumber}`, {
+    this.socket = io(`http://localhost:4000`, {
+      query: `username=${props.username}` 
+    }).connect();
 
     this.socket.emit('joinRoom', {
       username : this.props.username, 
@@ -40,19 +49,28 @@ class ChatApp extends React.Component {
       this.addUsers(data);
     });
 
+    this.socket.on('chattReadyCnt', data=>{
+      this.setState({
+        readyCnt : this.state.readyCnt + 1
+      })
+    })
+
     this.socket.on('chattReadyOk', data=>{
-      this.onReadyBadge(data.readyUsers);
+      this.onReadyBadge(data);
     });
   }
 
-  onReadyBadge(readyUsers){
+  onReadyBadge(data){
     this.setState({
-      readyUsers
+      readyUsers : data.readyUsers
     });
   }
 
   componentWillUnmount(){
     this.socket.disconnect();
+    this.setState({
+      readyCnt : this.state.readyCnt - 1
+    })
   }
     
   sendHandler(message) {
@@ -72,10 +90,6 @@ class ChatApp extends React.Component {
     this.socket.emit('chattReady', {
       username: this.props.username
     });
-    // this.setState({
-    //   readyColorChk : "success",
-    //   readyChk : "준비"
-    // })
   }
   exitHandler(){
     this.socket.disconnect();
@@ -90,16 +104,26 @@ class ChatApp extends React.Component {
     });
   }
   addMessage(message) {
-    // Append the message to the component state
     const messages = this.state.messages;
     messages.push(message);
     this.setState({ messages });
   }
 
   render() {
+    if(this.state.readyCnt == 2){
+      console.log('ready2');
+      {
+        this.socket.emit('gameStart',{
+          userList: this.state.userList,
+          roomSeq: this.state.roomSeq,
+          roomName: this.state.roomName
+        })
+        this.context.router.history.push('/startgame');
+      }
+    }
     return (
       <div className="containerm">
-        <h3>{this.state.roomSeq}. {this.state.roomName}
+        <h3>{this.state.roomSeq}. {this.state.roomName} / {this.state.readyCnt}
         <Button outline color="danger" 
           onClick={this.readyHandler}
         >READY</Button>

@@ -47,7 +47,9 @@
     "react-web-notification": "^0.3.1",
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.0.4",
+    "redux-form": "^7.2.3",
     "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",
     "socket.io-client": "^2.0.4",
     "style-loader": "^0.19.1"
