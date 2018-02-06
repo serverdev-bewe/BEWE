@@ -33,7 +33,6 @@ class ChatApp extends React.Component {
     // this.socket = io(`http://localhost:4000/${this.state.paramsGameNumber}`, {
     this.socket = io(`http://localhost:4000`, {
       query: `username=${props.username}&gameSeq=${props.paramsGameNumber}` 
-
     }).connect();
 
     this.socket.emit('joinRoom', {
