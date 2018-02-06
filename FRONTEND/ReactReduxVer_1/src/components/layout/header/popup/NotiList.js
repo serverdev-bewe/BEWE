@@ -1,4 +1,4 @@
-import '../../users/users.css'
+import '/../style/users.css';
 
 import React, { Component } from 'react';
 
@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
-import { fetchNoties } from '../../../actions/users/NotiActions';
+import { fetchNoties } from 'actions/users/NotiActions';
 import Noti from './Noti';
 
 const fadeDuration = 10;
@@ -51,7 +51,6 @@ class NotiList extends Component {
   }
 
   render() {
-    console.log(this.props.noties);
     if(this.props.noties === undefined) {
       return <div>Loading...</div>
     }

@@ -1,10 +1,10 @@
-import '../../users/users.css';
+import '/../style/users.css';
 
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { getConversations, getNewMessage, makeNotUpdate } from '../../../actions/users/MessageActions';
+import { getConversations, getNewMessage, makeNotUpdate } from 'actions/users/MessageActions';
 import Conversation from './Conversation';
 
 class ConversationList extends Component {

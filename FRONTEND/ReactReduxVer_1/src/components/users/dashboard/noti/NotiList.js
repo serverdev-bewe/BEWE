@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
-import { fetchNoties } from '../../../../actions/users/NotiActions';
+import { fetchNoties } from 'actions/users/NotiActions';
 import Noti from './Noti';
 
 const fadeDuration = 10;

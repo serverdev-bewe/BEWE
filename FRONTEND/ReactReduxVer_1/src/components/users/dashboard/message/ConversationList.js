@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { getConversations, getNewMessage, makeNotUpdate } from '../../../../actions/users/MessageActions';
+import { getConversations, getNewMessage, makeNotUpdate } from 'actions/users/MessageActions';
 import Conversation from './Conversation';
 
 class ConversationList extends Component {

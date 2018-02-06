@@ -9,7 +9,7 @@ const notiCtrl = require('../controllers/NotiCtrl');
 module.exports = (router) => {
 
   router.route('/users/noti')
-    .get(authCtrl.checkSession, authCtrl.auth, notiCtrl.list);
+    .get(authCtrl.auth, authCtrl.auth, notiCtrl.list);
 
   router.route('/users/noti/:idx')
     .get(authCtrl.auth, notiCtrl.check);

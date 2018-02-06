@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import { dataFetch, getNewMessage, setSocketConnected, 
   setWebNotifyEnable, setWebNotifyUnable, 
-  getNewMessageCount, getNewNotiCount } from '../actions/AppActions';
+  getNewMessageCount, getNewNotiCount } from 'actions/AppActions';
 
 import Header from "./layout/header/Header";
 import Home from "../routes/Home";

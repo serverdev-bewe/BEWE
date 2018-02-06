@@ -3,12 +3,10 @@ import { default as Fade } from 'react-fade';
 import { HashLoader } from 'react-spinners';
 import { connect } from 'react-redux';
 
-import { getNewMessageCount } from '../../../../actions/AppActions';
-import { getMessages } from '../../../../actions/users/MessageActions';
+import { getNewMessageCount } from 'actions/AppActions';
+import { getMessages } from 'actions/users/MessageActions';
 import Message from './Message';
 import MessageForm from './MessageForm';
-
-// const fadeDuration = 0.5;
 
 class MessageList extends Component {
   constructor(props){
@@ -39,16 +37,6 @@ class MessageList extends Component {
       this.setState({
         formRender: true
       });
-
-      // setTimeout(() => {
-      //   this.setState({
-      //     fadeOut: false
-      //   })
-      // }, fadeDuration);
-
-      // this.setState({
-      //   fadeOut: true
-      // });
     }    
   }
 
@@ -108,11 +96,7 @@ class MessageList extends Component {
             </span>
           </div>
           <div className="message-list-chat-wrapper">
-            {/* <Fade
-              out={this.state.fadeOut}
-              duration={fadeDuration}> */}
               {this.renderMessages()}
-            {/* </Fade> */}
           </div>
           <MessageForm 
             reRender={this.state.formRender}

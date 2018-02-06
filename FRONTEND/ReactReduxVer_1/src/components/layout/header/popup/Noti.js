@@ -1,11 +1,11 @@
-import '../../users/users.css'
+import '/../style/users.css';
 
 import React, { Component, PropTypes } from 'react';
 import Moment from 'react-moment';
 import Parser from 'html-react-parser';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { checkNoti } from '../../../actions/users/NotiActions';
+import { checkNoti } from 'actions/users/NotiActions';
 
 const icon = (type) => {
   if (type === 'friend') {
