@@ -11,7 +11,7 @@ var path = require('path')
 const app = express();
 const server = http.createServer(app);
 var io = require('./socket/socketService')(server);
-io.adapter(redis({host: '127.0.0.1', port : 6379}));
+// io.adapter(redis({host: '127.0.0.1', port : 6379}));
 // io.of('/').adapter.allRooms((err, rooms) => {
 //     console.log(rooms); // an array containing all rooms (accross every node)
 //   });
