@@ -9,9 +9,6 @@ const resMsg = require('../errors.json');
  *  Register
  ********************/
 exports.register = async(req, res, next) => {
-  // if (!req.body.id || !req.body.pw1 ||!req.body.pw2|| !req.body.nickname ) {
-  //   return res.status(400).end();
-  // }
 
   let pw;
   if (req.body.pw1 !== req.body.pw2) {
@@ -19,7 +16,6 @@ exports.register = async(req, res, next) => {
   } else {
     pw = req.body.pw1
   }
-
   let image;
   if (!req.file) { // 이미지가 없는 경우
     image = null;
@@ -30,7 +26,7 @@ exports.register = async(req, res, next) => {
 
   let result = '';
   try {
-    const configData = config.doCypher(pw, undefined);
+    const configData = config.doCypher(pw);
     const userData = {
       id: req.body.id,
       pw: configData.pw,
@@ -56,7 +52,7 @@ exports.register = async(req, res, next) => {
   }
 
   // success
-  return res.status(201).json(result[0]);
+  return res.r(result[0]);
 
 };
 

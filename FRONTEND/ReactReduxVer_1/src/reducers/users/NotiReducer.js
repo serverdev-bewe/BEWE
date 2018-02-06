@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action){
   switch(action.type){
     case FETCH_NOTIES:
-      return { ...state, all: action.payload.data }
+      return { ...state, all: action.payload.data.reverse() }
 
     case CHECK_NOTI:
       return true;

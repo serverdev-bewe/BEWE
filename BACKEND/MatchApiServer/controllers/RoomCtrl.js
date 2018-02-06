@@ -1,7 +1,7 @@
 'use strict';
 
 // let result = [];
-let gameRooms = [];
+let gameRooms = [[], [], [], [], [], [], [], [], [], [], []];
 
 exports.findSeq = (req,res,next) => {
     let seq = req.params.seq;
@@ -14,7 +14,6 @@ exports.createRoom = (req, res, next) =>{
     let idx = req.body.gameNumber;
     
     console.log(idx);
-    gameRooms[idx] = [];
     gameRooms[idx].push({
         'seq' : idx,
         "adminUser": req.body.adminUser,

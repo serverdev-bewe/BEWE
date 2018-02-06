@@ -3,11 +3,18 @@ module.exports = function(server) {
   var rooms = [];
   var readyUsers = [];
   // let roomReadyCount = 0;
-  // var a = io.of('/')
+  //var a = io.of('/'+i);
+  // a.on('connection', socket => {
+  //   console.log('hello a');
+  // });
+
   io.on('connection', socket => {
     const username = socket.handshake.query.username;
     const usernamea = socket.handshake.query.username;
+    const gameSeq = socket.handshake.query.gameSeq;
     
+    console.log('gameSeq : ' +gameSeq);
+    //gameSeq값을 namespace로 설정해 서버 분리해주면 될 듯
     let roomIdx;
     console.log(`${username} connected`);
 
@@ -40,11 +47,9 @@ module.exports = function(server) {
 
 
     socket.on('chattReady', data=>{
-      // roomReadyCount++;
       readyUsers.push(data.username);
       io.sockets.in(roomIdx).emit('chattReadyOk', {
         readyUsers: readyUsers
-        // , readyCnt : 1
       });
 
       io.sockets.in(roomIdx).emit('chattReadyCnt', {
@@ -82,11 +87,6 @@ module.exports = function(server) {
       });
 
       console.log(`${username} disconnected`);
-
-      // if(roomReadyCount == 0){
-      //   return
-      // }
-      // roomReadyCount--;
     });
   });
 

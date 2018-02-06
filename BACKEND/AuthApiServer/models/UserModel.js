@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient(6379, '52.78.25.56');
 
 /*******************
  *  Register

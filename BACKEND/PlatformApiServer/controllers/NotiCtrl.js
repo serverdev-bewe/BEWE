@@ -1,7 +1,6 @@
 'use strict';
 
 const notiModel = require('../models/NotiModel');
-const io = require('../controllers/SocketCtrl');
 const eventEmitter = require('../controllers/EventCtrl');
 let status = 'DEFAULT';
 
@@ -18,8 +17,21 @@ module.exports.list = async (req, res, next) => {
     return next(error);
   }
   return res.status(200).json(result);
-  next();
 };
+
+module.exports.new = async (req, res, next) => {
+  let result = '';
+
+  try {
+    const userData = req.userIdx;
+
+    result = await notiModel.new(userData);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+  return res.status(200).json(result.length);
+}
 
 // 알림 생성
 module.exports.create = async (usersIdx, type, info) => {
@@ -60,7 +72,9 @@ module.exports.polling = async (req, res, next) => {
   const date = new Date();
   const userData = req.userIdx;
   let result = '';
-
+  
+  console.log(">> LONG POLLING LOOP START");
+  
   while(true){
     try {
       if(status === 'CREATE_NOTIFICATION') {
@@ -72,8 +86,10 @@ module.exports.polling = async (req, res, next) => {
       console.log(error);
       return next(error);
     }   
-    await sleep(1000);
+    await sleep(500);
   }
+  console.log(">> LONG POLLING END");
+  console.log(result);
   return res.status(200).json(result);
 }
 

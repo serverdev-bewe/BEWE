@@ -89,8 +89,6 @@ class GameRoomList extends Component {
         })
     }
     componentDidMount(){
-
-        // console.log(this.state.paramsRoomNumber);
         fetch(`http://localhost:4001/api/roomlist/${this.state.paramsGameNumber}`,{
             method: 'get',
             headers: {
@@ -100,7 +98,6 @@ class GameRoomList extends Component {
               }
         }).then((response)=> response.json())
         .then((responseDate)=>{
-            // console.log(responseDate);
             this.setState({rows : responseDate});
         }).catch((err)=>{
             console.log(err);
@@ -161,7 +158,6 @@ class GameRoomList extends Component {
                     this.context.router.history.push(`/gamegamelist/${this.state.paramsGameNumber}`) 
                 }
                 >리스트 다시 불러오기</Button>
-                //////////////////
         <div >
         <ReactModal 
            isOpen={this.state.showModal}
