@@ -9,11 +9,8 @@ import promise from 'redux-promise';
 
 import App from './components/app';
 import reducers from './reducers';
-// import startSocketConnect from './components/etc/SocketClient';
 
 const createStoreWithMiddleware = applyMiddleware(promise, ReduxThunk)(createStore);
-
-// startSocketConnect(createStoreWithMiddleware);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>

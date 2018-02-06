@@ -1,21 +1,12 @@
-import '../../users.css'
+import '/../style/users.css';
 
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import axios from 'axios';
 
+import { fetchOtherProfile } from 'helper.js';
+
 let otherUserIdx = '';
-const API_URL = 'http://127.0.0.1:3000/api/users';
-
-const fetchOtherProfile = async (idx) => {
-  let result = '';
-
-  await axios.get(`${API_URL}/${idx}`, 
-    {headers: {'token' : JSON.parse(localStorage.getItem('token'))}})
-    .then((response) => {result = response});
-    
-  return result;
-}
 
 class Conversation extends Component {
   constructor(props){
