@@ -1,5 +1,5 @@
 import './Header.css';
-import '../../../../style/style.css'
+import '/../style/style.css';
 
 import React from 'react';
 import {NavLink} from 'react-router-dom';
@@ -24,8 +24,8 @@ import {
   PopoverBody,
   ButtonGroup} from 'reactstrap';
 
-import ConversationList from './ConversationList';
-import NotiList from './NotiList';
+import ConversationList from './popup/ConversationList';
+import NotiList from './popup/NotiList';
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -82,8 +82,8 @@ export default class Header extends React.Component {
         <div className="container">
           <Navbar light expand="md">
             <NavLink to="/" className="top-nav-logo" activeClassName="active">          
-              <img width="13%" src="http://download.seaicons.com/download/i6357/cute-little-factory/breakfast/cute-little-factory-breakfast-coffee-cup.ico"/>
-              <span className="navfont">BeWe</span>
+              <img className="navlogo" src={"/../public/img/logo_ver3.png"}/>
+              <p className="navfont">BeWe</p>
             </NavLink>          
 
             <NavLink to="/" className="top-nav-item">Store</NavLink>

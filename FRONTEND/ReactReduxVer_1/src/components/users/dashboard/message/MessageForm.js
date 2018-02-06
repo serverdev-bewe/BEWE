@@ -2,13 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { sendMessage, makeUpdate } from '../../../../actions/users/MessageActions';
+import { sendMessage, makeUpdate } from 'actions/users/MessageActions';
 import Message from './Message';
 
-const renderInput = field =>
-  <div>
-    <input {...field.input} type={field.type} className="message-text" />
-  </div>
+const renderInput = (field) => {
+  return (
+    <div>
+      <input {...field.input} type={field.type} className="message-text" />
+    </div>
+  )
+}
 
 class MessageForm extends Component{
   constructor(props){

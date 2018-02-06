@@ -5,7 +5,7 @@ import NotiReducer from './users/NotiReducer';
 import AppReducer from './AppReducer';
 import FriendReducer from './users/FriendReducer';
 import UserReducer from './users/UserReducer';
-// import MessageReducer from './users/MessageReducer';
+import MessageReducer from './users/MessageReducer';
 import CMSReducer from './CMS/CMSReducer';
 import StoreReducer from './store/StoreReducer';
 import { reducer as formReducer } from 'redux-form';
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   friends: FriendReducer,
   CMS: CMSReducer,
   store: StoreReducer,
-  // messages: MessageReducer,
+  messages: MessageReducer,
   form: formReducer,
 
 });

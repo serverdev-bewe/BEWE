@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { default as Fade } from 'react-fade'
 
 import { connect } from 'react-redux';
-import { fetchMyProfile } from '../../../../actions/users/UserActions';
+import { fetchMyProfile } from 'actions/users/UserActions';
 
 import ProfileAvatar from './ProfileAvatar';
 import Profile from './Profile';

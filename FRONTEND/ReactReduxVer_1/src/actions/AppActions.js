@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 
 export const FETCH_NOTIES_POLLING = 'FETCH_NOTIES_POLLING';
 export const FETCH_NEW_MESSAGE = 'FETCH_NEW_MESSAGE';
+export const GET_NEW_MESSAGE = 'GET_NEW_MESSAGE';
 export const GET_NEW_MESSAGE_COUNT = 'GET_NEW_MESSAGE_COUNT';
 export const GET_NEW_NOTI_COUNT = 'GET_NEW_NOTI_COUNT';
 export const SET_WEB_NOTIFY_ENABLE = 'SET_WEB_NOTIFY_ENABLE';

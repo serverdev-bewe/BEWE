@@ -20,15 +20,25 @@
 }
 
 .top-nav-logo{
+    position: relative;
     display: block;
-    width: 100px !important;
+    width: 130px !important;
 }
 
 .navfont{
+    position: absolute;
+    display: inline-block;
     font-family: 'Ubuntu', sans-serif;
     color: #61DAFB;
     font-weight: 700;
-    font-size: 20px;  
+    font-size: 23px;  
+    left: 43px;
+}
+
+.navlogo{
+    width: 35px;
+    height: 35px;
+    display: inline-block;
 }
 
 .top-nav-logo:hover {
