@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
-import { fetchNoties } from '../../../../actions/users/NotiActions';
+import { fetchNoties } from 'actions/users/NotiActions';
 import Noti from './Noti';
 
 const fadeDuration = 10;
@@ -32,7 +32,6 @@ class NotiList extends Component {
 
   renderNoties(){
     return this.props.noties
-      .reverse()
       .slice(0, 15 * this.state.page - 1)
       .map((noti) => {
         if(this.props.type) {

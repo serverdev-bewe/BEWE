@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Slider from '../body/Slider';
-import BodyComponent from '../body/BodyComponent';
+import Slider from 'components/layout/body/Slider';
+import BodyComponent from 'components/layout/body/BodyComponent';
 
 class Home extends Component {
     render() {

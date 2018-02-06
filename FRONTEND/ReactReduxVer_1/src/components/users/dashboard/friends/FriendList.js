@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { fetchFriends } from '../../../../actions/users/FriendActions';
+import { fetchFriends } from 'actions/users/FriendActions';
 import Friend from './Friend';
 
 class FriendList extends Component {

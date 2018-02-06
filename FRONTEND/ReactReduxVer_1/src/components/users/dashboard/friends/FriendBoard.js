@@ -34,7 +34,7 @@ export default class FriendBoard extends Component {
  
   render() {
     return (      
-      <div style={{"height":"100%", "padding": "30px"}}>
+      <div className="dashboard-right-contents">
         <Fade
           out={this.state.fadeOut}
           duration={fadeDuration}

@@ -1,13 +1,17 @@
-import { FETCH_PROFILE } from '../../actions/users/UserActions';
+import { FETCH_MY_PROFILE, FETCH_OTHER_PROFILE } from '../../actions/users/UserActions';
 
 const INITIAL_STATE = {
-  profile: ''
+  profile: {},
+  my_profile: ''
 };
 
 export default function(state = INITIAL_STATE, action){
   switch(action.type){
-    case FETCH_PROFILE:
-      return { profile: action.payload.data }
+    case FETCH_OTHER_PROFILE:
+      return { ...state, profile: action.payload.data.result }
+    
+    case FETCH_MY_PROFILE:
+      return { my_profile: action.payload.data }
       
     default:
       return state;

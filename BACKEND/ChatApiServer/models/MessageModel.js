@@ -8,18 +8,68 @@ const pool = mysql.createPool(DBConfig);
 // 전체 대화방 리스트
 exports.listConversation = (userData) => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM conversations WHERE users_idx_1 = ? OR users_idx_2 = ?';
+    const sql = 
+      `SELECT * FROM conversations 
+        WHERE users_idx_1 = ? OR users_idx_2 = ? 
+        ORDER BY updated_at DESC`;
 
     pool.query(sql, [userData, userData], (err, rows) => {
-      if(err){
+      if (err) {
         console.log(err);
         reject(err);
-      }else{
+      } else {
         resolve(rows);
       }
     });
   });
 };
+
+exports.new = (userIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT idx FROM messages 
+                  WHERE receiver_idx = ? AND flag = 0`;
+    
+    pool.query(sql, [userIdx], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });  
+};
+
+exports.newFromConversation = (userIdx, conversationIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT idx FROM messages 
+                  WHERE receiver_idx = ? AND flag = 0 AND conversation_idx = ?`;
+    
+    pool.query(sql, [userIdx, conversationIdx], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });  
+};
+
+exports.getNewMessage = (messageIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM messages WHERE idx = ?';
+
+    pool.query(sql, [messageIdx], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
 
 // 대화방 내 채팅 리스트
 exports.getConversation = (userData, conversationId) => {
@@ -27,10 +77,10 @@ exports.getConversation = (userData, conversationId) => {
     const sql = 'SELECT * FROM conversations WHERE idx = ?';
     
     pool.query(sql, [conversationId], (err, rows) => {
-      if(err){
+      if (err) {
         console.log(err);
         reject(err);
-      }else{
+      } else {
         if (rows.length === 1 &&
            (rows[0].users_idx_1 === userData ||
             rows[0].users_idx_2 === userData)) {
@@ -43,13 +93,33 @@ exports.getConversation = (userData, conversationId) => {
   })
   .then((conversationId) => {
     return new Promise((resolve, reject) => {
+      const sql = `UPDATE messages
+                      SET flag = 1 
+                    WHERE conversation_idx = ? AND receiver_idx = ?`;
+      
+      pool.query(sql, [conversationId, userData], (err, rows) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else {
+          if (rows.affectedRows > 0) {
+            resolve(conversationId);
+          } else {
+            reject(500);
+          }
+        }
+      });
+    });
+  })
+  .then((conversationId) => {
+    return new Promise((resolve, reject) => {
       const sql = 'SELECT * FROM messages WHERE conversation_idx = ?';
       
       pool.query(sql, [conversationId], (err, rows) => {
-        if(err){
+        if (err) {
           console.log(err);
           reject(err);
-        }else{
+        } else {
           resolve(rows);
         }
       });
@@ -74,6 +144,7 @@ exports.openConversation = (userData, receiverData) => {
             FROM conversations 
            WHERE (users_idx_1 = ? AND users_idx_2 = ?) OR (users_idx_1 = ? AND users_idx_2 = ?)
           `;
+
         context.conn.query(sql, [userData, receiverData, receiverData, userData], (err, rows) => {
           if (err) {
             console.log(err);
@@ -87,10 +158,7 @@ exports.openConversation = (userData, receiverData) => {
     })
     .then((context) => {
       return new Promise((resolve, reject) => {
-        if (context.result !== ''){ // 이미 대화방이 있을 경우 생성하지 않는다.
-          context.result.insertId = JSON.parse(JSON.stringify(context.result))[0].idx;
-          resolve(context);
-        } else {
+        if (context.result.length === 0) {
           console.log("새 대화방 생성");
           const last_message = "이제 Messager에서 친구와 쪽지를 주고 받을 수 있습니다!";
           const sql = 
@@ -101,6 +169,8 @@ exports.openConversation = (userData, receiverData) => {
               reject(err);
             }else{
               if (rows.affectedRows === 1) { // 대화방 생성
+                context.flag = 1;
+                context.msg = last_message;
                 context.result = rows;
                 resolve(context);
               } else {
@@ -109,8 +179,36 @@ exports.openConversation = (userData, receiverData) => {
               }
             }
           });
+        } else { // 이미 대화방이 있을 경우 생성하지 않는다.
+          context.flag = 0;
+          context.result.insertId = JSON.parse(JSON.stringify(context.result))[0].idx;
+          resolve(context);
         }
       });         
+    })
+    .then((context) => {
+      return new Promise((resolve, reject) => {
+        if(context.flag === 1) {
+          const sql = 
+              'INSERT INTO messages (contents, sender_idx, receiver_idx, conversation_idx) VALUES (?, ?, ?, ?)';
+            context.conn.query(sql, [context.msg, userData, receiverData, context.result.insertId], (err, rows) => {
+              if(err){
+                console.log(err);
+                reject(err);
+              }else{
+                console.dir(context);
+                if (rows.affectedRows === 1) { // 메시지 생성
+                  resolve(context);
+                } else {
+                  context.error = new Error("Create Conversation Custom Error 1");
+                  reject(context);
+                }
+              }
+            });
+          } else if(context.flag === 0) {
+            resolve(context);
+          }
+        });
     })
     .then(transactionWrapper.commitTransaction)
     .then((context) => {
@@ -166,8 +264,9 @@ exports.sendMessage = (messageData) => {
           console.log(err);
           reject(err);
         }else{
-          if (rows.affectedRows === 1) { // 메시지 생성
-            resolve(rows);
+          if (rows.affectedRows === 1) { // 메시지 생성 
+            resolve({receiverIdx: receiver_idx,
+            insertId: rows.insertId});
           } else {
             const _err = new Error("Send Message Custom error");
             reject(_err);
@@ -176,7 +275,7 @@ exports.sendMessage = (messageData) => {
       })
     });
   })
-  .then((rows) => {
+  .then((data) => {
     // 마지막으로 해당 conversation 업데이트
     return new Promise((resolve, reject) => {
       const sql = 
@@ -188,7 +287,7 @@ exports.sendMessage = (messageData) => {
           reject(err);
         }else{
           if (rows.affectedRows === 1) { // conversation 업데이트 완료
-            resolve(rows);
+            resolve(data);
           } else {
             const _err = new Error("Update Conversation Custom error");
             reject(_err);

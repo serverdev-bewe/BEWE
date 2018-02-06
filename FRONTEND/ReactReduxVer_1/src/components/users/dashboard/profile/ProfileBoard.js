@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { default as Fade } from 'react-fade'
 
 import { connect } from 'react-redux';
-import { fetchProfile } from '../../../../actions/users/UserActions';
+import { fetchMyProfile } from 'actions/users/UserActions';
 
 import ProfileAvatar from './ProfileAvatar';
 import Profile from './Profile';
@@ -23,7 +23,7 @@ class ProfileBoard extends Component{
   }
 
   componentWillMount(){
-    this.props.fetchProfile();    
+    this.props.fetchMyProfile();    
   }
 
   handleButtonChange(value) {
@@ -42,7 +42,7 @@ class ProfileBoard extends Component{
 
   render(){
     return(
-      <div style={{"height":"100%", "padding": "30px"}}>
+      <div className="dashboard-right-contents">
         <Fade duration={fadeDuration}>
           <div className="tab-slider-nav">
             <ul className="tab-slider-tabs">
@@ -58,7 +58,7 @@ class ProfileBoard extends Component{
 }
 
 function mapStateToProps(state){
-  return { profile: state.user.profile }
+  return { profile: state.user.my_profile }
 }
 
-export default connect(mapStateToProps, { fetchProfile })(ProfileBoard);
+export default connect(mapStateToProps, { fetchMyProfile })(ProfileBoard);
