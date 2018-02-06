@@ -119,7 +119,6 @@ class GameRoomList extends Component {
     
     render() {
         // console.log(this.state.paramsRoomNumber);
-        
         const mapToComponents = (data)=>{
             data = data.filter(
                 (contact)=>{
