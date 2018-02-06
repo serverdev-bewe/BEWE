@@ -1,3 +1,5 @@
+import '/../style/users.css';
+
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
@@ -32,7 +34,7 @@ class NotiList extends Component {
 
   renderNoties(){
     return this.props.noties
-      .slice(0, 15 * this.state.page - 1)
+      .slice(0, 10)
       .map((noti) => {
         if(this.props.type) {
           return (         

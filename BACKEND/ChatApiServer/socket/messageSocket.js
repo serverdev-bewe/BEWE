@@ -33,19 +33,13 @@ exports.initialize = () => {
 
     socket.on('send_message', async (conversationIdx, userIdx, contents) => {
       const data = await messageCtrl.sendMessage(conversationIdx, userIdx, contents);
-      socket.to(getClientId(data.receiverIdx)).emit('new_message', data.insertId);
-    });
+      socket.to(getClientId(data.receiverIdx)).emit('new_message', 
+      {
 
-    socket.on('enter conversation', (conversation) => {
-      socket.join(conversation);
-    });
-  
-    socket.on('leave conversation', (conversation) => {
-      socket.leave(conversation);
-    });
-  
-    socket.on('new message', (conversation) => {
-      io.sockets.in(conversation).emit('refresh messages', conversation);
+        messageIdx: data.insertId,
+        senderIdx: userIdx,
+        contents: contents
+      });
     });
   
     socket.on('disconnect', function (data) {
