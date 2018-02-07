@@ -4,7 +4,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+const events = require('events');
 const app = express();
 
 if (process.env.NODE_ENV !== 'test') {
@@ -28,6 +28,8 @@ app.use((req, res, next) => {
   };
   next();
 });
+
+global.eventEmitter = new events.EventEmitter();
 
 require('./routes')(app);
 

@@ -42,28 +42,23 @@ class App extends Component {
       data: null
     }
   }
-
+  
   async componentWillReceiveProps(nextProps, nextState) {
-    if (this.props.newNoti !== nextProps.newNoti) {
+    if (this.props.newNoti !== nextProps.newNoti && nextProps.newNoti) {
       clearTimeout(this.timeout);
-      
-      if(nextProps.newNoti) {
-        nextProps.newNoti.map((noti) => {
-          let contents = noti.contents.replace(/<\/?[^>]+(>|$)/g, "");
-          let options = {
-            icon: noti.image || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
-          }
-          if(this.props.grant){
-            const notification = new Notification(contents, options);
-            notification.onclick = function(event) {
-              event.preventDefault();
-              window.location.replace(noti.url);
-            }
-          setTimeout(notification.close.bind(notification), 15000); 
-          }
-        });
+      let contents = nextProps.newNoti.contents.replace(/<\/?[^>]+(>|$)/g, "");
+      let options = {
+        icon: nextProps.newNoti.image || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
       }
-      
+      if(this.props.grant){
+        const notification = new Notification(contents, options);
+        notification.onclick = function(event) {
+          event.preventDefault();
+          window.location.replace(nextProps.newNoti.url);
+          notification.close.bind(notification);
+        }
+        setTimeout(notification.close.bind(notification), 15000);       
+      }      
       this.startPoll();
     }
 
@@ -106,7 +101,7 @@ class App extends Component {
           this.props.setWebNotifyUnable();
         }
       });
-    }        
+    }          
   }
 
   componentWillUnmount() {
@@ -126,7 +121,7 @@ class App extends Component {
 
   // 폴링 시작
   startPoll() {
-    this.timeout = setTimeout(() => this.props.dataFetch(), 1000);
+    this.timeout = setTimeout(() => this.props.dataFetch(), 100);
   }
 
   render() {
