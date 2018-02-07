@@ -1,10 +1,9 @@
-var path = require('path')
-    ,cors = require('cors')
-    ,http = require('http')
-    ,express = require('express')
-    ,bodyParser = require('body-parser')
-    ,room = require('./socket/room')
-    ;
+const path = require('path');
+const cors = require('cors');
+const http = require('http');
+const express = require('express');
+const bodyParser = require('body-parser');
+const room = require('./socket/room');
 
 // setup server
 const app = express();
@@ -18,9 +17,6 @@ app.use('/', express.static(__dirname + './public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
-app.options('*', cors());
-
-require('./socket/messageSocket').initialize();
 
 // app.get('/api/room/:seq', room.index);
 
@@ -34,6 +30,8 @@ app.use((req, res, next) => {
   };
   next();
 });
+
+require('./socket/messageSocket').initialize();
 
 require('./routes')(app);
 
