@@ -49,23 +49,32 @@ module.exports.create = async (usersIdx, type, info) => {
     return next(error);
   }
   
-  const eventName = 'wait_new_noti_' + usersIdx;
-  const keyName = 'new_noti_' + usersIdx;
-  client.hexists(eventName, 'users_idx', (err, reply) => {
-    let image = '';
-    if (result.image === null) {
-      image = 'null'
-    } else {
-      image = result.image;
-    }
-    client.hmset(keyName, {
-      'users_idx': usersIdx,
-      'contents': result.contents,
-      'url': result.url,
-      'image': image
-    });
-    global.eventEmitter.emit(eventName);
-  });  
+  // const eventName = 'wait_new_noti_' + usersIdx;
+  // const keyName = 'new_noti_' + usersIdx;
+  // client.hexists(eventName, 'users_idx', (err, reply) => {
+  //   let image = '';
+  //   if (result.image === null) {
+  //     image = 'null'
+  //   } else {
+  //     image = result.image;
+  //   }
+  //   client.hmset(keyName, {
+  //     'users_idx': usersIdx,
+  //     'contents': result.contents,
+  //     'url': result.url,
+  //     'image': image
+  //   });
+  //   global.eventEmitter.emit(eventName);
+  // });  
+
+  const data = {
+    'users_idx': usersIdx,
+    'contents': result.contents,
+    'url': result.url,
+    'image': result.image
+  }
+
+  global.eventEmitter.emit('new_noti', parseInt(usersIdx), data);
   return result;
 };
 
@@ -85,23 +94,31 @@ module.exports.check = async (req, res, next) => {
 };
 
 module.exports.polling = async (req, res, next) => {
-  let result = '';
-  const userData = req.userIdx;
-  const eventName = 'wait_new_noti_' + userData;
-  const keyName = 'new_noti_' + userData;
-  client.hmset(eventName, {'users_idx': userData});
-  client.expireat(eventName, parseInt((+new Date)/1000) + 43200);
+  global.requests.set(req.userIdx, res);
+  console.log(global.requests.keys());
 
-  global.eventEmitter.once(eventName, () => {
-    client.del(eventName);
-    client.hgetall(keyName, (err, obj) => {
-      if (err) {
-        console.log(err);
-      } else {
-        client.del(keyName);
-        global.eventEmitter.removeListener(eventName, ()=>{});
-        return res.status(200).json(obj);
-      }
-    });
-  });
+  // let result = '';
+  
+  // const keyName = 'new_noti_' + userData;
+  // client.hmset(eventName, {'users_idx': userData});
+  // client.expireat(eventName, parseInt((+new Date)/1000) + 43200);
+
+  // global.eventEmitter.once(eventName, () => {
+  //   client.del(eventName);
+  //   client.hgetall(keyName, (err, obj) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       client.del(keyName);
+  //       global.eventEmitter.removeListener(eventName, ()=>{});
+  //       return res.status(200).json(obj);
+  //     }
+  //   });
+  // });
 }
+
+global.eventEmitter.on('new_noti', (usersIdx, data) => {
+  const res = global.requests.get(usersIdx);
+  console.log(res);
+  return res.status(200).json(data);
+});

@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 });
 
 global.eventEmitter = new events.EventEmitter();
+global.requests = new Map();
 
 require('./routes')(app);
 
