@@ -1,12 +1,36 @@
-import React from 'react';
-import ProfileAvatar from './ProfileAvatar';
+import React, { Component } from 'react';
 
-const UserGame = (props) => {
-  return(
-    <div>
-      game list
-    </div>
-  )
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { fetchPurchasedLists } from 'actions/store/StoreAction';
+
+import GameCard from './GameCard';
+
+class UserGame extends Component {
+  componentWillMount(){
+    this.props.fetchPurchasedLists();    
+  }
+
+  renderGames(){
+    return this.props.games
+      .map((game) => {
+        return (         
+          <GameCard game={game} key={game.idx}/>
+        )       
+    });
+  }
+
+  render(){
+    return(
+      <div>
+        {this.renderGames()}
+      </div>
+    )
+  }
 }
 
-export default UserGame;
+function mapStateToProps(state){
+  return { games: state.store.all }
+}
+
+export default connect(mapStateToProps, { fetchPurchasedLists })(UserGame);

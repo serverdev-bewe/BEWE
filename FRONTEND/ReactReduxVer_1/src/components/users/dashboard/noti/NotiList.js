@@ -1,3 +1,5 @@
+import '/../style/users.css';
+
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
@@ -71,6 +73,7 @@ class NotiList extends Component {
     }    
   }
 }
+
 function mapStateToProps(state){
   return { noties: state.noties.all }
 }

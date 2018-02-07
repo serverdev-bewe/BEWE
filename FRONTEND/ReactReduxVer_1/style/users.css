@@ -164,6 +164,44 @@
   color: white;
 }
 
+.dashboard-game-wrapper{
+  width: 48%;
+}
+
+.dashboard-game-wrapper:nth-of-type(2n-1){
+  margin-right: 3%;
+}
+
+.dashboard-game-image-wrapper{
+  background-color: #F9F9F9;
+  border-bottom: 1px solid #E1E1E1;
+  max-height: 200px;
+}
+
+.dashboard-game-info-wrapper{
+  padding: 15px;
+}
+
+.dashboard-game-info-wrapper button{
+  margin-top: 0px !important;
+  width: 100%;
+  border: 1px solid #00B0FF;
+  color: #00B0FF;
+}
+
+.dashboard-game-info-wrapper button:hover{
+  background-color: #00B0FF;  
+  border: 1px solid #00B0FF;
+}
+
+.dashboard-game-wrapper img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: auto;
+}
+
 /*
  * 대시보드 : 친구
  */

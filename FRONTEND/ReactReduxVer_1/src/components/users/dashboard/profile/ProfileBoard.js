@@ -15,11 +15,22 @@ class ProfileBoard extends Component{
     super(props);
 
     this.state = {
-      type: true
+      type: true,
+      fadeOut: false
     }
 
     this.onClickButtonAll = this.handleButtonChange.bind(this, true);
     this.onClickButtonUnchecked = this.handleButtonChange.bind(this, false);
+  }
+
+  componentWillUpdate(nextProps, { fadeOut }) {
+    if (fadeOut) {
+      setTimeout(() => {
+        this.setState({
+          fadeOut: false
+        })
+      }, fadeDuration);
+    }
   }
 
   componentWillMount(){
@@ -28,7 +39,8 @@ class ProfileBoard extends Component{
 
   handleButtonChange(value) {
     this.setState({
-      type: value
+      type: value,
+      fadeOut: true
     });
   }
 
@@ -43,13 +55,16 @@ class ProfileBoard extends Component{
   render(){
     return(
       <div className="dashboard-right-contents">
-        <Fade duration={fadeDuration}>
-          <div className="tab-slider-nav">
-            <ul className="tab-slider-tabs">
-              <li className={`tab-slider-item ${(this.state.type) ? 'tab-active' : ''}`} onClick={this.onClickButtonAll}>내 정보</li>
-              <li className={`tab-slider-item ${(this.state.type) ? '' : 'tab-active'}`} onClick={this.onClickButtonUnchecked}>내 게임</li>
-            </ul>
-          </div>  
+        <div className="tab-slider-nav">
+          <ul className="tab-slider-tabs">
+            <li className={`tab-slider-item ${(this.state.type) ? 'tab-active' : ''}`} onClick={this.onClickButtonAll}>내 정보</li>
+            <li className={`tab-slider-item ${(this.state.type) ? '' : 'tab-active'}`} onClick={this.onClickButtonUnchecked}>내 게임</li>
+          </ul>
+        </div>  
+        <Fade
+          out={this.state.fadeOut}
+          duration={fadeDuration}
+        >
           {this.renderResult()} 
         </Fade>
       </div>
