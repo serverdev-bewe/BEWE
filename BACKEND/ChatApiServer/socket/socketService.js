@@ -46,7 +46,7 @@ module.exports = function(server) {
     });
 
     socket.on('joinRoom', data =>{
-      console.log(data.username + '님은 '+ data.roomSeq +'번 방에 접속하셨습니다. 환영합니다!');
+      console.log(data.username + '님은 '+ data.roomSeq +'번 게임에 접속하셨습니다. 환영합니다!');
       roomIdx = data.roomSeq;
 
       socket.join(roomIdx);
