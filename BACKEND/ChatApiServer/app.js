@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.options('*', cors());
 
-require('./socket/messageSocket').initialize();
+// require('./socket/messageSocket').initialize();
 
 app.use((req, res, next) => {
   res.r = (result) => {
