@@ -13,7 +13,7 @@ exports.findSeq = (req,res,next) => {
 exports.createRoom = (req, res, next) =>{
     let idx = req.body.gameNumber;
     
-    console.log(idx);
+    console.log('createRoom : ' + idx);
     gameRooms[idx].push({
         'seq' : idx,
         "adminUser": req.body.adminUser,

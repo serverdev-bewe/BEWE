@@ -199,7 +199,7 @@ class GameRoomList extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                    {mapToComponents(this.state.rows)}
+                    {this.state.rows ? mapToComponents(this.state.rows) : 'roading...'}
                 </tbody>
             </Table>
             </div>
