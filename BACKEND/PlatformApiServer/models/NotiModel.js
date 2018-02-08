@@ -80,7 +80,11 @@ exports.create = (notificationData) => {
         reject(err);
       } else {
         if (rows.affectedRows === 1) {
-          resolve(rows);
+          resolve({
+            contents: contents,
+            image: image,
+            url: url
+          });
         } else {
           const _err = new Error("notification 생성 중 에러 발생");
           reject(_err);
