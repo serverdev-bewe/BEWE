@@ -41,8 +41,8 @@ class ChatApp extends React.Component {
     });
     // Listen for messages from the server
     this.socket.on('server:message', message => {
-      console.log(message);
-      this.addMessage(message);
+      if(message.socketId == this.socket.id) return;
+      this.addMessage(message.data);
     });
 
     this.socket.on('addMember', data =>{

@@ -1,4 +1,4 @@
-var path = require('path')
+const path = require('path')
     ,cors = require('cors')
     ,http = require('http')
     ,express = require('express')
@@ -6,14 +6,20 @@ var path = require('path')
     ,room = require('./socket/room')
     ;
 
+const redis = require('redis');
+
+const pub = redis.createClient(6379, '52.78.25.56');
+const sub = redis.createClient(6379, '52.78.25.56');
+  
+sub.subscribe('sub');
+sub.on('subscribe',function (channel, count) {
+  console.log("Subscribed to " + channel + ". Now subscribed to " + count + " channel(s).");
+});
 // setup server
 const app = express();
 const server = http.createServer(app);
-var io = require('./socket/socketService')(server);
+const io = require('./socket/socketService')(server, pub, sub);
 
-// io.of('/').adapter.allRooms((err, rooms) => {
-//     console.log(rooms); // an array containing all rooms (accross every node)
-//   });
 app.use('/', express.static(__dirname + './public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -21,8 +27,6 @@ app.use(cors());
 app.options('*', cors());
 
 require('./socket/messageSocket').initialize();
-
-// app.get('/api/room/:seq', room.index);
 
 app.use((req, res, next) => {
   res.r = (result) => {
