@@ -4,7 +4,7 @@ class ListView extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            roomSeq : this.props.seq,
+            roomSeq : this.props.idx,
             roomName : this.props.roomName
         }
         this.roomHandler = this.roomHandler.bind(this);
