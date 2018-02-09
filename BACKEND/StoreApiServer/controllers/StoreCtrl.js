@@ -1,7 +1,7 @@
 'use strict';
 
 const storeModel = require('../models/StoreModel');
-
+const client = require('redis').createClient(6379, '52.78.25.56');
 
 exports.listAll = async(req, res, next) => {
 
@@ -51,16 +51,50 @@ exports.myList = async(req, res, next) => {
  */
 exports.purchase = async(req, res, next) => {
   let result = '';
-
+  const userIdx = req.userIdx;
+  const gameIdx = req.params.idx;
 
   try {
     const inputData = {
-      userIdx: req.userIdx,
-      gameIdx: req.params.idx,
+      userIdx,
+      gameIdx
     };
 
     result = await storeModel.purchase(inputData);
+    
+    if (result !== '') {
+      client.zscore("user_has_games", userIdx, (err, score) => {
+        if (score) {
+          client.zadd("user_has_games", parseInt(score) + 1, userIdx, (err, result) => {
+            if (err) {
+              console.log(err);
+            }
+          });
+        } else {
+          client.zadd("user_has_games", 1, userIdx, (err, result) => {
+            if (err) {
+              console.log(err);
+            }
+          })
+        }
+      });
 
+      client.zscore("game_has_users", gameIdx, (err, score) => {
+        if (score) {
+          client.zadd("game_has_users", parseInt(score) + 1, gameIdx, (err, result) => {
+            if (err) {
+              console.log(err);
+            }
+          });
+        } else {
+          client.zadd("game_has_users", 1, gameIdx, (err, result) => {
+            if (err) {
+              console.log(err);
+            }
+          })
+        }
+      });
+    }
   } catch (error){
     return next(error)
   }
