@@ -1,4 +1,4 @@
-import { FETCH_NOTIES, CHECK_NOTI } from '../../actions/users/NotiActions';
+import { FETCH_NOTIES, CHECK_NOTI } from 'actions/users/NotiActions';
 
 const INITIAL_STATE = {
   all: []

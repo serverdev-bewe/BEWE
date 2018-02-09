@@ -1,4 +1,4 @@
-import { FETCH_FRIENDS } from '../../actions/users/FriendActions';
+import { FETCH_FRIENDS } from 'actions/users/FriendActions';
 
 const INITIAL_STATE = {
   all: []

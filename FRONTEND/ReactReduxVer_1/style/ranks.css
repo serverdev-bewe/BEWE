@@ -1,0 +1,80 @@
+.ranking-board-wrapper{
+  padding: 30px;
+}
+
+.ranking-top-menu{
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+}
+
+.ranking-top-text{
+  margin: 0;
+  font-weight: normal;
+  font-family: 'Ubuntu', 'Noto sans KR', sans-serif;
+  color: #666666;  
+}
+
+.ranking-top-item-wrapper{
+  position: absolute;
+  top: 10px;
+  right: 0;
+}
+
+.ranking-top-item{
+  display: inline-block;
+  font-family: 'Ubuntu', 'Noto sans KR', sans-serif;  
+  font-weight: normal;
+  width: 120px;
+  height: 40px;
+  box-shadow: none;
+  font-size: 18px;
+  background-color: white;
+  color: #1A1A1A;
+  padding: 10px 30px;
+  margin: 0;
+}
+
+.ranking-top-item.active{
+  background-color: #D1D1D1;
+}
+
+.ranking-top-item:first-child{
+  border-radius: 10px 0 0 10px;
+  border: 1px solid #D1D1D1;
+}
+
+.ranking-top-item:last-child{
+  border-radius: 0 10px 10px 0;
+  border: 1px solid #D1D1D1;
+  border-left: none;
+}
+
+.ranking-top-item:hover{
+  background-color: #00B0FF;
+  color: white;
+  box-shadow: none;
+}
+
+.ranking-top-item:focus{
+  outline: none;
+}
+
+.ranking-middle-text{
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #4A4A4A;  
+}
+
+.ranking-table-thead{
+  background-color: #DEE2E6;
+  color: #4A4A4A;  
+}
+
+.ranking-item-wrapper:nth-of-type(2n-1){
+  background-color: white !important;
+}
