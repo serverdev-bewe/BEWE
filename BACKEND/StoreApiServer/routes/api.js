@@ -16,7 +16,9 @@ module.exports = (router) => {
     .get(authCtrl.auth, storeCtrl.lists);
 
   router.route('/store/friends/:idx')
-   .get(authCtrl.auth, storeCtrl.lists);
+    .get(authCtrl.auth, storeCtrl.friendToGamesList);
+  router.route('/store/games/:idx')
+    .get(authCtrl.auth, storeCtrl.gameToFriendsList);
 
   router.route('/store/:idx')
     .post(authCtrl.auth, storeCtrl.purchase);
