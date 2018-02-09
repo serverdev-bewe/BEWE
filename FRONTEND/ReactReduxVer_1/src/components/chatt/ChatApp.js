@@ -134,9 +134,6 @@ class ChatApp extends React.Component {
           onClick={this.readyHandler}
         >READY</Button>
         </h3>
-        {this.state.readyUsers.indexOf(this.state.username)}
-        {this.state.readyUsers}
-        
         <RoomReadyBar userList={this.state.userList} 
           readyUsers={this.state.readyUsers}
         />
