@@ -26,13 +26,13 @@ exports.listAll = async(req, res, next) => {
  * @param next
  * @returns {Promise.<*>}
  */
-exports.myList = async(req, res, next) => {
+exports.lists = async(req, res, next) => {
   let result = '';
   try {
     const inputData = {
       userIdx: req.userIdx,
     };
-    result = await storeModel.myList(inputData);
+    result = await storeModel.lists(inputData);
   } catch (error) {
     return next(error);
   }
@@ -67,4 +67,33 @@ exports.purchase = async(req, res, next) => {
 
   return res.r(result);
 
+};
+
+
+
+exports.friendLists = async(req, res, next) => {
+  let result = '';
+
+  try{
+    const inputData = {
+      sender: req.userIdx,
+      receiver: req.params.idx,
+    };
+
+
+    result = await storeModel.checkFriend(inputData);
+
+    if (result.flag === 1 ){
+      result = await storeModel.lists(inputData.receiver);
+    } else {
+      return res.json({
+        "status": false,
+        "message": "not a friend"
+      })
+    }
+  } catch (error) {
+    return next(error);
+  }
+
+  return res.r(result);
 };

@@ -13,7 +13,10 @@ module.exports = (router) => {
     .get(authCtrl.auth, storeCtrl.listAll);
 
   router.route('/store/mylists')
-    .get(authCtrl.auth, storeCtrl.myList);
+    .get(authCtrl.auth, storeCtrl.lists);
+
+  router.route('/store/friends/:idx')
+   .get(authCtrl.auth, storeCtrl.lists);
 
   router.route('/store/:idx')
     .post(authCtrl.auth, storeCtrl.purchase);
