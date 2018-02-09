@@ -47,15 +47,19 @@ class ChatApp extends React.Component {
       this.onReadyBadge(data);
       this.addMessage(data.messageData);
     });
+    
+    this.socket.on('server:chattReady', data=>{
+      this.onReadyBadge(data);
+      if(data.readyUsers.length == data.rooms.length){
+        console.log('All Ready');
+      }
+    });
+
     this.socket.on('server:disconnect', data =>{
       this.addUsers(data);
       this.onReadyBadge(data);
       this.addMessage(data.messageData);
     })
-
-    // this.socket.on('addMember', data =>{
-    //   this.addUsers(data);
-    // });
 
     this.socket.on('chattReadyCnt', data=>{
       this.setState({
@@ -130,6 +134,9 @@ class ChatApp extends React.Component {
           onClick={this.readyHandler}
         >READY</Button>
         </h3>
+        {this.state.readyUsers.indexOf(this.state.username)}
+        {this.state.readyUsers}
+        
         <RoomReadyBar userList={this.state.userList} 
           readyUsers={this.state.readyUsers}
         />

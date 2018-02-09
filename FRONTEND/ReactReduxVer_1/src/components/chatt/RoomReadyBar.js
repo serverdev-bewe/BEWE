@@ -18,6 +18,7 @@ class RoomReadyBar extends Component {
         return (
             <div>
                 <ol>
+                    {this.props.readyUsers}
                 {joinUsers}
                 </ol>
             </div>
@@ -32,7 +33,7 @@ class JoinUsers extends Component {
         return (
             <li>
             {
-                this.props.readyUsers.indexOf(this.props.name) !== -1
+                this.props.readyUsers.indexOf(this.props.name) != -1
                 ?
                 <div>{this.props.name}&nbsp;
                 <Badge color="success" >준비</Badge>
