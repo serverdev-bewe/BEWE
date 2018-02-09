@@ -10,11 +10,11 @@ module.exports = (router) => {
   router.route('/ranks/games/buy')
     .get(rankCtrl.game('buy'));
 
-  // router.route('/ranks/users/time')
-  //   .get(rankCtrl.users('time'));
+  router.route('/ranks/users/time')
+    .get(rankCtrl.user('time'));
 
-  // router.route('/ranks/games/time')
-  //   .get(rankCtrl.users('buy'));
+  router.route('/ranks/users/buy')
+    .get(rankCtrl.user('buy'));
 
   return router;
 };

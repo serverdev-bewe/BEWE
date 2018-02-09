@@ -16,6 +16,7 @@ import Login from './users/login/Login';
 import SignUp from "./users/login/SignUp";
 import Footer from './layout/footer/Footer';
 import MyGame from "./layout/header/MyGame";
+import RankBoard from './ranks/RankingBoard';
 import Dashboard from "./users/dashboard/Dashboard";
 import GameRoomList from './GameRoomList';
 import StartGame from './StartGame';
@@ -136,6 +137,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             <Route path="/mygame" component={MyGame} />
+            <Route path="/rank" component={RankBoard} />
 
             <Route path="/gameRoomList" component={GameRoomList} />
             <Route path="/users" component={Dashboard} />
