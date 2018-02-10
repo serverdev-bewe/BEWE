@@ -47,7 +47,6 @@ exports.send = async(req, res, next) => {
       resolve();
     });
   });
-  console.log(result);
 
   return res.status(201).json(result);
 };
@@ -82,7 +81,6 @@ exports.accept = async(req, res, next) => {
       resolve();
     });
   });
-  console.log(result);
 
   return res.status(201).json(result);
 };
@@ -100,4 +98,5 @@ exports.reject = async(req, res, next) => {
     return next(error);
   }
   return res.status(201).json(result);
+  next();
 };

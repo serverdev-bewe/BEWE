@@ -1,53 +1,91 @@
-module.exports = function(server) {
-  var io = require('socket.io')(server);
-  var rooms = [];
-  var readyUsers = [];
-  // let roomReadyCount = 0;
-  // var a = io.of('/')
+'use strict'
+let rooms = [[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
+                ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
+                ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
+                ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []];
+
+module.exports = function(server, pub, sub) {
+  const io = require('socket.io')(server);
+
+  let readyUsers = [];
+
+  // let socketId = [];
+  // let rooms = [[], [], [], []];
+
+  sub.on("message", function (channel, data) {
+    data = JSON.parse(data);
+    // console.log(data);
+    // console.log("Redis_Sub: " + channel + " // roomSeq : " + (data.roomSeq));
+
+    if (parseInt("sendToSelf".localeCompare(data.sendType)) === 0) {
+        io.emit(data.method, data.data);
+    }else if (parseInt("sendToAllConnectedClients".localeCompare(data.sendType)) === 0) {
+        io.sockets.emit(data.method, data.data);
+    }else if (parseInt("sendToAllClientsInRoom".localeCompare(data.sendType)) === 0) {
+        io.sockets.to(data.roomSeq).emit(data.method, data);
+      }
+  });
+
+  
   io.on('connection', socket => {
     const username = socket.handshake.query.username;
     const usernamea = socket.handshake.query.username;
+    const gameSeq = socket.handshake.query.gameSeq;
+    const roomSeq = gameSeq +''+socket.handshake.query.roomSeq;
     
-    let roomIdx;
     console.log(`${username} connected`);
 
     socket.on('client:message', data => {
-      console.log(`${data.username}: ${data.message}`);
-      socket.in(data.roomSeq).emit('server:message', data);
-    });
-    socket.on('joinRoom', data =>{
-      console.log(data.username + '님은 '+ data.roomSeq +'번 방에 접속하셨습니다. 환영합니다!');
-      roomIdx = data.roomSeq;
-      socket.join(roomIdx);
-
-      rooms.push(username);
+      console.log(`${username}: ${data.message}`);
+      let reply = JSON.stringify({
+        method: 'server:message',
+        sendType: 'sendToAllClientsInRoom',
+        messageData : {
+          username : username,
+          message : data.message
+        },
+        roomSeq : roomSeq,
+        socketId : socket.id
+      });
       
-      io.sockets.in(roomIdx).emit('chattReadyOk', {
+      pub.publish('sub', reply);
+    });
+
+    socket.on('joinRoom', data =>{
+      console.log(`${username}님은 ${gameSeq}번 게임의 ${roomSeq}번 방에 접속하셨습니다. 환영합니다!`);
+
+      socket.join(roomSeq);
+     
+      // const rooms = Object.keys(io.sockets.adapter.rooms[roomSeq].sockets);
+
+      let keyname = '';
+      let socketId = [];
+      socketId[keyname + socket.id] = username;
+      rooms[roomSeq].push(Object.values(socketId));
+      
+      let reply = JSON.stringify({
+        method: 'server:joinRoom',
+        sendType: 'sendToAllClientsInRoom',
+        messageData : {
+          username : '::: SYSTEM :::',
+          message : username+'님이 접속하셨습니다.'
+        },
+        roomSeq : roomSeq,
+        rooms: rooms[roomSeq],
         readyUsers: readyUsers
       });
-      io.sockets.in(roomIdx).emit('addMember', {
-        'name' : data.username,
-        'id' : socket.id,
-        'roomSeq': roomIdx,
-        'rooms':rooms
-      });
-      
-      io.sockets.in(roomIdx).emit('server:message', {
-        username : '::: SYSTEM :::',
-        message : data.username+'님이 접속하셨습니다.'
-      });
+
+      pub.publish('sub', reply);
     });
 
 
     socket.on('chattReady', data=>{
-      // roomReadyCount++;
       readyUsers.push(data.username);
-      io.sockets.in(roomIdx).emit('chattReadyOk', {
+      io.sockets.in(roomSeq).emit('chattReadyOk', {
         readyUsers: readyUsers
-        // , readyCnt : 1
       });
 
-      io.sockets.in(roomIdx).emit('chattReadyCnt', {
+      io.sockets.in(roomSeq).emit('chattReadyCnt', {
         data: 1
       });
     });
@@ -58,35 +96,31 @@ module.exports = function(server) {
 
 
     socket.on('disconnect', (data) => {
-      io.sockets.in(roomIdx).emit('server:message', {
-        username : '::: SYSTEM :::',
-        message : `${usernamea}님이 나가셨습니다.`
-      });
-      socket.leave(roomIdx);
-
-      rooms = rooms.filter(function(ele){
-        return ele != usernamea
-      });
+   
       readyUsers = readyUsers.filter(function(ele){
         return ele != usernamea
       });
 
-      io.sockets.in(roomIdx).emit('addMember', {
-        'name' : data.username,
-        'id' : socket.id,
-        'roomSeq': roomIdx,
-        'rooms':rooms
+      socket.leave(roomSeq);
+      rooms[roomSeq] = rooms[roomSeq].filter(function(ele){
+        return ele != usernamea
       });
-      io.sockets.in(roomIdx).emit('chattReadyOk', {
-        readyUsers: readyUsers
+      
+      
+      let reply = JSON.stringify({
+        method: 'server:disconnect',
+        sendType: 'sendToAllClientsInRoom',
+        messageData: {
+          username: username,
+          message: `${usernamea}님이 나가셨습니다.`
+        },
+        roomSeq: roomSeq,
+        readyUsers: readyUsers,
+        rooms: rooms[roomSeq]
       });
 
+      pub.publish('sub', reply);
       console.log(`${username} disconnected`);
-
-      // if(roomReadyCount == 0){
-      //   return
-      // }
-      // roomReadyCount--;
     });
   });
 

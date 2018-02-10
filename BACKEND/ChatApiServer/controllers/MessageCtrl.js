@@ -10,12 +10,12 @@ exports.list = (type) => {
     try {
       const userData = req.userIdx;
 
-      if (type == 'conversations') {
+      if (type === 'conversations') {
         result = await messageModel.listConversation(userData);
-      } else if (type == 'messages') {
-        const conversationId = req.params.idx;
-        result = await messageModel.getConversation(userData, conversationId);
-      } else if (type == 'last') {
+      } else if (type === 'messages') {
+        const conversationIdx = req.params.idx;
+        result = await messageModel.getConversation(userData, conversationIdx);
+      } else if (type === 'last') {
         const messageId = req.params.idx;
         result = await messageModel.getNewMessage(messageId);
       }
@@ -26,6 +26,27 @@ exports.list = (type) => {
     return res.status(200).json(result);
   }
 };
+
+module.exports.new = (type) => {  
+  return async (req, res, next) => {
+    let result = '';
+
+    try {
+      const userData = req.userIdx;
+
+      if (type === 'all') {
+        result = await messageModel.new(userData);
+      } else if (type === 'conversation') {
+        const conversationIdx = req.params.idx;
+        result = await messageModel.newFromConversation(userData, conversationIdx);
+      }
+    } catch (error) {
+      console.log(error);
+      return next(error);
+    }
+    return res.status(200).json(result.length);
+  }
+}
 
 // 방 생성하기!
 exports.openConversation = async(req, res, next) => {

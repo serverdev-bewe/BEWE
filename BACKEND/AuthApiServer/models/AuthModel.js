@@ -2,7 +2,7 @@
 
 const mysql = require('mysql');
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient(6379, '52.78.25.56');
 const jwt = require('jsonwebtoken');
 
 const config = require('../config/config');
@@ -29,7 +29,6 @@ exports.auth = (token, done) => {
           return done(err);
         } else {
           if (rows.length === 0) {
-            console.log(5);
             return done(401);
           } else {  // 인증 성공
             return done(null, rows[0].idx);

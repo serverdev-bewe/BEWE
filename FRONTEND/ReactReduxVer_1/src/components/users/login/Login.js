@@ -23,7 +23,6 @@ class Login extends Component {
         e.preventDefault();
         fetch('http://52.78.25.56:3000/api/users/login', {
             method: 'post',
-            // mode: "cors",
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'

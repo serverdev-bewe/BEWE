@@ -1,8 +1,8 @@
 'use strict';
 
 const notiModel = require('../models/NotiModel');
-const eventEmitter = require('../controllers/EventCtrl');
-let status = 'DEFAULT';
+const redis = require('redis');
+const client = redis.createClient();
 
 // 알림 리스트
 module.exports.list = async (req, res, next) => {
@@ -17,8 +17,21 @@ module.exports.list = async (req, res, next) => {
     return next(error);
   }
   return res.status(200).json(result);
-  next();
 };
+
+module.exports.new = async (req, res, next) => {
+  let result = '';
+
+  try {
+    const userData = req.userIdx;
+
+    result = await notiModel.new(userData);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+  return res.status(200).json(result.length);
+}
 
 // 알림 생성
 module.exports.create = async (usersIdx, type, info) => {
@@ -35,8 +48,33 @@ module.exports.create = async (usersIdx, type, info) => {
     console.log(error);
     return next(error);
   }
+  
+  // const eventName = 'wait_new_noti_' + usersIdx;
+  // const keyName = 'new_noti_' + usersIdx;
+  // client.hexists(eventName, 'users_idx', (err, reply) => {
+  //   let image = '';
+  //   if (result.image === null) {
+  //     image = 'null'
+  //   } else {
+  //     image = result.image;
+  //   }
+  //   client.hmset(keyName, {
+  //     'users_idx': usersIdx,
+  //     'contents': result.contents,
+  //     'url': result.url,
+  //     'image': image
+  //   });
+  //   global.eventEmitter.emit(eventName);
+  // });  
 
-  status = 'CREATE_NOTIFICATION';
+  const data = {
+    'users_idx': usersIdx,
+    'contents': result.contents,
+    'url': result.url,
+    'image': result.image
+  }
+
+  global.eventEmitter.emit('new_noti', parseInt(usersIdx), data);
   return result;
 };
 
@@ -56,30 +94,31 @@ module.exports.check = async (req, res, next) => {
 };
 
 module.exports.polling = async (req, res, next) => {
-  const date = new Date();
-  const userData = req.userIdx;
-  let result = '';
+  global.requests.set(req.userIdx, res);
+  console.log(global.requests.keys());
+
+  // let result = '';
   
-  console.log(">> LONG POLLING LOOP START");
-  
-  while(true){
-    try {
-      if(status === 'CREATE_NOTIFICATION') {
-        result = await notiModel.polling(userData, date);
-        status = 'DEFAULT';
-        break;
-      }
-    } catch (error) {
-      console.log(error);
-      return next(error);
-    }   
-    await sleep(500);
-  }
-  console.log(">> LONG POLLING END");
-  console.log(result);
-  return res.status(200).json(result);
+  // const keyName = 'new_noti_' + userData;
+  // client.hmset(eventName, {'users_idx': userData});
+  // client.expireat(eventName, parseInt((+new Date)/1000) + 43200);
+
+  // global.eventEmitter.once(eventName, () => {
+  //   client.del(eventName);
+  //   client.hgetall(keyName, (err, obj) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       client.del(keyName);
+  //       global.eventEmitter.removeListener(eventName, ()=>{});
+  //       return res.status(200).json(obj);
+  //     }
+  //   });
+  // });
 }
 
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+global.eventEmitter.on('new_noti', (usersIdx, data) => {
+  const res = global.requests.get(usersIdx);
+  console.log(res);
+  return res.status(200).json(data);
+});

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { default as Fade } from 'react-fade';
+import { HashLoader } from 'react-spinners';
 import { connect } from 'react-redux';
 
-import { getMessages } from '../../../../actions/users/MessageActions';
+import { getNewMessageCount } from 'actions/AppActions';
+import { getMessages } from 'actions/users/MessageActions';
 import Message from './Message';
 import MessageForm from './MessageForm';
-
-// const fadeDuration = 0.5;
 
 class MessageList extends Component {
   constructor(props){
@@ -25,27 +25,18 @@ class MessageList extends Component {
 
   componentWillMount(){
     this.props.getMessages(this.props.conversationIdx);
+    this.props.getNewMessageCount();
   }
 
   componentWillUpdate(nextProps, nextState){
     if (this.props.newMessage !== nextProps.newMessage || 
       this.props.conversationIdx !== nextProps.conversationIdx) {
-      
-      this.props.getMessages(nextProps.conversationIdx);  
-      
+      this.props.getMessages(nextProps.conversationIdx); 
+      this.props.getNewMessageCount();
+
       this.setState({
         formRender: true
       });
-
-      // setTimeout(() => {
-      //   this.setState({
-      //     fadeOut: false
-      //   })
-      // }, fadeDuration);
-
-      // this.setState({
-      //   fadeOut: true
-      // });
     }    
   }
 
@@ -86,7 +77,14 @@ class MessageList extends Component {
 
   render() {
     if(this.props.messages === undefined) {
-      return <div>Loading...</div>
+      return (
+        <div>
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+        </div>
+      );
     }
 
     else {
@@ -98,11 +96,7 @@ class MessageList extends Component {
             </span>
           </div>
           <div className="message-list-chat-wrapper">
-            {/* <Fade
-              out={this.state.fadeOut}
-              duration={fadeDuration}> */}
               {this.renderMessages()}
-            {/* </Fade> */}
           </div>
           <MessageForm 
             reRender={this.state.formRender}
@@ -129,7 +123,11 @@ class MessageList extends Component {
 }
 
 function mapStateToProps(state){
-  return { messages: state.messages.messages, newMessage: state.app.newMessage }
+  return { 
+    messages: state.messages.messages, 
+    newMessage: state.app.newMessage,
+    newMessageCount: state.app.newMessageCount 
+  }
 }
 
-export default connect(mapStateToProps, { getMessages })(MessageList);
+export default connect(mapStateToProps, { getMessages, getNewMessageCount })(MessageList);

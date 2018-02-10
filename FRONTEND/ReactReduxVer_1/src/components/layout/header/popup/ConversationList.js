@@ -1,7 +1,8 @@
+import '/../style/users.css';
+
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
 import { getConversations, getNewMessage, makeNotUpdate } from 'actions/users/MessageActions';
 import Conversation from './Conversation';
@@ -35,7 +36,7 @@ class ConversationList extends Component {
   
   renderConversations(){
     return this.props.conversations
-      // .slice(0, 15 * this.state.page - 1)
+      .slice(0, 3)
       .map((conversation) => {
         if(this.props.conversationIdx === conversation.idx) {
           return (
@@ -63,25 +64,20 @@ class ConversationList extends Component {
     }
 
     else {
-      return(
-        <div>
-          {this.renderConversations()}
-        </div>
-      )
-      // if(this.props.friends.length > this.state.page * 15) {
-      //   return(
-      //     <div>
-      //       {this.renderFriends()}
-      //       <button className="noti-more-button" onClick={this.onClickButton}>더 보기</button>
-      //     </div>
-      //   )
-      // } else {
-      //   return(
-      //     <div>
-      //       {this.renderFriends()}
-      //     </div>
-      //   )
-      // }
+      if(this.props.conversations.length > 2) {
+        return(
+          <div>
+            {this.renderConversations()}
+            <button className="header-more-button" onClick={this.onClickButton}>더 보기</button>
+          </div>
+        )
+      } else {
+        return(
+          <div>
+            {this.renderConversations()}
+          </div>
+        )
+      }
     }    
   }
 }

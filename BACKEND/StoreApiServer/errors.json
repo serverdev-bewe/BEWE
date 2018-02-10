@@ -57,6 +57,12 @@
     "message": "권한이 없습니다.",
     "description": "Do not have permission"
   },
+  "9403": {
+    "status": 403,
+    "code": 0,
+    "message": "친구 신청 수락 전입니다",
+    "description": "Still not a friend"
+  },
   "10401": {
     "status": 401,
     "code": 0,

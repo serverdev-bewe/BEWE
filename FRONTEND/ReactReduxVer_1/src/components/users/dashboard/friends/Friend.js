@@ -1,4 +1,4 @@
-import '../../users.css'
+import '/../style/users.css';
 
 import React, { Component } from 'react';
 import Moment from 'react-moment';
@@ -9,24 +9,9 @@ import { Card, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const icon = (type) => {
-  if (type === 'friend') {
-    return (<span className="ion-person-add noti-list-icon" />)
-  }
-}
+import { fetchOtherProfile } from 'helper.js';
 
 let otherUserIdx = '';
-const API_URL = 'http://127.0.0.1:3000/api/users';
-
-const fetchOtherProfile = async (idx) => {
-  let result = '';
-
-  await axios.get(`${API_URL}/${idx}`, 
-    {headers: {'token' : JSON.parse(localStorage.getItem('token'))}})
-    .then((response) => {result = response});
-    
-  return result;
-}
 
 class Friend extends Component {
   constructor(props){

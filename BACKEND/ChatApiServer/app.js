@@ -1,25 +1,28 @@
-var path = require('path')
-    ,cors = require('cors')
-    ,http = require('http')
-    ,express = require('express')
-    ,bodyParser = require('body-parser')
-    ,room = require('./socket/room')
-    ;
+const path = require('path');
+const cors = require('cors');
+const http = require('http');
+const express = require('express');
+const bodyParser = require('body-parser');
+const room = require('./socket/room');
 
+const redis = require('redis');
+
+const pub = redis.createClient(6379, '52.78.25.56');
+const sub = redis.createClient(6379, '52.78.25.56');
+  
+sub.subscribe('sub');
+sub.on('subscribe',function (channel, count) {
+  console.log("Subscribed to " + channel + ". Now subscribed to " + count + " channel(s).");
+});
 // setup server
 const app = express();
+const server = http.createServer(app);
+const io = require('./socket/socketService')(server, pub, sub);
 
 app.use('/', express.static(__dirname + './public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
-app.options('*', cors());
-
-const server = http.createServer(app);
-var io = require('./socket/socketService')(server);
-require('./socket/messageSocket').initialize();
-
-// app.get('/api/room/:seq', room.index);
 
 app.use((req, res, next) => {
   res.r = (result) => {
@@ -31,6 +34,8 @@ app.use((req, res, next) => {
   };
   next();
 });
+
+require('./socket/messageSocket').initialize();
 
 require('./routes')(app);
 

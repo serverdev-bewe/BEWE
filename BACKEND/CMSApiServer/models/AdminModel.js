@@ -6,7 +6,11 @@ const pool = mysql.createPool(DBConfig);
 
 const transactionWrapper = require('./TransactionWrapper');
 
-
+/*********
+ * TODO 유저 플래그가 어드민이 아니라면 reject
+ * @param inputData
+ * @returns {Promise<any>}
+ */
 exports.allowContent = (inputData) => {
   return new Promise((resolve, reject) => {
     const sql =

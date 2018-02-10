@@ -19,6 +19,21 @@ exports.list = (userIdx, page) => {
   });  
 };
 
+exports.new = (userIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT idx FROM notifications WHERE users_idx = ? AND flag = 0";
+    
+    pool.query(sql, [userIdx], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });  
+};
+
 exports.polling = (userIdx, date) => {
   return new Promise((resolve, reject) => {
     const sql = "SELECT * FROM notifications WHERE users_idx = ? AND created_at > ?";
@@ -65,7 +80,11 @@ exports.create = (notificationData) => {
         reject(err);
       } else {
         if (rows.affectedRows === 1) {
-          resolve(rows);
+          resolve({
+            contents: contents,
+            image: image,
+            url: url
+          });
         } else {
           const _err = new Error("notification 생성 중 에러 발생");
           reject(_err);
