@@ -1,5 +1,3 @@
-import '/../style/users.css';
-
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import { NavLink } from 'react-router-dom';
@@ -55,7 +53,7 @@ class Conversation extends Component {
             style={{"padding":10, "minWidth":250}}>
           <div className="conversation-list-left">
             <div className="noti-avatar-wrapper" style={{"width":40, "height":40}}>
-              <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg"}/>
+              <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "/../public/img/avatar.png"}/>
             </div>
           </div>
 

@@ -1,15 +1,62 @@
-import '/../style/ranks.css';
-
 import React from 'react';
 
+import RankingUser from './RankingUser';
+import RankingGame from './RankingGame';
+
 const RankingItem = (props) => {
-  return (
-    <tr className="ranking-item-wrapper">
-      <td>{props.item.rank}</td>
-      <td>{props.item.users_idx}</td>
-      <td>{props.item.count}</td>
-    </tr>
-  )
+  let rank;
+
+  if (props.item.rank === 1) {
+    rank = (
+      <td className="ranking-rank-wrapper">
+        <p>1.</p>
+        <img className="ranking-rank-img" src={"/../public/img/gold-medal.png"} />
+      </td>
+    );
+  } else if (props.item.rank === 2) {
+    rank = (
+      <td className="ranking-rank-wrapper">
+        <p>2.</p>
+        <img className="ranking-rank-img" src={"/../public/img/silver-medal.png"} />
+      </td>
+    );
+  } else if (props.item.rank === 3) {
+    rank = (
+      <td className="ranking-rank-wrapper">
+        <p>3.</p>
+        <img className="ranking-rank-img" src={"/../public/img/bronze-medal.png"} />
+      </td>
+    );
+  } else {
+    rank = (
+      <td className="ranking-rank-wrapper">
+        <p>{props.item.rank}.</p>
+      </td>
+    );
+  }
+
+  console.log(props.item.userData);
+  if (props.type === 'game') {
+    return (
+      <tr className="ranking-item-wrapper">
+        {rank}
+        <td><RankingGame game={props.item.data} /></td>
+        <td className="ranking-rank-wrapper">
+          <p className="ranking-score"> {props.item.count}</p>
+        </td>
+      </tr>
+    )
+  } else if (props.type === 'user') {
+    return (
+      <tr className="ranking-item-wrapper">
+        {rank}
+        <td><RankingUser user={props.item.data} /></td>
+        <td className="ranking-rank-wrapper">
+          <p className="ranking-score"> {props.item.count}</p>
+        </td>
+      </tr>
+    )
+  }  
 }
 
-export default RankingItem
+export default RankingItem;

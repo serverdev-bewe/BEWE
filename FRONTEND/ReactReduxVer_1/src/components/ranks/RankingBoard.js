@@ -1,3 +1,5 @@
+import '/../style/ranks.css';
+
 import React, { Component } from 'react';
 import { default as Fade } from 'react-fade'
 
@@ -10,11 +12,11 @@ class RankingBoard extends Component {
     this.state = { 
       width: 0, 
       height: 0,
-      type: true
+      type: 'user'
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-    this.onClickButtonGame = this.handleButtonChange.bind(this, true);
-    this.onClickButtonUser = this.handleButtonChange.bind(this, false);
+    this.onClickButtonGame = this.handleButtonChange.bind(this, 'game');
+    this.onClickButtonUser = this.handleButtonChange.bind(this, 'user');
   }
   
   componentDidMount() {

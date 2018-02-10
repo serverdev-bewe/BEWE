@@ -62,17 +62,31 @@ exports.purchase = async(req, res, next) => {
     };
 
     result = await storeModel.purchase(inputData);
+
+    const userData = JSON.stringify({
+      userIdx,
+      nickname: result.nickname,
+      email: result.email,
+      avatar: result.avatar
+    });
+
+    const gameData = JSON.stringify({
+      gameIdx,
+      title: result.title,
+      description: result.description,
+      image: result.image
+    });
     
     if (result !== '') {
-      client.zscore("user_has_games", userIdx, (err, score) => {
+      client.zscore("user_has_games", userData, (err, score) => {
         if (score) {
-          client.zadd("user_has_games", parseInt(score) + 1, userIdx, (err, result) => {
+          client.zadd("user_has_games", parseInt(score) + 1, userData, (err, result) => {
             if (err) {
               console.log(err);
             }
           });
         } else {
-          client.zadd("user_has_games", 1, userIdx, (err, result) => {
+          client.zadd("user_has_games", 1, userData, (err, result) => {
             if (err) {
               console.log(err);
             }
@@ -80,15 +94,15 @@ exports.purchase = async(req, res, next) => {
         }
       });
 
-      client.zscore("game_has_users", gameIdx, (err, score) => {
+      client.zscore("game_has_users", gameData, (err, score) => {
         if (score) {
-          client.zadd("game_has_users", parseInt(score) + 1, gameIdx, (err, result) => {
+          client.zadd("game_has_users", parseInt(score) + 1, gameData, (err, result) => {
             if (err) {
               console.log(err);
             }
           });
         } else {
-          client.zadd("game_has_users", 1, gameIdx, (err, result) => {
+          client.zadd("game_has_users", 1, gameData, (err, result) => {
             if (err) {
               console.log(err);
             }

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import { HashLoader } from 'react-spinners';
 import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchGameHasUserRank } from 'actions/ranks/GameRankAction';
 import { fetchUserHasGameRank } from 'actions/ranks/UserRankAction';
 
 import RankingItem from './RankingItem';
+import RankingMyInfo from './RankingMyInfo';
 
 class RankingList extends Component{
   constructor(props){
@@ -13,36 +15,27 @@ class RankingList extends Component{
   }
 
   componentWillMount() {
-    this.props.fetchGameHasUserRank();
+    this.props.fetchUserHasGameRank();
   }
 
   componentWillUpdate(nextProps) {
     if (this.props.type !== nextProps.type) {
-      if (this.props.type) {
+      if (nextProps.type === 'game') {
         this.props.fetchGameHasUserRank();
-      } else {
+      } else if (nextProps.type === 'user') {
         this.props.fetchUserHasGameRank();
       }
     }
   }
 
-  renderItems(){
-    return this.props.list
-      .map((item, index) => {
-        return (
-          <RankingItem item={item} key={index} />
-        )
-      });              
-  }
-
-  render() {    
+  renderTable(){
     return (
       <Table striped className="ranking-table">
         <thead className="ranking-table-thead">
           <tr>
-            <th width="10%">POSITION</th>
-            <th width="60%">USER</th>
-            <th width="30%">POINT</th>
+            <th width="15%">RANK</th>
+            <th width="70%">{(this.props.type === 'game' ? "GAME" : "USER")}</th>
+            <th width="15%">POINT</th>
           </tr>
         </thead>     
         <tbody>
@@ -50,6 +43,36 @@ class RankingList extends Component{
         </tbody>   
       </Table>
     )
+  }
+
+  renderItems(){    
+    return this.props.list.all
+      .map((item, index) => {
+        return (
+          <RankingItem item={item} type={this.props.type} key={index} />
+        )
+      });              
+  }
+
+  render() {    
+    if (!this.props.list.all) {
+      return (
+        <div className="dashboard-loader">
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>랭킹 정보를 로딩하고 있습니다.</p>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          {(this.props.type === 'user' && localStorage.getItem('token') ? <RankingMyInfo user={this.props.list.currentUser} /> : '')}
+          {this.renderTable()}          
+        </div>
+      )
+    }
   }
 }
 

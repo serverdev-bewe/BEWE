@@ -1,3 +1,5 @@
+import '/../style/users.css';
+
 import React, { Component } from 'react';
 import { default as Fade } from 'react-fade'
 
