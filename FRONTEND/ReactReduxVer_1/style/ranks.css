@@ -2,6 +2,21 @@
   padding: 30px;
 }
 
+.ranking-my-zone-loader{
+  padding: 25px;
+}
+
+.ranking-my-zone-loader div{
+  margin: 0 auto;
+}
+
+.ranking-my-zone-loader p{
+  margin-top: 20px;
+  text-align: center;
+  color: #00B0FF;
+  font-weight: 600;
+}
+
 .ranking-top-menu{
   width: 100%;
   padding: 10px 0;
@@ -71,9 +86,10 @@
 }
 
 .ranking-my-zone-wrapper{
+  position: relative;
   width: 100%;
-  height: 170px;
-  margin-bottom: 20px;
+  height: 150px;
+  margin-bottom: 30px;
   background-color: white;
   border: 1px solid #DEE2E6;
   box-shadow: 0px 3px 3px 3px #F1F1F1;
@@ -86,8 +102,138 @@
   overflow: hidden;
   position: relative;
   margin-left: 35px;
-  margin-top: 15px;
+  margin-top: 25px;
   border-radius: 50%;
+}
+
+.ranking-my-zone-user-info{
+  position: absolute;
+  top: 35px;
+  left: 170px;
+}
+
+.ranking-my-zone-user-info h4{
+  color: #4A4A4A !important;
+}
+
+.ranking-my-zone-user-info h6{
+  margin-top: 15px;
+  color: #666666 !important;
+}
+
+.ranking-my-zone-rank-wrapper{
+  position: absolute;
+  top: 0;
+  left: 400px;
+}
+
+.ranking-my-zone-rank-item{
+  height: 74px;
+  width: 440px;
+}
+
+.ranking-my-zone-left{
+  display: inline-block;
+  width: 60px;
+  height: 100%;
+}
+
+.ranking-my-zone-right{
+  position: relative;
+  display: inline-block;
+  width: 380px;
+  height: 100%;
+}
+
+.ranking-my-zone-progress-bar-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 300px !important;
+}
+
+.ranking-my-zone-value{
+  display: inline-block;
+  text-align: center !important;
+  width: 79px !important;
+  font-size: 18px !important;
+  color: #4A4A4A !important;
+}
+
+.ranking-my-zone-left-value{
+  width: 100% !important;
+  height: 40px !important;
+  padding-right: 69px;
+}
+
+.ranking-my-zone-left-value span{
+  width: auto !important;
+  color: #666666 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.ranking-my-zone-left-value strong{
+  margin: 0 5px;
+  color: #1EBFA3;;
+}
+
+.ranking-my-zone-rank-item span{
+  display: inline-block;
+  font-size: 30px;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  color: #4A4A4A;
+}
+
+.ranking-my-zone-rank-item p{
+  width: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  color: #444444;
+  margin: 0 !important;
+}
+
+.ranking-table-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 49%;
+}
+
+.ranking-table-wrapper:last-of-type{
+  margin-left: 2% !important;
+}
+
+.ranking-table-wrapper hr{
+  width: 100%;
+  position: absolute;
+  top: 5px;
+  right: 0;
+  background-color:#DEE2E6;
+  box-shadow: 1px 1px 1px 1px #F1F1F1;
+  z-index: 1;
+}
+
+.ranking-table-title{
+  position: relative;
+  text-align: center; 
+  color: #4A4A4A; 
+  text-shadow: -1px 0 #F9F9F9, 0 1px #F9F9F9, 1px 0 #F9F9F9, 0 -1px #F9F9F9;
+	-moz-text-shadow: -1px 0 #F9F9F9, 0 1px #F9F9F9, 1px 0 #F9F9F9, 0 -1px #F9F9F9;
+	-webkit-text-shadow: -1px 0 #F9F9F9, 0 1px #F9F9F9, 1px 0 #F9F9F9, 0 -1px #F9F9F9;
+  z-index: 2;
+}
+
+.ranking-title-wrapper span{
+  display: inline-block;
+  font-size: 30px;
+  padding-top: -15px;
+  color: #4A4A4A !important;
+}
+
+.ranking-table{
+  margin-top: 20px;
 }
 
 .ranking-table td{
@@ -96,7 +242,9 @@
 
 .ranking-table-thead{
   background-color: #DEE2E6;
-  color: #4A4A4A;  
+  color: #4A4A4A; 
+  font-size: 15px; 
+  text-align: center;
 }
 
 .ranking-item-wrapper:nth-of-type(2n-1){
@@ -109,9 +257,8 @@
 
 .ranking-rank-wrapper{
   position: relative;
-  padding-top: 25px !important;
   padding-bottom: 10px !important;
-  padding: 15px !important;
+  padding: 10px !important;
 }
 
 .ranking-rank-wrapper p{
@@ -121,17 +268,17 @@
 .ranking-rank-img{
   position: absolute;
   top: 0;
-  right: 25px;
-  width: 40px;
+  right: 10px;
+  width: 35px;
 }
 
 .ranking-user-avatar-wrapper{
   display: inline-block;
-  width: 51px;
-  height: 51px;
+  width: 45px;
+  height: 45px;
   overflow: hidden;
   position: relative;
-  margin-left: 35px;
+  margin-left: 20px;
   margin-top: 15px;
   border-radius: 50%;
 }
@@ -139,9 +286,9 @@
 .ranking-game-image-wrapper{
   display: inline-block;
   position: relative;
-  width: 120px;
-  height: 75px;
-  margin-top: 5px;
+  width: 80px;
+  height: 60px;
+  margin-top: 7px;
   overflow: hidden;
 }
 
@@ -160,8 +307,8 @@
 
 .ranking-user-info{
   position: absolute;
-  top: 17px;
-  left: 140px;
+  top: 10px;
+  left: 100px;
 }
 
 .ranking-user-info p{
@@ -180,6 +327,7 @@
 }
 
 .ranking-score{
+  text-align: center;
   font-weight: 600;
   color: #1EBFA3;
 }

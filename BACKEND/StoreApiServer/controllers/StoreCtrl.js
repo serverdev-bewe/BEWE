@@ -78,36 +78,32 @@ exports.purchase = async(req, res, next) => {
     });
     
     if (result !== '') {
-      client.zscore("user_has_games", userData, (err, score) => {
+      client.zscore('user_has_games', userData, (err, score) => {
         if (score) {
-          client.zadd("user_has_games", parseInt(score) + 1, userData, (err, result) => {
-            if (err) {
-              console.log(err);
-            }
-          });
+          score = 1 + parseInt(score);
         } else {
-          client.zadd("user_has_games", 1, userData, (err, result) => {
-            if (err) {
-              console.log(err);
-            }
-          })
+          score = 1;
         }
+          
+        client.zadd('user_has_games', score, userData, (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+        });        
       });
 
-      client.zscore("game_has_users", gameData, (err, score) => {
+      client.zscore('game_has_users', gameData, (err, score) => {
         if (score) {
-          client.zadd("game_has_users", parseInt(score) + 1, gameData, (err, result) => {
-            if (err) {
-              console.log(err);
-            }
-          });
+          score = 1 + parseInt(score);
         } else {
-          client.zadd("game_has_users", 1, gameData, (err, result) => {
-            if (err) {
-              console.log(err);
-            }
-          })
+          score = 1;
         }
+
+        client.zadd('game_has_users', score, gameData, (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+        });        
       });
     }
   } catch (error){

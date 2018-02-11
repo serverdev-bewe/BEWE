@@ -6,19 +6,32 @@ import { default as Fade } from 'react-fade'
 import RankingMenu from './RankingMenu';
 import RankingList from './RankingList';
 
+const fadeDuration = 0.5;
+
 class RankingBoard extends Component {
   constructor(props) {
     super(props);
     this.state = { 
       width: 0, 
       height: 0,
-      type: 'user'
+      type: 'user',
+      fadeOut: false,
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.onClickButtonGame = this.handleButtonChange.bind(this, 'game');
     this.onClickButtonUser = this.handleButtonChange.bind(this, 'user');
   }
   
+  componentWillUpdate(nextProps, { fadeOut }) {
+    if (fadeOut) {
+      setTimeout(() => {
+        this.setState({
+          fadeOut: false
+        })
+      }, fadeDuration);
+    }
+  }
+
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
@@ -48,8 +61,14 @@ class RankingBoard extends Component {
         <div className="ranking-board-wrapper">
           <RankingMenu type={this.state.type} 
             onGameClick={this.onClickButtonGame} 
-            onUserClick={this.onClickButtonUser} />   
-          <RankingList type={this.state.type} />       
+            onUserClick={this.onClickButtonUser} />  
+            
+            <Fade
+              out={this.state.fadeOut}
+              duration={fadeDuration}
+            >
+              <RankingList type={this.state.type} />       
+            </Fade>
         </div>
       </div>
     )

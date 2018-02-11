@@ -21,7 +21,6 @@ function fetchRedisData(res, redisQueryKey, userIdx) {
       }
 
       if (userIdx && userIdx === data.userIdx) {
-        console.log(1);
         result.currentUser = result.all[j];
       }
       
@@ -37,17 +36,26 @@ function fetchRedisData(res, redisQueryKey, userIdx) {
   });
 }
 
-exports.buy = (type) => {  
+exports.getResults = (type) => {  
   return async(req, res, next) => {   
     let userIdx = null;
     let redisQueryKey = '';
 
-    if (type === 'users') {
-      redisQueryKey = 'user_has_games';
-    } else if (type === 'games') {
-      redisQueryKey = 'game_has_users';
+    switch (type) {
+      case 'user_buy':
+        redisQueryKey = 'user_has_games';
+        break;
+      case 'game_buy':
+        redisQueryKey = 'game_has_users';
+        break;
+      case 'user_time':
+        redisQueryKey = 'user_play_time';
+        break;
+      case 'game_time':
+        redisQueryKey = 'game_play_time';
+        break;
     }    
-
+    
     if (req.headers.token) {
       authModel.auth(req.headers.token, (err, result) => {
         if (!err) {

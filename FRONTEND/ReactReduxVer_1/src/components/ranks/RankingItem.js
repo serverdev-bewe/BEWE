@@ -3,7 +3,7 @@ import React from 'react';
 import RankingUser from './RankingUser';
 import RankingGame from './RankingGame';
 
-const RankingItem = (props) => {
+const RankingBuyItem = (props) => {
   let rank;
 
   if (props.item.rank === 1) {
@@ -35,7 +35,6 @@ const RankingItem = (props) => {
     );
   }
 
-  console.log(props.item.userData);
   if (props.type === 'game') {
     return (
       <tr className="ranking-item-wrapper">
@@ -59,4 +58,4 @@ const RankingItem = (props) => {
   }  
 }
 
-export default RankingItem;
+export default RankingBuyItem;

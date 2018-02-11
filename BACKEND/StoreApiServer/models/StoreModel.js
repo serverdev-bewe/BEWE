@@ -92,7 +92,6 @@ exports.purchase = (inputData) => {
       const sql =
         `
         SELECT
-          u.idx,
           u.nickname,
           u.email,
           u.avatar,
