@@ -73,7 +73,7 @@ exports.accept = async(req, res, next) => {
       
       try {
         result = await notiCtrl.create(userData, 'friend_accepted', 
-          {nickname: senderInfo.nickname, avatar:senderinfo.avatar});
+          {nickname: senderInfo.nickname, avatar:senderInfo.avatar});
       } catch (error) {
         console.log(error);
         reject(500);

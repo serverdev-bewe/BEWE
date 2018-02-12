@@ -308,7 +308,7 @@
   left: 40%;  
 }
 
-.friend-request-button{
+.friend-request-button, .friend-request-button-wrapper{
   display: inline-block !important;
   width: 20% !important;
   position: absolute;
@@ -317,7 +317,13 @@
   left: 74%;  
 }
 
-.friend-request-button.accept{
+.friend-request-button-wrapper button{
+  width: 45% !important;
+}
+
+.friend-request-button.accept{  
+  left: 0 !important;
+  top: 0 !important;
   background-color: #00B0FF !important;
   border: 1px solid #00B0FF !important;
   color: white;
@@ -326,7 +332,17 @@
 .friend-request-button.accept:hover{
   background-color: rgb(9, 150, 245) !important;
   color: white;
+}
 
+.friend-request-button.reject{
+  top: 0 !important;
+  left: 55% !important;
+  background-color: #DB3545 !important;
+  border: 1px solid #DB3545 !important;
+}
+
+.friend-request-button.reject:hover{
+  background-color: rgb(189, 29, 45) !important;  
 }
 /*
  * 대시보드 : 알림

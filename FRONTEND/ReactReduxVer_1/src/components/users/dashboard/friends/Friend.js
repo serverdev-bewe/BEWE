@@ -61,7 +61,8 @@ class Friend extends Component {
         )
       } else {
         return (
-          <FriendRequest profile={this.state.profile} type={this.props.type} />
+          <FriendRequest profile={this.state.profile} 
+            type={this.props.type} idx={this.props.friend.idx}/>
         )
       }
     }
