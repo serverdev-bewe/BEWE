@@ -53,8 +53,15 @@ class GameRoomList extends Component {
         })
         .then((responseDate)=>{
             console.log(responseDate);
-            this.setState({rows : responseDate.data});
-        }).catch((err)=>{
+            this.setState({
+                rows : responseDate.data
+                ,roomSeq: responseDate.data.length
+                ,roomSize: responseDate.data[responseDate.data.length-1].cnt
+                ,roomName: responseDate.data[responseDate.data.length-1].name
+                ,roomAdmin: responseDate.data[responseDate.data.length-1].adminUser
+            });
+        })
+        .catch((err)=>{
             console.log(err);
         }).then(
             this.handleCloseModal            
@@ -73,7 +80,11 @@ class GameRoomList extends Component {
       }
       
       handleOpenModal () {
-        this.setState({ showModal: true });
+        this.state.roomSeq 
+        ?
+        ''
+        :
+        this.setState({ showModal: true })
       }
       
       handleCloseModal () {
@@ -124,7 +135,6 @@ class GameRoomList extends Component {
 
     
     render() {
-        // console.log(this.state.paramsRoomNumber);
         const mapToComponents = (data)=>{
             data = data.filter(
                 (contact)=>{
@@ -200,7 +210,9 @@ class GameRoomList extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                    {this.state.rows ? mapToComponents(this.state.rows) : 'roading...'}
+                    {this.state.rows.length === 0  
+                        ? <tr><td colSpan="4"><center><br/>'만들어진 방이 없거나 가져오는 중입니다'</center></td></tr>
+                        : mapToComponents(this.state.rows)}
                 </tbody>
             </Table>
             </div>
