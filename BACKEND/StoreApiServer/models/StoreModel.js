@@ -133,7 +133,6 @@ exports.checkFriend = (inputData) => {
       if (err) {
         reject(9402);
       } else {
-        console.log(rows);
         resolve(rows[0]);
       }
     })
