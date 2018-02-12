@@ -50,7 +50,7 @@ exports.lists = (inputData) => {
         LEFT JOIN games AS g ON ug.games_idx = g.idx
       WHERE ug.users_idx = ? AND g.flag = 1
       `;
-    pool.query(sql, [inputData], (err, rows) => {
+    pool.query(sql, [inputData.userIdx], (err, rows) => {
       if (err) {
         reject(err);
       } else {

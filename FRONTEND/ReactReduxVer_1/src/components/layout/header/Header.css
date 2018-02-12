@@ -2,7 +2,7 @@
     background-color: #20232a;
     color: #ffffff !important;
     position: fixed;
-    z-index: 1;
+    z-index: 5;
     width: 100%;
     height: 60px;
     top: 0;

@@ -69,7 +69,7 @@ class FriendProfile extends Component{
   render(){  
     if (this.state.profile === '') {
       return (
-        <div className="dashboard-loader" style={{marginTop: 0, paddingTop: "20%"}}>
+        <div className="dashboard-loader" style={{marginTop: 0, paddingTop: "15%"}}>
           <HashLoader
             color={'#00B0FF'} 
             loading={true} 
@@ -80,7 +80,7 @@ class FriendProfile extends Component{
     } 
     if (!this.state.checkFriends) {
       return (
-        <div className="dashboard-loader" style={{marginTop: 0, paddingTop: "20%"}}>
+        <div className="dashboard-loader" style={{marginTop: 0, paddingTop: "15%"}}>
           <HashLoader
             color={'#00B0FF'} 
             loading={true} 
