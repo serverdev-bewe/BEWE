@@ -57,11 +57,11 @@ class Friend extends Component {
     } else {
       if (this.props.type === 'all') {
         return (
-          <FriendAllCard profile={this.state.profile} />
+          <FriendAllCard profile={this.state.profile} type={this.props.type} />
         )
       } else {
         return (
-          <FriendRequest profile={this.state.profile} />
+          <FriendRequest profile={this.state.profile} type={this.props.type} />
         )
       }
     }

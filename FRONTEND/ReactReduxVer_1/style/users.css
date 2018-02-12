@@ -260,6 +260,74 @@
   border-radius: 50%;
 }
 
+.friend-request-card-wrapper{
+  position: relative;
+  width: 100% !important;
+  border-radius: 5px;
+  height: 80px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  transition: background-color 0.3s linear;
+}
+
+.friend-request-card-wrapper:hover{
+  background-color: #F9F9F9;
+  transition: background-color 0.3s linear;
+}
+
+.friend-request-card-avatar-wrapper{
+  width: 20%;
+  height: 60px;
+  margin-left: 10px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.friend-request-card-id{
+  display: inline-block;
+  font-size: 20px;
+  color: #333333;
+  font-weight: bold;
+  width: 20%;
+  position: absolute;
+  top: 25px;
+  left: 20%;
+}
+
+.friend-request-card-date{
+  display: inline-block;
+  font-size: 16px;
+  color: #333333;  
+  width: 35%;
+  height: 60px;
+  position: absolute;
+  top: 25px;
+  left: 40%;  
+}
+
+.friend-request-button{
+  display: inline-block !important;
+  width: 20% !important;
+  position: absolute;
+  top: 18px;
+  margin: 0 !important;
+  left: 74%;  
+}
+
+.friend-request-button.accept{
+  background-color: #00B0FF !important;
+  border: 1px solid #00B0FF !important;
+  color: white;
+}
+
+.friend-request-button.accept:hover{
+  background-color: rgb(9, 150, 245) !important;
+  color: white;
+
+}
 /*
  * 대시보드 : 알림
  */
