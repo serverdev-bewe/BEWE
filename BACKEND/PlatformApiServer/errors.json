@@ -66,6 +66,13 @@
     "message": "해당 친구 요청이 없습니다.",
     "desciption": "Already send friendship request"
   },
+  "2404": {
+    "status": 400,
+    "code": 0,
+    "message": "토큰 값이 해당 요청을 보낸 유저와 일치하지 않습니다.",
+    "desciption": "Already send friendship request"
+  },
+  
 
   "2411": {
     "status": 400,
