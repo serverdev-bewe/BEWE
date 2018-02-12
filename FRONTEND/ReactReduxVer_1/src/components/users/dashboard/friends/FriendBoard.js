@@ -3,7 +3,7 @@ import { default as Fade } from 'react-fade'
 
 import FriendList from './FriendList';
 
-const fadeDuration = 0.5;
+const fadeDuration = 0.3;
 
 export default class FriendBoard extends Component {
   constructor(props){
@@ -13,6 +13,10 @@ export default class FriendBoard extends Component {
       type: 'all',
       fadeOut: false
     }
+
+    this.onClickButtonAll = this.handleButtonChange.bind(this, 'all');
+    this.onClickButtonSend = this.handleButtonChange.bind(this, 'send');
+    this.onClickButtonReceive = this.handleButtonChange.bind(this, 'receive');
   }
 
   componentWillUpdate(nextProps, { fadeOut }) {
@@ -35,6 +39,16 @@ export default class FriendBoard extends Component {
   render() {
     return (      
       <div className="dashboard-right-contents">
+        <div className="tab-slider-nav">
+          <ul className="tab-slider-tabs">
+            <li className={`tab-slider-item ${(this.state.type === 'all') ? 'tab-active' : ''}`} 
+              onClick={this.onClickButtonAll}>내 친구</li>
+            <li className={`tab-slider-item ${(this.state.type === 'send') ? 'tab-active' : ''}`}
+              onClick={this.onClickButtonSend}>보낸 요청</li>
+            <li className={`tab-slider-item ${(this.state.type === 'receive') ? 'tab-active' : ''}`}
+              onClick={this.onClickButtonReceive}>받은 요청</li>
+          </ul>
+        </div>  
         <Fade
           out={this.state.fadeOut}
           duration={fadeDuration}

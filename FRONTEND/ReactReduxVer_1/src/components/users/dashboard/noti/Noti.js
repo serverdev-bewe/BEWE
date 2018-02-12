@@ -23,7 +23,7 @@ class Noti extends Component {
   };
 
   onCheckNoti() {
-    if(this.props.checkNoti(this.props.noti.idx)) {
+    if (this.props.checkNoti(this.props.noti.idx)) {
       this.context.router.history.push(this.props.noti.url);
     }
   }

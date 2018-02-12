@@ -95,7 +95,6 @@ module.exports.check = async (req, res, next) => {
 
 module.exports.polling = async (req, res, next) => {
   global.requests.set(req.userIdx, res);
-  console.log(global.requests.keys());
 
   // let result = '';
   
@@ -119,6 +118,5 @@ module.exports.polling = async (req, res, next) => {
 
 global.eventEmitter.on('new_noti', (usersIdx, data) => {
   const res = global.requests.get(usersIdx);
-  console.log(res);
   return res.status(200).json(data);
 });
