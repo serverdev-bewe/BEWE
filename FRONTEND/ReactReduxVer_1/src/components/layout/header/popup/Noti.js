@@ -1,5 +1,3 @@
-import '/../style/users.css';
-
 import React, { Component, PropTypes } from 'react';
 import Moment from 'react-moment';
 import Parser from 'html-react-parser';
@@ -36,7 +34,7 @@ class Noti extends Component {
         className={`noti-wrapper ${(this.props.noti.flag === 0) ? 'noti-checked' : ''}`}
         style={{"minWidth": 250}}>
         <div className="noti-avatar-wrapper" style={{"width":40, "height":40}}>
-          <img className="avatar-image" src={(this.props.noti.image) !== null ? this.props.noti.image : "http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg"}/>
+          <img className="avatar-image" src={(this.props.noti.image) !== null ? this.props.noti.image : "/../public/img/logo.png"}/>
         </div>
         <div className="noti-contents">
           <p className="header-noti-list-last-message">{Parser(this.props.noti.contents)}</p>

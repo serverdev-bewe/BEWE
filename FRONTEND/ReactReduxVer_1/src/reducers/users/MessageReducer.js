@@ -1,5 +1,5 @@
 import { GET_CONVERSATIONS, GET_MESSAGES, SEND_MESSAGE, MESSAGE_MAKE_UPDATE, MESSAGE_MAKE_NOT_UPDATE } 
-  from '../../actions/users/MessageActions';
+  from 'actions/users/MessageActions';
 
 const INITIAL_STATE = {
   conversations: [],

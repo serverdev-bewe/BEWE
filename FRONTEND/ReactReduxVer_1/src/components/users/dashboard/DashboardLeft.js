@@ -1,5 +1,3 @@
-import '/../style/users.css';
-
 import React, { Component } from 'react';
 import DashboardAvatar from './DashboardAvatar';
 import DashboardNav from './DashboardNav';

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { Table } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 import { fetchNoties } from 'actions/users/NotiActions';
@@ -71,6 +70,7 @@ class NotiList extends Component {
     }    
   }
 }
+
 function mapStateToProps(state){
   return { noties: state.noties.all }
 }

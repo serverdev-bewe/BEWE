@@ -92,8 +92,8 @@ exports.purchase = (inputData) => {
       const sql =
         `
         SELECT
-          u.idx,
           u.nickname,
+          u.email,
           u.avatar,
           g.title,
           g.image,
@@ -101,7 +101,7 @@ exports.purchase = (inputData) => {
           ug.created_at
         FROM users_has_games AS ug
           LEFT JOIN games AS g ON ug.games_idx = g.idx
-          LEFT JOIN users AS u ON g.users_idx = u.idx
+          LEFT JOIN users AS u ON ug.users_idx = u.idx
         WHERE ug.idx = ?
         `;
       pool.query(sql, [result.insertId], (err, rows) => {
@@ -125,7 +125,7 @@ exports.checkFriend = (inputData) => {
        FROM friends
        WHERE (sender_idx = ? AND receiver_idx = ?) 
         OR 
-       (receiver_idx = ? AND sender_idx = ?)
+       (sender_idx = ? AND receiver_idx = ?)
       `;
 
     pool.query(sql, [inputData.sender, inputData.receiver,

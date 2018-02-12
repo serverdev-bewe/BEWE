@@ -1,4 +1,4 @@
-import { FETCH_MY_PROFILE, FETCH_OTHER_PROFILE } from '../../actions/users/UserActions';
+import { FETCH_MY_PROFILE, FETCH_OTHER_PROFILE } from 'actions/users/UserActions';
 
 const INITIAL_STATE = {
   profile: {},

@@ -78,11 +78,12 @@ class MessageList extends Component {
   render() {
     if(this.props.messages === undefined) {
       return (
-        <div>
+        <div className="dashboard-loader">
           <HashLoader
             color={'#00B0FF'} 
             loading={true} 
           />
+          <p>메시지를 로딩하고 있습니다.</p>
         </div>
       );
     }

@@ -89,7 +89,7 @@ export default class Header extends React.Component {
             <NavLink to="/" className="top-nav-item">Store</NavLink>
             <NavLink to="/mygame" className="top-nav-item">My Game</NavLink>
             <NavLink to="/" className="top-nav-item">Community</NavLink>
-            <NavLink to="/" className="top-nav-item">Ranking</NavLink>
+            <NavLink to="/rank" className="top-nav-item">Ranking</NavLink>
 
             {
               localStorage.getItem("token") ? 
@@ -123,7 +123,7 @@ export default class Header extends React.Component {
                       </PopoverBody>
                     </Popover>
 
-                    <NavLink to="/users" className="nav-right-item"><span className="ion-person"></span></NavLink>
+                    <NavLink to="/users/profile" className="nav-right-item"><span className="ion-person"></span></NavLink>
                   </div>
                   <NavLink to="/" className="item" activeClassName="active">
                     <Button className="login-logout-button" onClick={()=>

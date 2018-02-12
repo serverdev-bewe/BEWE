@@ -10,7 +10,6 @@ const fadeDuration = 0.5;
 class MessageBoard extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       index: 0,
       conversationIdx: 0,
@@ -39,6 +38,7 @@ class MessageBoard extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (      
       <div className="dashboard-right-contents" 
            style={{"padding":"30px 0"}}>

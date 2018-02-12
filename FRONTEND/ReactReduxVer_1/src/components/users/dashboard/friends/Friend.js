@@ -1,5 +1,3 @@
-import '/../style/users.css';
-
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import Parser from 'html-react-parser';
@@ -9,7 +7,7 @@ import { Card, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchOtherProfile } from 'helper.js';
+import { fetchOtherProfile } from 'helper';
 
 let otherUserIdx = '';
 
@@ -60,10 +58,14 @@ class Friend extends Component {
           </div>
           <div className="friend-right-wrapper">
             <div className="friend-avatar-wrapper">
-              <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg"}/>
+              <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "/../public/img/avatar.png"}/>
             </div>
           </div>
-          <Button style={{"display" : "block"}}>프로필 보기</Button>  
+          <NavLink 
+            to={`/users/friends/${this.state.profile.idx}`}
+            onClick={()=> this.props.history.pushState(null, null, `/users/friends/${this.state.profile.idx}`)}>
+            <Button style={{"display" : "block"}}>프로필 보기</Button>
+          </NavLink>  
         </Card>
       )
     }
