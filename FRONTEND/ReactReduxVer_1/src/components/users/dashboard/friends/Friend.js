@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import Moment from 'react-moment';
 import Parser from 'html-react-parser';
 import axios from 'axios';
-import { Card, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
 
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchOtherProfile } from 'helper';
+import { fetchOtherId, fetchOtherProfile } from 'helper';
+import FriendAllCard from './FriendAllCard';
+import FriendRequest from './FriendRequest';
 
 let otherUserIdx = '';
 
@@ -38,7 +38,13 @@ class Friend extends Component {
   // }
 
   async componentWillMount() {
-    const profile = await fetchOtherProfile(otherUserIdx);
+    let profile = '';
+
+    if (this.props.type === 'all') {
+      profile = await fetchOtherProfile(otherUserIdx);
+    } else {
+      profile = await fetchOtherId(otherUserIdx);
+    }
 
     this.setState({
       profile: profile.data.result
@@ -46,28 +52,18 @@ class Friend extends Component {
   }
 
   render(){
-    if(this.state.profile === undefined) {
+    if (this.state.profile === undefined) {
       return <div>Loading...</div>
     } else {
-      return(      
-        <Card className="friend-card-wrapper">
-          <div className="friend-left-wrapper">
-            <CardTitle>{this.state.profile.nickname}</CardTitle>
-            <CardSubtitle style={{"margin":"7px 0"}}>{this.state.profile.id}</CardSubtitle>          
-            <CardText style={{"color":"#999999", "fontSize":"13px"}}>{this.state.profile.email}</CardText>
-          </div>
-          <div className="friend-right-wrapper">
-            <div className="friend-avatar-wrapper">
-              <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "/../public/img/avatar.png"}/>
-            </div>
-          </div>
-          <NavLink 
-            to={`/users/friends/${this.state.profile.idx}`}
-            onClick={()=> this.props.history.pushState(null, null, `/users/friends/${this.state.profile.idx}`)}>
-            <Button style={{"display" : "block"}}>프로필 보기</Button>
-          </NavLink>  
-        </Card>
-      )
+      if (this.props.type === 'all') {
+        return (
+          <FriendAllCard profile={this.state.profile} />
+        )
+      } else {
+        return (
+          <FriendRequest profile={this.state.profile} />
+        )
+      }
     }
   }
 }

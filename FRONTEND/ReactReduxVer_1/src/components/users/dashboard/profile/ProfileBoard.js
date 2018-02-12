@@ -8,7 +8,7 @@ import ProfileAvatar from './ProfileAvatar';
 import Profile from './Profile';
 import UserGame from './UserGame';
 
-const fadeDuration = 0.5;
+const fadeDuration = 0.3;
 
 class ProfileBoard extends Component{
   constructor(props){

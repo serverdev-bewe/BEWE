@@ -160,3 +160,24 @@ exports.list = async(req, res, next) => {
   }
   return res.r(result);
 };
+
+
+/**********
+ * 다른 유저 id 조회
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
+ */
+exports.getId = async(req, res, next) => {
+  let result = '';
+
+  try{
+    const userIdx = req.params.idx;
+
+    result = await userModel.getId(userIdx);
+  } catch (error) {
+    return next(error);
+  }
+  return res.r(result);
+};

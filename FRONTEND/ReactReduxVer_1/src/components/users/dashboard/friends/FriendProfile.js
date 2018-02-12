@@ -7,7 +7,7 @@ import ProfileAvatar from '../profile/ProfileAvatar';
 import Profile from '../profile/Profile';
 import UserGame from '../profile/UserGame';
 
-const fadeDuration = 0.5;
+const fadeDuration = 0.3;
 
 class FriendProfile extends Component{
   constructor(props){
