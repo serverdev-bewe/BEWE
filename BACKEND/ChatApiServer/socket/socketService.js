@@ -80,23 +80,16 @@ module.exports = function(server, pub, sub) {
       if(readyUsers[roomSeq].indexOf(data.username) != -1) return;
       readyUsers[roomSeq].push(data.username);
       console.log(readyUsers[roomSeq]);
-      
+      console.log(data.roomSize);
       let reply = JSON.stringify({
         method: 'server:chattReady',
         sendType: 'sendToAllClientsInRoom',
         roomSeq: roomSeq,
         rooms: rooms[roomSeq],
-        readyUsers: readyUsers[roomSeq]
+        readyUsers: readyUsers[roomSeq],
+        roomSize: data.roomSize
       });
       pub.publish('sub', reply);
-
-      // io.sockets.in(roomSeq).emit('chattReadyOk', {
-      //   readyUsers: readyUsers
-      // });
-
-      // io.sockets.in(roomSeq).emit('chattReadyCnt', {
-      //   data: 1
-      // });
     });
 
     socket.on('gameStart', data=>{

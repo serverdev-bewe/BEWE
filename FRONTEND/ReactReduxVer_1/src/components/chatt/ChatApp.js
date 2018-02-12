@@ -60,16 +60,6 @@ class ChatApp extends React.Component {
       this.onReadyBadge(data);
       this.addMessage(data.messageData);
     })
-
-    this.socket.on('chattReadyCnt', data=>{
-      this.setState({
-        readyCnt : this.state.readyCnt + 1
-      })
-    })
-
-    // this.socket.on('chattReadyOk', data=>{
-    //   this.onReadyBadge(data);
-    // });
   }
 
   onReadyBadge(data){
@@ -97,7 +87,8 @@ class ChatApp extends React.Component {
 
   readyHandler(){
     this.socket.emit('chattReady', {
-      username: this.props.username
+      username: this.props.username,
+      roomSize: this.props.roomSize[this.props.roomSeq-1].cnt
     });
   }
   exitHandler(){
@@ -130,7 +121,7 @@ class ChatApp extends React.Component {
     return (
       <div className="containerm">
         <h3>{this.state.roomSeq}. {this.state.roomName} / {this.state.readyCnt}
-        <Button outline color="danger" 
+        &nbsp;<Button outline color="danger" 
           onClick={this.readyHandler}
         >READY</Button>
         </h3>
