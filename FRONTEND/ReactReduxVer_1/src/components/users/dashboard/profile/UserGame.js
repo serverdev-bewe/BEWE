@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PulseLoader } from 'react-spinners';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -22,12 +23,24 @@ class UserGame extends Component {
       gameList = this.props.gameList;
     }
 
-    return gameList
-      .map((game) => {
-        return (         
-          <GameCard game={game} key={game.idx}/>
-        )       
-    });
+    if (gameList.length === 0) {
+      return (
+        <div className="dashboard-loader" style={{marginTop: 0, paddingTop: "20%"}}>
+          <PulseLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>구입한 게임이 없습니다!</p>
+        </div>
+      )
+    } else {
+      return gameList
+        .map((game) => {
+          return (         
+            <GameCard game={game} key={game.idx}/>
+          )       
+      });
+    }    
   }
 
   render(){
