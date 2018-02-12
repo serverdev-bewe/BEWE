@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const FETCH_PURCHASED_LISTS = 'FETCH_PURCHASED_LISTS';
 
-
 const ROOT_URL = 'http://127.0.0.1:3002/api/store';
 
 export function fetchPurchasedLists(){

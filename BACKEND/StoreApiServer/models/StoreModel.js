@@ -125,7 +125,7 @@ exports.checkFriend = (inputData) => {
        FROM friends
        WHERE (sender_idx = ? AND receiver_idx = ?) 
         OR 
-       (receiver_idx = ? AND sender_idx = ?)
+       (sender_idx = ? AND receiver_idx = ?)
       `;
 
     pool.query(sql, [inputData.sender, inputData.receiver,
@@ -133,6 +133,7 @@ exports.checkFriend = (inputData) => {
       if (err) {
         reject(9402);
       } else {
+        console.log(rows);
         resolve(rows[0]);
       }
     })

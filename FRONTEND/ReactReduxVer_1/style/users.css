@@ -92,7 +92,7 @@
   line-height: 50px;
 }
 
-.dashboard-right-wrapper{
+#dashboard-right-wrapper{
   position: relative;
   display: block;
   max-width: 940px;

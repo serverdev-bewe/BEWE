@@ -34,7 +34,7 @@ class Dashboard extends Component {
                    "minHeight": height, "height": "100%"}}>
         <DashboardLeft />       
         
-        <div className="dashboard-right-wrapper">
+        <div id="dashboard-right-wrapper">
           <DashboardRight height={height}/>
         </div> 
       </div>

@@ -7,7 +7,7 @@ import { Card, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchOtherProfile } from 'helper.js';
+import { fetchOtherProfile } from 'helper';
 
 let otherUserIdx = '';
 
@@ -61,7 +61,11 @@ class Friend extends Component {
               <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "/../public/img/avatar.png"}/>
             </div>
           </div>
-          <Button style={{"display" : "block"}}>프로필 보기</Button>  
+          <NavLink 
+            to={`/users/friends/${this.state.profile.idx}`}
+            onClick={()=> this.props.history.pushState(null, null, `/users/friends/${this.state.profile.idx}`)}>
+            <Button style={{"display" : "block"}}>프로필 보기</Button>
+          </NavLink>  
         </Card>
       )
     }

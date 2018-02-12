@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Moment from 'react-moment';
 import axios from 'axios';
 
-import { fetchOtherProfile } from 'helper.js';
+import { fetchOtherProfile } from 'helper';
 
 let otherUserIdx = '';
 

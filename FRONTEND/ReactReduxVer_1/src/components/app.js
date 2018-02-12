@@ -23,7 +23,7 @@ import StartGame from './StartGame';
 import ContentsList from './CMS/ContentsList';
 import ContentsRegister from './CMS/register/ContentsRegister';
 import StoreLists from './store/StoreLists';
-
+import FriendBoard from './users/dashboard/friends/FriendBoard';
 function mapStateToProps(state) {  
   return {
     newNoti: state.app.newNoti,

@@ -8,11 +8,21 @@ import GameCard from './GameCard';
 
 class UserGame extends Component {
   componentWillMount(){
-    this.props.fetchPurchasedLists();    
+    if (!this.props.gameList) {
+      this.props.fetchPurchasedLists();    
+    }
   }
 
   renderGames(){
-    return this.props.games
+    let gameList = '';
+
+    if (!this.props.gameList) {
+      gameList = this.props.games;
+    } else {
+      gameList = this.props.gameList;
+    }
+
+    return gameList
       .map((game) => {
         return (         
           <GameCard game={game} key={game.idx}/>
