@@ -8,6 +8,7 @@ const app = express();
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const { find, filter } = require('lodash');
+const schema = require('./schema/Schema').schema;
 
 
 
@@ -38,7 +39,6 @@ require('./routes')(app);
 // error handler
 require('./ErrorHandler')(app);
 
-const schema = {};
 
 // The GraphQL endpoint
 app.use('/graphql',
