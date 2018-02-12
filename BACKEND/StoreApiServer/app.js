@@ -5,6 +5,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const { makeExecutableSchema } = require('graphql-tools');
+const { find, filter } = require('lodash');
+
+
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(logger('dev'));
@@ -33,9 +38,23 @@ require('./routes')(app);
 // error handler
 require('./ErrorHandler')(app);
 
+// The GraphQL endpoint
+app.use('/graphql',
+  bodyParser.json(),
+  graphqlExpress({
+    schema
+  }));
+
+// GraphiQL, a visual editor for queries
+app.use('/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql'
+  }));
+
+
 const PORT = 3002;
 app.listen(PORT, () => {
-  console.info(`[BEWE-StoreApiServer] Listening on Port ${PORT}`);
+  console.info(`[BEWE-StoreApiServer] Listening on Port ${PORT}`, `Test GraphQL http://localhost:${PORT}/graphiql`);
 });
 
 module.exports = app;
