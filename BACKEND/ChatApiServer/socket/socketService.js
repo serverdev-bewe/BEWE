@@ -3,19 +3,16 @@ let rooms = [[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
                 ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
                 ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
                 ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []];
+let readyUsers = [[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
+                ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
+                ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []
+                ,[], [], [], [], [] ,[] ,[] ,[], [], [], [], [], [], [], [], []];
 
 module.exports = function(server, pub, sub) {
   const io = require('socket.io')(server);
 
-  let readyUsers = [];
-
-  // let socketId = [];
-  // let rooms = [[], [], [], []];
-
   sub.on("message", function (channel, data) {
     data = JSON.parse(data);
-    // console.log(data);
-    // console.log("Redis_Sub: " + channel + " // roomSeq : " + (data.roomSeq));
 
     if (parseInt("sendToSelf".localeCompare(data.sendType)) === 0) {
         io.emit(data.method, data.data);
@@ -62,7 +59,7 @@ module.exports = function(server, pub, sub) {
       let socketId = [];
       socketId[keyname + socket.id] = username;
       rooms[roomSeq].push(Object.values(socketId));
-      
+
       let reply = JSON.stringify({
         method: 'server:joinRoom',
         sendType: 'sendToAllClientsInRoom',
@@ -72,7 +69,7 @@ module.exports = function(server, pub, sub) {
         },
         roomSeq : roomSeq,
         rooms: rooms[roomSeq],
-        readyUsers: readyUsers
+        readyUsers: readyUsers[roomSeq]
       });
 
       pub.publish('sub', reply);
@@ -80,14 +77,19 @@ module.exports = function(server, pub, sub) {
 
 
     socket.on('chattReady', data=>{
-      readyUsers.push(data.username);
-      io.sockets.in(roomSeq).emit('chattReadyOk', {
-        readyUsers: readyUsers
+      if(readyUsers[roomSeq].indexOf(data.username) != -1) return;
+      readyUsers[roomSeq].push(data.username);
+      console.log(readyUsers[roomSeq]);
+      console.log(data.roomSize);
+      let reply = JSON.stringify({
+        method: 'server:chattReady',
+        sendType: 'sendToAllClientsInRoom',
+        roomSeq: roomSeq,
+        rooms: rooms[roomSeq],
+        readyUsers: readyUsers[roomSeq],
+        roomSize: data.roomSize
       });
-
-      io.sockets.in(roomSeq).emit('chattReadyCnt', {
-        data: 1
-      });
+      pub.publish('sub', reply);
     });
 
     socket.on('gameStart', data=>{
@@ -97,7 +99,7 @@ module.exports = function(server, pub, sub) {
 
     socket.on('disconnect', (data) => {
    
-      readyUsers = readyUsers.filter(function(ele){
+      readyUsers[roomSeq] = readyUsers[roomSeq].filter(function(ele){
         return ele != usernamea
       });
 
@@ -115,7 +117,7 @@ module.exports = function(server, pub, sub) {
           message: `${usernamea}님이 나가셨습니다.`
         },
         roomSeq: roomSeq,
-        readyUsers: readyUsers,
+        readyUsers: readyUsers[roomSeq],
         rooms: rooms[roomSeq]
       });
 

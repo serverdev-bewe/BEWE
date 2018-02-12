@@ -37,6 +37,8 @@ class GameRoomList extends Component {
 
         this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
         this.handleRoomSizeChange = this.handleRoomSizeChange.bind(this);
+
+        this.roomListInterval = this.roomListInterval.bind(this);
       }
 
       handleCreateRoomModal(e){
@@ -67,7 +69,7 @@ class GameRoomList extends Component {
       handleRoomNameChange(e){
         this.setState({
             createRoomName : e.target.value
-        })
+        });
       }
       
       handleOpenModal () {
@@ -89,6 +91,10 @@ class GameRoomList extends Component {
         })
     }
     componentDidMount(){
+        setInterval(this.roomListInterval, 2000);
+    }
+
+    roomListInterval(){
         fetch(`http://localhost:4001/api/roomlist/${this.state.paramsGameNumber}`,{
             method: 'get',
             headers: {
@@ -153,10 +159,6 @@ class GameRoomList extends Component {
                 <Button color="info" 
                     onClick={this.handleOpenModal}
                 >방 만들기</Button>
-                <Button color="info"  onClick={()=> 
-                    this.context.router.history.push(`/gamegamelist/${this.state.paramsGameNumber}`) 
-                }
-                >리스트 다시 불러오기</Button>
         <div >
         <ReactModal 
            isOpen={this.state.showModal}
@@ -186,7 +188,6 @@ class GameRoomList extends Component {
         </ReactModal>
         </div>
                 &nbsp;
-                <Button color="secondary" >Rank 시작</Button>
                 <p/>
                 </div>
                 <Table hover>
@@ -207,12 +208,12 @@ class GameRoomList extends Component {
                 hi
             </div>
             <div>
-                <h1>Room IDX = {this.state.roomSeq}</h1>
                 {
                     this.state.roomSeq ? 
                     <ChatApp paramsGameNumber={this.state.paramsGameNumber} 
                         roomSeq={this.state.roomSeq} 
                         roomName={this.state.roomName}
+                        roomSize={this.state.rows}
                         username={(JSON.parse(localStorage.getItem("profile")).nickname)}
                         exitHandler={this.exitHandler}
                     /> : ''
