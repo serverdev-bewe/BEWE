@@ -6,7 +6,7 @@ import { default as Fade } from 'react-fade'
 import RankingMenu from './RankingMenu';
 import RankingList from './RankingList';
 
-const fadeDuration = 0.5;
+const fadeDuration = 0.3;
 
 class RankingBoard extends Component {
   constructor(props) {

@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { fetchNoties } from 'actions/users/NotiActions';
 import Noti from './Noti';
 
-const fadeDuration = 10;
+const fadeDuration = 0.3;
 
 class NotiList extends Component {
   constructor(props){

@@ -229,10 +229,52 @@ exports.list = (userIdx) => {
 };
 
 
+/**********
+ * 다른 유저 정보 조회
+ * @param userIdx
+ * @returns {Promise<any>}
+ */
+exports.getId = (userIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+      SELECT idx, id, nickname, email, avatar
+      FROM users
+      WHERE idx = ?
+      `;
+    pool.query(sql, userIdx, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows[0]);
+      }
+    });
+  })
+};
 
 
-
-
+/**********
+ * 다른 유저 id 조회
+ * @param userIdx
+ * @returns {Promise<any>}
+ */
+exports.getId = (userIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+      SELECT id, avatar, created_at
+      FROM users
+      WHERE idx = ?
+      `;
+    pool.query(sql, userIdx, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows[0]);
+      }
+    });
+  })
+};
 
 
 

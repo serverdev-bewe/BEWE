@@ -22,12 +22,21 @@ class UserGame extends Component {
       gameList = this.props.gameList;
     }
 
-    return gameList
-      .map((game) => {
-        return (         
-          <GameCard game={game} key={game.idx}/>
-        )       
-    });
+    if (gameList.length === 0) {
+      return (
+        <div className="dashboard-loader">
+          <img src="/../public/img/empty.png" />
+          <p>구입한 게임이 없습니다!</p>
+        </div>
+      )
+    } else {
+      return gameList
+        .map((game) => {
+          return (         
+            <GameCard game={game} key={game.idx}/>
+          )       
+      });
+    }    
   }
 
   render(){
