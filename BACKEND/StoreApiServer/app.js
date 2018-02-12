@@ -38,6 +38,7 @@ require('./routes')(app);
 // error handler
 require('./ErrorHandler')(app);
 
+const schema = {};
 // The GraphQL endpoint
 app.use('/graphql',
   bodyParser.json(),
@@ -54,7 +55,7 @@ app.use('/graphiql',
 
 const PORT = 3002;
 app.listen(PORT, () => {
-  console.info(`[BEWE-StoreApiServer] Listening on Port ${PORT}`, `Test GraphQL http://localhost:${PORT}/graphiql`);
+  console.info(`[BEWE-StoreApiServer] Listening on Port ${PORT}`, `\n Test GraphQL http://localhost:${PORT}/graphiql`);
 });
 
 module.exports = app;
