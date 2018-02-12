@@ -28,21 +28,39 @@ class FriendList extends Component {
   }
 
   renderFriends(){
-    return this.props.friends
-      .slice(0, 15 * this.state.page - 1)
+    const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
+
+    if (this.props.type === 'all') {      
+      return this.props.friends
+      // .slice(0, 15 * this.state.page - 1)
       .map((friend) => {
-        if(this.props.type === 'all') {
+        if (friend.flag === 1) {
           return (         
-            <Friend friend={friend} key={friend.idx}/>
+            <Friend friend={friend} key={friend.idx} type={this.props.type} />
           )
-        } else {
-          // if(noti.flag == 0) {
-          //   return (
-          //     <Noti friend={noti} key={noti.idx}/>
-          //   )
-          // }
+        }        
+      });
+    } else if (this.props.type === 'send') {
+      return this.props.friends
+      // .slice(0, 15 * this.state.page - 1)
+      .map((friend) => {
+        if (friend.flag === 0 && friend.sender_idx === userIdx) {
+          return (         
+            <Friend friend={friend} key={friend.idx} type={this.props.type} />
+          )
+        }        
+      });
+    } else if (this.props.type === 'receive') {
+      return this.props.friends
+      // .slice(0, 15 * this.state.page - 1)
+      .map((friend) => {
+        if (friend.flag === 0 && friend.receiver_idx === userIdx) {
+          return (
+            <Friend friend={friend} key={friend.idx} type={this.props.type} />
+          )
         }
-    });
+      })
+    }
   }
 
   render() {

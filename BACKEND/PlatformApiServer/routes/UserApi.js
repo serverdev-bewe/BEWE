@@ -15,5 +15,8 @@ module.exports = (router) => {
   router.route('/users/friends/reject/:idx')
     .get(authCtrl.auth, friendCtrl.reject);
 
+  router.route('/users/friends/cancel/:idx')
+    .get(authCtrl.auth, friendCtrl.cancel);
+    
   return router;
 };

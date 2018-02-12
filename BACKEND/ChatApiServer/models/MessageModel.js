@@ -164,10 +164,10 @@ exports.openConversation = (userData, receiverData) => {
           const sql = 
             'INSERT INTO conversations (users_idx_1, users_idx_2, last_message) VALUES (?, ?, ?)';
           context.conn.query(sql, [userData, receiverData, last_message], (err, rows) => {
-            if(err){
+            if (err) {
               console.log(err);
               reject(err);
-            }else{
+            } else {
               if (rows.affectedRows === 1) { // 대화방 생성
                 context.flag = 1;
                 context.msg = last_message;
