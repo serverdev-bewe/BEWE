@@ -94,11 +94,9 @@ module.exports = function(server, pub, sub) {
 
     socket.on('gameStart', data=>{
       console.log(data);
-    })
-
+    });
 
     socket.on('disconnect', (data) => {
-   
       readyUsers[roomSeq] = readyUsers[roomSeq].filter(function(ele){
         return ele != usernamea
       });
