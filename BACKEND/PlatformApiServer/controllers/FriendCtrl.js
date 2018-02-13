@@ -121,7 +121,11 @@ exports.searchId = async(req, res, next) => {
   let result = '';
 
   try {
-    const inputData = req.params.id;
+    const inputData = req.body.id;
+
+    if (!inputData) {
+      return res.status(400);
+    }
 
     result = await friendModel.searchId(inputData);
   } catch (error) {

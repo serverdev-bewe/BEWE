@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import { fetchFriends } from 'actions/users/FriendActions';
 import Friend from './Friend';
+import FriendFind from './FriendFind';
 
 class FriendList extends Component {
   constructor(){
@@ -60,12 +61,23 @@ class FriendList extends Component {
           )
         }
       })
+    } else if (this.props.type === 'find') {
+      return <FriendFind />
     }
   }
 
   render() {
     if(this.props.friends === undefined) {
       return <div>Loading...</div>
+    }
+
+    if (this.props.friends.length === 0) {
+      return (
+        <div className="dashboard-loader">
+          <img src="/../public/img/empty.png" />
+          <p>친구 리스트가 없습니다!</p>
+        </div>
+      )
     }
 
     else {
