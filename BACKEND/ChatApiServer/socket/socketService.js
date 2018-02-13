@@ -93,7 +93,20 @@ module.exports = function(server, pub, sub) {
     });
 
     socket.on('gameStart', data=>{
-      console.log(data);
+      let reply = JSON.stringify({
+        method: 'server:gameStart',
+        sendType: 'sendToAllClientsInRoom',
+        messageData: {
+          username: username,
+          message: `${usernamea}님이 나가셨습니다.`
+        },
+        roomSeq: roomSeq,
+        readyUsers: readyUsers[roomSeq],
+        rooms: rooms[roomSeq],
+        redirect:1
+      });
+
+      pub.publish('sub', reply);
     });
 
     socket.on('disconnect', (data) => {
@@ -116,7 +129,8 @@ module.exports = function(server, pub, sub) {
         },
         roomSeq: roomSeq,
         readyUsers: readyUsers[roomSeq],
-        rooms: rooms[roomSeq]
+        rooms: rooms[roomSeq],
+        execgameState:0
       });
 
       pub.publish('sub', reply);
