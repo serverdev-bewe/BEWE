@@ -114,4 +114,20 @@ exports.cancel = async(req, res, next) => {
   }
 
   return res.status(201).json(result);
-}
+};
+
+
+exports.searchId = async(req, res, next) => {
+  let result = '';
+
+  try {
+    const inputData = req.params.id;
+
+    result = await friendModel.searchId(inputData);
+  } catch (error) {
+    return next(error);
+  }
+
+
+  return res.r(result);
+};

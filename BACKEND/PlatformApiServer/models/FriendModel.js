@@ -232,4 +232,30 @@ exports.cancel = (userData, idx) => {
       });
     });
   });
-}
+};
+
+
+
+exports.searchId = (inputData) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+       SELECT
+         idx,
+         id,
+         nickname,
+         email,
+         avatar
+       FROM users
+       WHERE id REGEXP ?;
+      `;
+
+    pool.query(sql, inputData, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    })
+  })
+};
