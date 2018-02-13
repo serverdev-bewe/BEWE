@@ -32,7 +32,7 @@ class ChatApp extends React.Component {
     this.exitHandler = this.exitHandler.bind(this);
     this.onReadyBadge = this.onReadyBadge.bind(this);
     // Connect to the server
-    this.socket = io(`http://localhost:4000`, {
+    this.socket = io(`http://192.168.0.60:70`, {
       query: `username=${props.username}&gameSeq=${props.paramsGameNumber}&roomSeq=${props.roomSeq}` 
     }).connect();
     
@@ -60,6 +60,9 @@ class ChatApp extends React.Component {
           'gameNumber' : this.state.paramsGameNumber,
           'roomSeq': this.props.roomSeq
         });
+        //
+        //JSON 태웅이한테 JSON전달
+        //게임exe실행코드
         this.context.router.history.push('/startgame');
       }
     });
