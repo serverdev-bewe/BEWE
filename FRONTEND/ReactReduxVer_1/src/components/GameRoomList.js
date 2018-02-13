@@ -42,7 +42,7 @@ class GameRoomList extends Component {
       }
 
       handleCreateRoomModal(e){
-          if(this.state.createRoomName == ''){
+          if(this.state.createRoomName == '' || this.state.createRoomSize == 0){
             return 
           }
         axios.post(`http://localhost:4001/api/createroom`,{
