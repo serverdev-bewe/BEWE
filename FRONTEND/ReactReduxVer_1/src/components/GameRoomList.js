@@ -216,9 +216,9 @@ class GameRoomList extends Component {
                 </tbody>
             </Table>
             </div>
-            <div style={{"display" : "inline-block", "width":"20%"}}>
+            {/* <div style={{"display" : "inline-block", "width":"20%"}}>
                 hi
-            </div>
+            </div> */}
             <div>
                 {
                     this.state.roomSeq ? 
