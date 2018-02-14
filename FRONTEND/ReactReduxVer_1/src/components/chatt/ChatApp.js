@@ -179,7 +179,7 @@ class ChatApp extends React.Component {
         {
           this.state.execgameState
           ?
-          <a href="test://">
+          <a href="BeWe://">
           <button onClick={this.startgameHandler}>
             실행!
           </button></a>
