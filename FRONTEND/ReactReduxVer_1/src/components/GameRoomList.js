@@ -42,7 +42,7 @@ class GameRoomList extends Component {
       }
 
       handleCreateRoomModal(e){
-          if(this.state.createRoomName == ''){
+          if(this.state.createRoomName == '' || this.state.createRoomSize == 0){
             return 
           }
         axios.post(`http://localhost:4001/api/createroom`,{
@@ -216,9 +216,9 @@ class GameRoomList extends Component {
                 </tbody>
             </Table>
             </div>
-            <div style={{"display" : "inline-block", "width":"20%"}}>
+            {/* <div style={{"display" : "inline-block", "width":"20%"}}>
                 hi
-            </div>
+            </div> */}
             <div>
                 {
                     this.state.roomSeq ? 

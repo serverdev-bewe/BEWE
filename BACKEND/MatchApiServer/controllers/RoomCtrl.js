@@ -15,6 +15,12 @@ exports.deleteRoom = (req,res,next) => {
     return res.status(200).json(gameRooms[idx]);
 };
 
+exports.execgame = (req, res, next) =>{
+    // const ls = spawn('cmd', ['/c', 'dir', fileName]);
+    console.log('execgame');
+    return res.status(200);
+}
+
 exports.createRoom = (req, res, next) =>{
     let idx = req.body.gameNumber;
     gameRooms[idx].push({

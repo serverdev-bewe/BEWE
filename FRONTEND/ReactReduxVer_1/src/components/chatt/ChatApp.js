@@ -31,8 +31,9 @@ class ChatApp extends React.Component {
     this.readyHandler = this.readyHandler.bind(this);
     this.exitHandler = this.exitHandler.bind(this);
     this.onReadyBadge = this.onReadyBadge.bind(this);
+    this.startgameHandler = this.startgameHandler.bind(this);
     // Connect to the server
-    this.socket = io(`http://localhost:4000`, {
+    this.socket = io(`http://192.168.0.60:70`, {
       query: `username=${props.username}&gameSeq=${props.paramsGameNumber}&roomSeq=${props.roomSeq}` 
     }).connect();
     
@@ -48,29 +49,62 @@ class ChatApp extends React.Component {
       this.onReadyBadge(data);
       this.addMessage(data.messageData);
     });
+
+    this.socket.on('server:gameStart', data =>{
+      this.setState({
+        startGameBoolean: data.redirect
+      });
+      this.context.router.history.push('/startgame');
+    });
     
-    this.socket.on('server:chattReady', data=>{
+    this.socket.on('server:chattReady', data =>{
       this.onReadyBadge(data);
       if(data.readyUsers.length == data.roomSize){
-        //GAMEAPI JSON
-        axios.post(`http://localhost:4001/api/deleteroom`,{
-          'name': this.state.createRoomName,
-          'adminUser' : JSON.parse(localStorage.getItem("profile")).nickname,
-          'cnt' : this.state.createRoomSize,
-          'gameNumber' : this.state.paramsGameNumber,
-          'roomSeq': this.props.roomSeq
-        });
-        this.context.router.history.push('/startgame');
+        this.execgameHandler();
       }
     });
 
     this.socket.on('server:disconnect', data =>{
+      this.setState({
+        execgameState: data.execgameState
+      });
       this.addUsers(data);
       this.onReadyBadge(data);
       this.addMessage(data.messageData);
     })
   }
+  startgameHandler(){
+    this.setState({
+      execgameState:0
+    });
 
+    axios.post(`http://localhost:4001/api/deleteroom`,{
+      'name': this.state.createRoomName,
+      'adminUser' : JSON.parse(localStorage.getItem("profile")).nickname,
+      'cnt' : this.state.createRoomSize,
+      'gameNumber' : this.state.paramsGameNumber,
+      'roomSeq': this.props.roomSeq
+    });
+    //
+    // //JSON 태웅이한테 JSON전달
+    // axios.post(`http://localhost:4001/api/execgame`,{
+    //   'name': this.state.createRoomName,
+    //   'adminUser' : JSON.parse(localStorage.getItem("profile")).nickname,
+    //   'cnt' : this.state.createRoomSize,
+    //   'gameNumber' : this.state.paramsGameNumber,
+    //   'roomSeq': this.props.roomSeq
+    // });
+    this.socket.emit('gameStart');
+    
+    this.context.router.history.push('/startgame');
+  }
+  execgameHandler(){
+    if(this.props.username === this.props.roomSize[this.props.roomSeq-1].adminUser){
+    this.setState({
+      execgameState : 1
+    });
+  }
+  }
   onReadyBadge(data){
     this.setState({
       readyUsers : data.readyUsers
@@ -103,9 +137,6 @@ class ChatApp extends React.Component {
   exitHandler(){
     this.props.exitHandler();
     //방장이라면
-    
-    // console.log(this.props.roomSize[this.props.roomSeq-1].adminUser);
-    // if(this.props.roomSize[this.props.roomSeq-1].adminUser)
     if(this.props.username === this.props.roomSize[this.props.roomSeq-1].adminUser){
       axios.post(`http://localhost:4001/api/deleteroom`,{
                 'name': this.state.createRoomName,
@@ -145,6 +176,16 @@ class ChatApp extends React.Component {
         <Button outline color="danger" 
           onClick={this.readyHandler}
         >READY</Button>
+        {
+          this.state.execgameState
+          ?
+          <a href="BeWe://">
+          <button onClick={this.startgameHandler}>
+            실행!
+          </button></a>
+          :
+          ''
+        }
         </div>
         </h3>
         </div>

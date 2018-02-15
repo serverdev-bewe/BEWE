@@ -48,16 +48,16 @@ class MyGameList extends Component {
                     active={this.state.active}
                     >
                     <img src='https://i.ytimg.com/vi/S4Hnc_iRuBk/maxresdefault.jpg' 
-                        alt='First game' 
-                        data-action={ this.fn } />
+                        alt='게임 다운로드' 
+                        data-action="https://goo.gl/Utsn89" />
                     <img src='http://post.phinf.naver.net/MjAxNzAyMjdfMTM1/MDAxNDg4MTk0OTUxMzgx.DnQeRoSAEVGtGBJgLY2tmmjAtiujT_RYRjd5csfbTT0g.-GhV-au86bWwtaGBgrBOHoWeYs-RhIVCGEt8zDtQlMwg.PNG/IcoN3KjSbusLsg6-Lp1cKINXfHGc.jpg' 
-                        alt='Second game' 
+                        alt='게임 다운로드' 
                         data-action="http://andyyou.github.io/react-coverflow/"/>
                     <img src='http://www.tennisthis.com/wp-content/uploads/2011/06/redux.jpg' 
-                        alt='Hard game' 
+                        alt='게임 다운로드' 
                         data-action="http://andyyou.github.io/react-coverflow/"/>
                     <img src='https://cdn.colorlib.com/wp/wp-content/uploads/sites/2/nodejs-frameworks.png' 
-                        alt='Normal or description' 
+                        alt='게임 다운로드' 
                         data-action="http://andyyou.github.io/react-coverflow/"/>
                 </Coverflow>
                 </Row>
