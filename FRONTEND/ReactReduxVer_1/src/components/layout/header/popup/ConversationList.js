@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -58,7 +59,15 @@ class ConversationList extends Component {
 
   render() {
     if(this.props.conversations === undefined) {
-      return <div>Loading...</div>
+      return (
+        <div className="dashboard-loader">
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>로딩 중입니다..</p>
+        </div> 
+      )
     }
 
     else {
@@ -66,7 +75,9 @@ class ConversationList extends Component {
         return(
           <div>
             {this.renderConversations()}
-            <button className="header-more-button" onClick={this.onClickButton}>더 보기</button>
+            <NavLink to='/users/messages'>
+              <button className="header-more-button" onClick={this.onClickButton}>더 보기</button>
+            </NavLink>
           </div>
         )
       } else {
