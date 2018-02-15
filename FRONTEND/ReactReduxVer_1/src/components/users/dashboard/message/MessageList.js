@@ -56,7 +56,9 @@ class MessageList extends Component {
 
   scrollToBottom(){
     var objDiv = document.getElementsByClassName("message-list-chat-wrapper")[0];
-    objDiv.scrollTop = objDiv.scrollHeight;
+    if (objDiv) {
+      objDiv.scrollTop = objDiv.scrollHeight;
+    }
   }
 
   renderMessages(){
@@ -89,7 +91,7 @@ class MessageList extends Component {
     }
 
     else {
-      return(
+      return (
         <div className="message-list-right-wrapper">
           <div className="message-list-top">
             <span>To: 

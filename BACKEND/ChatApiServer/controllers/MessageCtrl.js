@@ -27,6 +27,21 @@ exports.list = (type) => {
   }
 };
 
+exports.check = async(req, res, next) => {
+  let result = '';
+
+  try{
+    const userData = req.userIdx;
+    const receiverData = req.params.idx;
+    
+    result = await messageModel.checkConversation(userData, receiverData);   
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+  return res.status(201).json(result);
+};
+
 module.exports.new = (type) => {  
   return async (req, res, next) => {
     let result = '';

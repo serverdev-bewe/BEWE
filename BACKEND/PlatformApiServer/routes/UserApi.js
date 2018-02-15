@@ -18,8 +18,8 @@ module.exports = (router) => {
   router.route('/users/friends/cancel/:idx')
     .get(authCtrl.auth, friendCtrl.cancel);
 
-  router.route('/users/search/:id')
-    .get(authCtrl.auth, friendCtrl.searchId);
+  router.route('/users/search')
+    .post(authCtrl.auth, friendCtrl.searchId);
     
   return router;
 };

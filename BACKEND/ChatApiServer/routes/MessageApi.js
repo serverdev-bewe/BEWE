@@ -21,6 +21,9 @@ module.exports = (router) => {
 
   router.route('/newmessages/:idx')
     .get(authCtrl.auth, messageCtrl.new('conversation'));
+  
+  router.route('/check/:idx')
+    .get(authCtrl.auth, messageCtrl.check);
     
   return router;
 };
