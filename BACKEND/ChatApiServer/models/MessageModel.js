@@ -102,11 +102,7 @@ exports.getConversation = (userData, conversationId) => {
           console.log(err);
           reject(err);
         } else {
-          if (rows.affectedRows > 0) {
-            resolve(conversationId);
-          } else {
-            reject(500);
-          }
+          resolve(conversationId);
         }
       });
     });

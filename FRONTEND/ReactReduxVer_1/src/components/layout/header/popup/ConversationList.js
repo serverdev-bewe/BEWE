@@ -59,7 +59,7 @@ class ConversationList extends Component {
   }
 
   render() {
-    if(this.props.conversations === undefined) {
+    if (this.props.conversations === undefined) {
       return (
         <div className="dashboard-loader">
           <HashLoader
@@ -72,13 +72,20 @@ class ConversationList extends Component {
     }
 
     else {
-      if(this.props.conversations.length > 2) {
-        return(
+      if (this.props.conversations.length > 2) {
+        return (
           <div>
             {this.renderConversations()}
             <NavLink to='/users/messages'>
               <button className="header-more-button" onClick={this.onClickButton}>더 보기</button>
             </NavLink>
+          </div>
+        )
+      } else if (this.props.conversation.length === 0) {
+        return (
+          <div className="dashboard-loader">
+            <img src="/../public/img/empty.png" style={{"width" : 100}}/>
+            <p>친구 리스트가 없습니다!</p>
           </div>
         )
       } else {

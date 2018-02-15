@@ -57,13 +57,20 @@ class NotiList extends Component {
     }
 
     else {
-      if(this.props.noties.length > 5) {
-        return(
+      if (this.props.noties.length > 5) {
+        return (
           <div>
             {this.renderNoties()}
             <NavLink to='/users/noties'>
               <button className="header-more-button" onClick={this.onClickButton}>더 보기</button>
             </NavLink>
+          </div>
+        )
+      } else if (this.props.noties.length === 0) {
+        return (
+          <div className="dashboard-loader">
+            <img src="/../public/img/empty.png" style={{"width" : 100}}/>
+            <p>알림 리스트가 없습니다!</p>
           </div>
         )
       } else {
