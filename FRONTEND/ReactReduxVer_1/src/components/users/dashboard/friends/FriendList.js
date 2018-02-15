@@ -31,7 +31,7 @@ class FriendList extends Component {
   renderFriends(){
     const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
 
-    if (this.props.type === 'all') {      
+    if (this.props.type === 'all') {   
       return this.props.friends
       // .slice(0, 15 * this.state.page - 1)
       .map((friend) => {
@@ -68,7 +68,15 @@ class FriendList extends Component {
 
   render() {
     if(this.props.friends === undefined) {
-      return <div>Loading...</div>
+      return (
+        <div className="dashboard-loader">
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>친구 리스트를 로딩하고 있습니다.</p>
+        </div>
+      )
     }
 
     if (this.props.friends.length === 0) {
