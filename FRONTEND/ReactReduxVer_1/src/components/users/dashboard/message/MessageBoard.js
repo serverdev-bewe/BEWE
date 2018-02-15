@@ -38,7 +38,6 @@ class MessageBoard extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (      
       <div className="dashboard-right-contents" 
            style={{"padding":"30px 0"}}>

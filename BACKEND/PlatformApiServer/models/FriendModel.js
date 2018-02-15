@@ -243,7 +243,6 @@ exports.searchId = (inputData) => {
        SELECT
          idx,
          id,
-         nickname,
          email,
          avatar
        FROM users

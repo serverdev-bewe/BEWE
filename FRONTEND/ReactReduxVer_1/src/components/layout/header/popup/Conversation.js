@@ -43,7 +43,15 @@ class Conversation extends Component {
   
   render(){
     if(this.state.profile === undefined) {
-      return <div>Loading...</div>
+      return (
+        <div className="dashboard-loader">
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>로딩 중입니다..</p>
+        </div>
+      )
     } else {
       return (
         <NavLink to={`/users/messages`} 
@@ -53,7 +61,8 @@ class Conversation extends Component {
             style={{"padding":10, "minWidth":250}}>
           <div className="conversation-list-left">
             <div className="noti-avatar-wrapper" style={{"width":40, "height":40}}>
-              <img className="avatar-image" src={(this.state.profile.avatar) !== null ? this.state.profile.avatar : "/../public/img/avatar.png"}/>
+              <img className="avatar-image" src={(this.state.profile.avatar) !== null 
+                ? this.state.profile.avatar : "/../public/img/avatar.png"}/>
             </div>
           </div>
 
