@@ -42,7 +42,7 @@
   font-weight: normal;
   width: 120px;
   height: 40px;
-  box-shadow: nfrone;
+  box-shadow: none !important;
   font-size: 18px;
   background-color: white;
   color: #1A1A1A;
