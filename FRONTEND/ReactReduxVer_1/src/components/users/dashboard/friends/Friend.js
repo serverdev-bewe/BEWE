@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { fetchOtherId, fetchOtherProfile } from 'helper';
 import FriendAllCard from './FriendAllCard';
 import FriendRequest from './FriendRequest';
+import FriendFindCard from './FriendFindCard';
 
 let otherUserIdx = '';
 
@@ -52,12 +53,21 @@ class Friend extends Component {
   }
 
   render(){
-    if (this.state.profile === undefined) {
-      return <div>Loading...</div>
+    if (this.state.profile === undefined || this.props.friend === undefined) {
+      return (
+        <HashLoader
+          color={'#00B0FF'} 
+          loading={true} 
+        />
+      )
     } else {
       if (this.props.type === 'all') {
         return (
           <FriendAllCard profile={this.state.profile} type={this.props.type} />
+        )
+      } else if (this.props.type === 'find') {
+        return (
+          <FriendFindCard profile={this.props.friend} />
         )
       } else {
         return (

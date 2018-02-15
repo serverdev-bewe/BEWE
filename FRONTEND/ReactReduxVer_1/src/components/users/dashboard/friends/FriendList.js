@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { fetchFriends } from 'actions/users/FriendActions';
 import Friend from './Friend';
 import FriendFind from './FriendFind';
+import FriendFindList from './FriendFindList';
 
 class FriendList extends Component {
   constructor(){
@@ -24,11 +25,11 @@ class FriendList extends Component {
     });
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.fetchFriends();    
   }
 
-  renderFriends(){
+  renderFriends() {
     const userIdx = JSON.parse(localStorage.getItem('profile')).idx;
 
     if (this.props.type === 'all') {   
@@ -62,7 +63,12 @@ class FriendList extends Component {
         }
       })
     } else if (this.props.type === 'find') {
-      return <FriendFind />
+      return (
+        <div>
+          <FriendFind />
+          <FriendFindList />
+        </div>
+      )
     }
   }
 
@@ -90,14 +96,14 @@ class FriendList extends Component {
 
     else {
       if(this.props.friends.length > this.state.page * 15) {
-        return(
+        return (
           <div>
             {this.renderFriends()}
             <button className="noti-more-button" onClick={this.onClickButton}>더 보기</button>
           </div>
         )
       } else {
-        return(
+        return (
           <div>
             {this.renderFriends()}
           </div>

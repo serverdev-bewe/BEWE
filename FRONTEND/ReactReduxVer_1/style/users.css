@@ -352,6 +352,10 @@
   font-weight: 600;
 }
 
+.friend-find-list-wrapper{
+  margin-top: 30px;
+}
+
 /*
  * 대시보드 : 알림
  */

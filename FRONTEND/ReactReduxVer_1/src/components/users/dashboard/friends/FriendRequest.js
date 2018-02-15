@@ -20,10 +20,6 @@ class FriendRequest extends Component {
     }
   }
 
-  static contextTypes = {
-    router: PropTypes.object
-  };
-
   onRejectFriendRequest() {
     if (confirm('친구 요청을 거절하시겠습니까?')) {
       this.props.rejectFriendRequest(this.props.idx)
