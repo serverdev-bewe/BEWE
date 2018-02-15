@@ -5,7 +5,7 @@ import JumbotronB from './JumbotronB';
 class BodyComponent extends Component {
     render() {
         return (
-            <Container>
+            <Container style={{marginBottom:"8%"}}>
                 
                 <JumbotronB/>
                 <p/>
