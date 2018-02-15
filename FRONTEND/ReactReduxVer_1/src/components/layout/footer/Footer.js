@@ -7,13 +7,21 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
+            
             <Container>
-                <p/>
-                <h1>Footer </h1>
                 <Row>
-                    <Col xs="6" sm="6">Sample text Sample text Sample text Sample text Sample text </Col>
-                    <Col xs="6" sm="3">Sample text Sample text Sample text Sample text Sample text </Col>
-                    <Col sm="3">.Sample text Sample text Sample text Sample text Sample text </Col>
+                    <Col xs="6" sm="6"><p/><h1>Betove</h1></Col>
+                    <Col xs="6" sm="3"></Col>
+                    <Col sm="3"><img 
+        style={{
+          position:"absolute",
+          height:"200px"
+        }}
+        src={"/../public/img/smilegateLogo.png"} /></Col>
+                </Row>
+                <Row>
+                    <Col xs="6" sm="6">Mega Value Innovator in Entertainment.<br/>Always do what you are afraid to do.</Col>
+                    <Col xs="6" sm="3">Server Develop Camp 4th. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Team BeWe. 킹소영 마뇨긔 이상철     </Col>
                 </Row>
                 <p/><br/>
                 

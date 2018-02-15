@@ -8,8 +8,10 @@ class Home extends Component {
         return (
             <div>
                 <VideoPlayer />
+                <p/>
                 <BodyComponent />
                 <hr/>
+                
                 <Footer />
             </div>
         );
