@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Badge } from 'reactstrap';
+// import Slider from 'components/layout/body/Slider';
 import JumbotronB from './JumbotronB';
 
 class BodyComponent extends Component {
@@ -7,7 +8,7 @@ class BodyComponent extends Component {
         return (
             <Container>
                 <JumbotronB/>
-                
+                {/* <Slider /> */}
                 <p/>
                 <h1>Today <Badge color="danger">Hot!</Badge></h1>
                 <Row>
