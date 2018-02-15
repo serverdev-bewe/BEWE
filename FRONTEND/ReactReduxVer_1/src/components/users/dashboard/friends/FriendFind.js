@@ -28,7 +28,7 @@ class FriendFind extends Component{
         <p className="friend-find-info">ID로 친구를 찾을 수 있습니다.</p>
         <form className="message-write" 
           onSubmit={handleSubmit(this.onSubmit.bind(this))}
-          style={{"width": "90%", "margin": "0 auto"}}>
+          style={{"width": "88%", "margin": "0 auto"}}>
           <Field name="id" component={renderInput} />
 
           <button type="submit"><span className="ion-android-search"></span></button>        

@@ -1,24 +1,78 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { HashLoader } from 'react-spinners';
-import Friend from './Friend';
+import FriendFindCard from './FriendFindCard';
 
 class FriendFindList extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      friendList: '',
+      sendList: '',
+      userIdx: JSON.parse(localStorage.getItem('profile')).idx
+    }
+  }
+
+  componentDidMount() {
+    let friendList = [], sendList = [], rejectList = [];
+
+    this.props.all.map((item) => {
+      if (item.flag === 1) {
+        if (item.sender_idx === this.state.userIdx) {
+          friendList.push(item.receiver_idx);
+        } else if (item.receiver_idx === this.state.userIdx) {
+          friendList.push(item.sender_idx);
+        }  
+      } else if (item.flag === 0) {
+        if (item.sender_idx === this.state.userIdx) {
+          sendList.push(item.receiver_idx);
+        } else if (item.receiver_idx === this.state.userIdx) {
+          sendList.push(item.sender_idx);
+        }        
+      } else if (item.flag === 2) {
+        if (item.sender_idx === this.state.userIdx) {
+          rejectList.push(item.receiver_idx);
+        } else if (item.receiver_idx === this.state.userIdx) {
+          rejectList.push(item.sender_idx);
+        } 
+      }
+    });
+
+    this.setState({friendList, sendList, rejectList});
+  }
+
+  componentDidUpdate() {
   }
 
   renderFriends() {
+    let type = '';
+    
     return this.props.friends.result
     // .slice(0, 15 * this.state.page - 1)
     .map((friend) => {
-      return (
-        <Friend friend={friend} key={friend.idx} type="find" />
-      )
+      if (this.state.friendList && this.state.friendList.includes(friend.idx)) {
+        return (
+          <FriendFindCard friend={friend} key={friend.idx} type="find" />
+        )
+      } else if (this.state.sendList && this.state.sendList.includes(friend.idx)) {
+        return (
+          <FriendFindCard friend={friend} key={friend.idx} type="send" />
+        )
+      } else if (this.state.rejectList && this.state.rejectList.includes(friend.idx)) {
+        return ('')
+      } else if (this.state.userIdx === friend.idx) {
+        return ('')
+      } else {
+        return (
+          <FriendFindCard friend={friend} key={friend.idx} type="list" />
+        )
+      }     
     });
   }
 
   render() {
+    console.log(this.props);
     if (this.props.friends === undefined || this.props.friends.result === undefined) {
       return (
         <div className="dashboard-loader">
@@ -47,7 +101,10 @@ class FriendFindList extends Component {
 }
 
 function mapStateToProps(state){
-  return { friends: state.friends.find }
+  return { 
+    all: state.friends.all,
+    friends: state.friends.find 
+  }
 }
 
 export default connect(mapStateToProps, null)(FriendFindList);
