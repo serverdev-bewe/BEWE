@@ -31,7 +31,6 @@ function fetchRedisData(res, redisQueryKey, userIdx) {
       }      
     }
     
-    console.log(result);
     return res.status(200).json(result);
   });
 }

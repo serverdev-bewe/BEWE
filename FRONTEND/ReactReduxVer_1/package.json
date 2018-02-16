@@ -55,6 +55,8 @@
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",
     "socket.io-client": "^2.0.4",
-    "style-loader": "^0.19.1"
+    "style-loader": "^0.19.1",
+    "video-react": "^0.9.4",
+    "video.js": "^6.6.3"
   }
 }

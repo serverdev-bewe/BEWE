@@ -99,19 +99,22 @@ class RankingList extends Component{
 
   renderItems(type){    
     let returnPropsType = '';
+
     if (type === 'buy') {
       returnPropsType = this.props.buy;
     } else if (type === 'time') {
       returnPropsType = this.props.time;
     }
 
-    return returnPropsType.all
+    if (returnPropsType.all) {
+      return returnPropsType.all
       .slice(0, 15)
       .map((item, index) => {
         return (
           <RankingItem item={item} type={this.props.type} key={index} />
         )
-      });              
+      });
+    }    
   }
 
   render() {   
@@ -130,8 +133,8 @@ class RankingList extends Component{
         <div>
           {(this.props.type === 'user' && localStorage.getItem('token') ? 
             <RankingMyInfo 
-              buyFirst={this.props.buy.all[0].count}
-              timeFirst={this.props.time.all[0].count}
+              buyFirst={this.props.buy.all ? this.props.buy.all[0].count : ''}
+              timeFirst={this.props.time.all ? this.props.time.all[0].count : ''}
               buy={this.props.buy.currentUser} 
               time={this.props.time.currentUser} /> : '')}
           {this.renderTable('buy')}   

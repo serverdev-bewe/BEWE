@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { sendMessage, makeUpdate } from 'actions/users/MessageActions';
 import Message from './Message';
 
@@ -14,7 +13,7 @@ const renderInput = (field) => {
 }
 
 class MessageForm extends Component{
-  constructor(props){
+  constructor(props) {
     super(props);
   }
   
@@ -24,7 +23,7 @@ class MessageForm extends Component{
     }
   }
 
-  onSubmit(values){
+  onSubmit(values) {
     this.props.sendMessage(values, this.props.conversationIdx);
     this.props.hasToUpdate();
     this.props.makeUpdate();
@@ -36,7 +35,7 @@ class MessageForm extends Component{
     
     return(
       <form className="message-write" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        <Field name="contents" component={renderInput}/>
+        <Field name="contents" component={renderInput} />
         
         <button type="submit"><span className="ion-ios-paperplane-outline"></span></button>
       </form>

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { HashLoader } from 'react-spinners';
+import { default as Fade } from 'react-fade'
 
 import ReactModal from 'react-modal';
 import { Table, Button,
@@ -10,6 +12,9 @@ import ChatApp from './chatt/ChatApp';
 import axios from 'axios';
 
 import PropTypes from 'prop-types';
+
+const fadeDuration = 0.3;
+
 
 class GameRoomList extends Component {
     static contextTypes={
@@ -154,21 +159,25 @@ class GameRoomList extends Component {
         }
 
         return (
-            <div>
-                <hr/>
-            <div style={{"display" : "inline-block", "width":"70%"}}>
+            <div style={{"width":"80%", "margin": "0 auto"}}>
+                <Fade
+          duration={fadeDuration}
+        >
+                <br />
                 <h1>TITLE</h1>
-                <div className="wi3">
                 <InputGroup>
-                <Input placeholder="방 이름을 적어주세요" 
+                <Input placeholder="검색할 방 이름을 적어주세요" 
                     value={this.state.keyword}
                     name="keyword"
                     onChange={this.handleChange}
                 />
-                </InputGroup>
+                &nbsp;
                 <Button color="info" 
                     onClick={this.handleOpenModal}
                 >방 만들기</Button>
+                
+                </InputGroup>
+                
         <div >
         <ReactModal 
            isOpen={this.state.showModal}
@@ -178,7 +187,6 @@ class GameRoomList extends Component {
                 backgroundColor: '#6c757d',
                 'marginTop':'76px',
                 opacity: 0.97
-
               }
             }}
             onRequestClose={this.handleCloseModal}
@@ -199,7 +207,6 @@ class GameRoomList extends Component {
         </div>
                 &nbsp;
                 <p/>
-                </div>
                 <Table hover>
                 <thead>
                 <tr>
@@ -211,14 +218,22 @@ class GameRoomList extends Component {
                 </thead>
                 <tbody>
                     {this.state.rows.length === 0  
-                        ? <tr><td colSpan="4"><center><br/>'만들어진 방이 없거나 가져오는 중입니다'</center></td></tr>
+                        ? <tr><td colSpan="4">
+                        <center>
+                            <br/>
+                            <HashLoader
+            color={'#7F7F7F'} 
+            loading={true} 
+          />
+          <br />
+                            '만들어진 방이 없거나 가져오는 중입니다.'
+                        </center></td></tr>
                         : mapToComponents(this.state.rows)}
                 </tbody>
             </Table>
-            </div>
-            <div style={{"display" : "inline-block", "width":"20%"}}>
+            {/* <div style={{"display" : "inline-block", "width":"20%"}}>
                 hi
-            </div>
+            </div> */}
             <div>
                 {
                     this.state.roomSeq ? 
@@ -231,6 +246,8 @@ class GameRoomList extends Component {
                     /> : ''
                 }
             </div>
+            
+            </Fade>
             </div>
         );
     }

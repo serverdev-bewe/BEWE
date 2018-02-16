@@ -42,7 +42,7 @@
   font-weight: normal;
   width: 120px;
   height: 40px;
-  box-shadow: none;
+  box-shadow: none !important;
   font-size: 18px;
   background-color: white;
   color: #1A1A1A;
@@ -125,38 +125,76 @@
   position: absolute;
   top: 0;
   left: 400px;
+  width: 60%;
 }
 
 .ranking-my-zone-rank-item{
   height: 74px;
-  width: 440px;
+  width: 95%;
 }
 
 .ranking-my-zone-left{
   display: inline-block;
-  width: 60px;
+  width: 10%;
   height: 100%;
 }
 
 .ranking-my-zone-right{
   position: relative;
   display: inline-block;
-  width: 380px;
+  width: 90%;
   height: 100%;
 }
 
 .ranking-my-zone-progress-bar-wrapper {
   display: inline-block;
   position: relative;
-  width: 300px !important;
+  width: 80% !important;
 }
 
-.ranking-my-zone-value{
-  display: inline-block;
-  text-align: center !important;
+.ranking-my-zone-rank-value{
+  position: absolute;
+  top: -5px;
+  right: 30px;
+  text-align: right !important;
+  width: 79px !important;
+  width: auto;
+  font-size: 18px !important;
+  color: #4A4A4A !important;
+}
+
+.ranking-my-zone-point-value{
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  text-align: right !important;
   width: 79px !important;
   font-size: 18px !important;
   color: #4A4A4A !important;
+}
+
+.ranking-my-zone-rank-text{  
+  position: absolute;
+  top: -3px;
+  right: 5px;
+  text-align: left !important;
+  width: 20px !important;
+  width: auto;
+  font-size: 16px !important;
+  color: #666666 !important;
+  font-weight: normal !important;
+}
+
+.ranking-my-zone-point-text{  
+  position: absolute;
+  top: 22px;
+  right: 5px;
+  text-align: left !important;
+  width: 20px !important;
+  width: auto;
+  font-size: 16px !important;
+  color: #666666 !important;  
+  font-weight: normal !important;
 }
 
 .ranking-my-zone-left-value{

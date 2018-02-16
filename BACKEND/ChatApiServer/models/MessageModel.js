@@ -24,6 +24,30 @@ exports.listConversation = (userData) => {
   });
 };
 
+exports.checkConversation = (userIdx, receiverIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql = 
+      `
+      SELECT idx FROM conversations 
+       WHERE users_idx_1 = ? AND users_idx_2 = ?
+          OR users_idx_1 = ? AND users_idx_2 = ?
+      `;
+
+    pool.query(sql, [userIdx, receiverIdx, receiverIdx, userIdx], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        if (rows.length > 0) {
+          resolve({result: true});
+        } else {
+          resolve({result: false});
+        }        
+      }
+    });
+  });
+}
+
 exports.new = (userIdx) => {
   return new Promise((resolve, reject) => {
     const sql = `SELECT idx FROM messages 
@@ -102,11 +126,7 @@ exports.getConversation = (userData, conversationId) => {
           console.log(err);
           reject(err);
         } else {
-          if (rows.affectedRows > 0) {
-            resolve(conversationId);
-          } else {
-            reject(500);
-          }
+          resolve(conversationId);
         }
       });
     });

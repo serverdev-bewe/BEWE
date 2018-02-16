@@ -58,11 +58,24 @@ class ConversationList extends Component {
   }
 
   render() {
-    if(this.props.conversations === undefined) {
-      return <div>Loading...</div>
-    }
-
-    else {
+    if (this.props.conversations === undefined) {
+      return (
+        <div className="dashboard-loader">
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>로딩 중입니다..</p>
+        </div> 
+      )
+    } else if (this.props.conversations && this.props.conversations.length === 0) {
+      return (
+        <div className="dashboard-loader">
+          <img src="/../public/img/empty.png" style={{"width": 100}}/>
+          <p>개설된 메시지가 없습니다!</p>
+        </div>
+      )
+    } else {
       return(
         <div>
           {this.renderConversations()}

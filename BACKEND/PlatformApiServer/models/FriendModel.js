@@ -96,7 +96,7 @@ exports.handleRequest = (type, userData, idx) => {
     const sql = 
       `SELECT flag, sender_idx, receiver_idx, nickname, avatar
          FROM friends join users
-           ON friends.receiver_idx = users.idx
+           ON friends.sender_idx = users.idx
         WHERE friends.idx = ?`;
     pool.query(sql, [idx], (err, rows) => {
       if (err) {
@@ -105,8 +105,10 @@ exports.handleRequest = (type, userData, idx) => {
         if (rows.length !== 0) { // 일치하는 친구 요청이 있을 경우
           if (rows[0].receiver_idx == userData && rows[0].flag == 0){ 
             // 친구 요청의 수신자와 current_user의 id가 같고, flag가 0일 때만 업데이트
-            
-            resolve(rows[0].nickname, rows[0].avatar);
+            resolve({
+              idx: rows[0].sender_idx, 
+              name: rows[0].nickname, 
+              avatar: rows[0].avatar});
           } else {
             reject(2402);
           }
@@ -115,7 +117,7 @@ exports.handleRequest = (type, userData, idx) => {
         }
       }
     });
-  }).then((userName, userAvatar) => {
+  }).then((senderInfo) => {
     return new Promise((resolve, reject) => {
       let sql = '';
 
@@ -132,10 +134,7 @@ exports.handleRequest = (type, userData, idx) => {
         }else{
           if (rows.affectedRows === 1) {
             if (type === 'accept') {
-              resolve({
-                nickname: userName, 
-                avatar: userAvatar
-              });
+              resolve(senderInfo);
             } else {
               resolve(rows);
             }
@@ -243,7 +242,6 @@ exports.searchId = (inputData) => {
        SELECT
          idx,
          id,
-         nickname,
          email,
          avatar
        FROM users

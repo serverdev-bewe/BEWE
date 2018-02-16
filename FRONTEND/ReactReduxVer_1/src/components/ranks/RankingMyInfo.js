@@ -44,7 +44,10 @@ const RankingMyInfo = (props) => {
               <div className="ranking-my-zone-progress-bar-wrapper">
                 <Progress color="info" value={buyPercent} />
               </div>
-              <p className="ranking-my-zone-value">{props.buy.count}</p>
+              <p className="ranking-my-zone-rank-value">{props.buy.rank}</p>
+              <p className="ranking-my-zone-rank-text">위</p>
+              <p className="ranking-my-zone-point-value">{props.buy.count}</p>
+              <p className="ranking-my-zone-point-text">pt.</p>
               <p className="ranking-my-zone-left-value">
                 1위까지 <strong>{props.buyFirst - props.buy.count}</strong> 포인트 남았습니다!
               </p>
@@ -59,7 +62,10 @@ const RankingMyInfo = (props) => {
             <div className="ranking-my-zone-progress-bar-wrapper">
                 <Progress color="info" value={timePercent} />
               </div>
-              <p className="ranking-my-zone-value">{props.time.count}</p>
+              <p className="ranking-my-zone-rank-value">{props.time.rank}</p>
+              <p className="ranking-my-zone-rank-text">위</p>
+              <p className="ranking-my-zone-point-value">{props.time.count}</p>
+              <p className="ranking-my-zone-point-text">pt.</p>
               <p className="ranking-my-zone-left-value">
                 1위까지 <strong>{props.timeFirst - props.time.count}</strong> 포인트 남았습니다!
               </p>
