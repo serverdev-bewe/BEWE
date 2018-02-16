@@ -43,7 +43,7 @@ require('./routes')(app);
 require('./ErrorHandler')(app);
 
 // Start listening
-server.listen(process.env.PORT || '4010');
-console.log(`Started on port 4010`);
+server.listen(process.env.PORT || '4000');
+console.log(`Started on port 4000`);
 
 module.exports = app;

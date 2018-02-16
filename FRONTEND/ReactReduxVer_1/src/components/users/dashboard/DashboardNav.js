@@ -11,7 +11,7 @@ class DashboardNav extends Component {
           <p className="ion-ios-gear"></p>
           <p>내 프로필</p>
         </NavLink>
-        <NavLink to = "/users/friends" onClick={()=> this.props.history.pushState(null, null, "/users/friends")}
+        <NavLink to = "/users/friends" onClick={()=> this.props.history.pushState(null, null, '/users/friends')}
           className={`dashboard-left-navigation-item 
             ${(window.location.pathname).includes('/users/friends') ? 'dashboard-nav-active' : ''}`}>
           <p className="ion-person-stalker"></p>

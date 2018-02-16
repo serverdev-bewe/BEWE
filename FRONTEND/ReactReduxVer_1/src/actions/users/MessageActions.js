@@ -2,17 +2,19 @@
 
 import axios from 'axios';
 
+export const CHECK_CONVERSATION = 'CHECK_CONVERSATION';
 export const GET_CONVERSATIONS = 'GET_CONVERSATIONS';
+export const CREATE_CONVERSATION = 'CREATE_CONVERSATION';
 export const GET_MESSAGES = 'GET_MESSAGES';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const MESSAGE_MAKE_UPDATE = 'MESSAGE_MAKE_UPDATE';
 export const MESSAGE_MAKE_NOT_UPDATE = 'MESSAGE_MAKE_NOT_UPDATE';
 
-const ROOT_URL = 'http://localhost:4000/api/messages';
+const ROOT_URL = 'http://localhost:4000/api';
 const token = JSON.parse(localStorage.getItem('token')); 
-    
+  
 export function getConversations(){
-  const request = axios.get(`${ROOT_URL}`, {headers: {'token' : token}});
+  const request = axios.get(`${ROOT_URL}/messages`, {headers: {'token' : token}});
 
   return {
     type: GET_CONVERSATIONS,
@@ -20,8 +22,18 @@ export function getConversations(){
   }
 }
 
+export function createConversation(idx) {
+  const request = axios.post(`${ROOT_URL}/messages`, 
+    {'receiver_idx': idx}, {headers: {'token' : token}});
+
+  return {
+    type: CREATE_CONVERSATION,
+    payload: request
+  }
+}
+
 export function getMessage(messageIdx){
-  const request = axios.get(`${ROOT_URL}/${conversationIdx}`, {headers: {'token' : token}});
+  const request = axios.get(`${ROOT_URL}/messages/${conversationIdx}`, {headers: {'token' : token}});
   
   return {
     type: GET_MESSAGES,
@@ -30,7 +42,7 @@ export function getMessage(messageIdx){
 }
 
 export function getMessages(conversationIdx){
-  const request = axios.get(`${ROOT_URL}/${conversationIdx}`, {headers: {'token' : token}});
+  const request = axios.get(`${ROOT_URL}/messages/${conversationIdx}`, {headers: {'token' : token}});
   
   return {
     type: GET_MESSAGES,

@@ -1,7 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { sendFriendRequest, fetchFriends } from 'actions/users/FriendActions';
+import { createConversation } from 'actions/users/MessageActions';
+import { checkConversation } from 'helper';
 
 import { Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
@@ -11,9 +13,11 @@ class FriendFindCard extends Component {
     super();
 
     this.onSendFriendRequest = this.onSendFriendRequest.bind(this);
+    this.onSendConversation = this.onSendConversation.bind(this);
     
     this.state = {
-      update: false
+      update: false,
+      check: ''
     }
   }
 
@@ -26,17 +30,31 @@ class FriendFindCard extends Component {
     }
   }
 
+  onSendConversation() {
+    if (confirm('새로 메시지 방을 개설하시겠습니까?')) {
+      this.props.createConversation(this.props.friend.idx)
+        .then(() => {
+          location.replace('/users/messages');
+        });
+    }
+  }
+
   renderButton() {
     return (
       <div>
-        <Button className="friend-request-button accept" 
-          onClick={this.onSendFriendRequest} 
-          style={{"top": "18px !important", "left": "450px !important"}}>
-          메시지 전송
-        </Button>
+        {(!this.state.check)
+          ?
+          <Button className="friend-request-button accept" 
+            onClick={this.onSendConversation} 
+            style={{"top": "18px !important", "left": "450px !important"}}>
+            메시지 개설
+          </Button>
+          : ''
+        } 
         {(this.props.type === 'list') 
           ? 
-          <Button className="friend-request-button cancel" onClick={this.onSendFriendRequest} >
+          <Button className="friend-request-button cancel" 
+            onClick={this.onSendFriendRequest} >
             친구 요청 전송
           </Button> 
           : ''
@@ -59,7 +77,13 @@ class FriendFindCard extends Component {
     )
   }
 
+  async componentDidMount() {
+    const check = await checkConversation(this.props.friend.idx);
+    this.setState({check: check.data.result});
+  }
+
   render() {
+    console.log(this.props);
     return (
       <div className="friend-request-card-wrapper">
         <div className="friend-request-card-avatar-wrapper">
@@ -75,4 +99,4 @@ class FriendFindCard extends Component {
 }
 
 export default connect(null, 
-  { sendFriendRequest, fetchFriends })(FriendFindCard);
+  { sendFriendRequest, fetchFriends, createConversation })(FriendFindCard);

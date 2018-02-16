@@ -60,7 +60,7 @@ exports.accept = async(req, res, next) => {
   await new Promise(async (resolve, reject) => {
     let senderInfo = '';
     try {
-      senderInfo = friendModel.handleRequest('accept', userData, idx);
+      senderInfo = await friendModel.handleRequest('accept', userData, idx);
     } catch (error) {
       console.log(error);
       reject(500);
@@ -72,8 +72,8 @@ exports.accept = async(req, res, next) => {
       let notiResult = '';
       
       try {
-        result = await notiCtrl.create(userData, 'friend_accepted', 
-          {nickname: senderInfo.nickname, avatar:senderInfo.avatar});
+        result = await notiCtrl.create(senderInfo.idx, 'friend_accepted', 
+          {nickname: senderInfo.name, avatar:senderInfo.avatar});
       } catch (error) {
         console.log(error);
         reject(500);
