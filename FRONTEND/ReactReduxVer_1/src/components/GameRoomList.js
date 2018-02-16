@@ -163,7 +163,7 @@ class GameRoomList extends Component {
                 <Fade
           duration={fadeDuration}
         >
-                <br />
+        <br/>
                 <h1>TITLE</h1>
                 <InputGroup>
                 <Input placeholder="검색할 방 이름을 적어주세요" 
@@ -177,22 +177,22 @@ class GameRoomList extends Component {
                 >방 만들기</Button>
                 
                 </InputGroup>
-                
-        <div >
+                <div>
         <ReactModal 
            isOpen={this.state.showModal}
            contentLabel="Inline Styles Modal Example"
            style={{
               overlay: {
                 backgroundColor: '#6c757d',
-                'marginTop':'76px',
+                'marginTop':'50px',
                 opacity: 0.97
               }
             }}
             onRequestClose={this.handleCloseModal}
             ariaHideApp={false}
         >
-          <h1 style={{"marginTop":"5%"}}>방을 만들어 보세요</h1>
+        <div style={{width:"45%", margin:"auto"}}>
+          <h1 style={{"marginTop":"15%"}}>방을 만들어 보세요</h1>
           <input type="text" required style={{width:"50%"}} name="name"
             onChange={this.handleRoomNameChange} value={this.state.createRoomName}
             placeholder="제목을 입력해 주세요"  maxLength="20"/>
@@ -203,8 +203,10 @@ class GameRoomList extends Component {
             <p/>
           <button onClick={this.handleCreateRoomModal}>만들기</button>{' '}
           <button onClick={this.handleCloseModal}>돌아가기</button>
+          </div>
         </ReactModal>
         </div>
+        
                 &nbsp;
                 <p/>
                 <Table hover>
