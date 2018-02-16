@@ -85,7 +85,7 @@ class ConversationList extends Component {
         return (
           <div className="dashboard-loader">
             <img src="/../public/img/empty.png" style={{"width" : 100}}/>
-            <p>친구 리스트가 없습니다!</p>
+            <p>채팅 리스트가 없습니다!</p>
           </div>
         )
       } else {

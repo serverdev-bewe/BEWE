@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { sendFriendRequest, fetchFriends } from 'actions/users/FriendActions';
@@ -9,10 +9,6 @@ import { Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 class FriendFindCard extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  }
-
   constructor(){
     super();
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { HashLoader } from 'react-spinners';
 
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -85,7 +86,7 @@ class FriendList extends Component {
       )
     }
 
-    if (this.props.friends && this.props.friends.length === 0) {
+    if (this.props.friends && this.props.friends.length === 0 && this.props.type !== 'find') {
       return (
         <div className="dashboard-loader">
           <img src="/../public/img/empty.png" />
