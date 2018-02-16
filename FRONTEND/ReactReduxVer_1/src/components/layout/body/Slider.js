@@ -12,7 +12,7 @@ const items = [
     src: 'https://i.ytimg.com/vi/frrBSyEqS6c/maxresdefault.jpg',
     altText: 'Slide 1',
     caption: <font style={{
-      color:"red", margin:"0%", fontSize:"80px", fontWeight:"700", textShadow:"0.07em 0.07em 0.1em #777777"
+      color:"white", margin:"0%", fontSize:"80px", fontWeight:"700", textShadow:"0.07em 0.07em 0.1em #777777"
     }}>Mega Value Innovator in Entertainment</font>
   },
   {
@@ -78,7 +78,10 @@ class Slider extends Component {
           key={item.src}
         >
           {/* <img src={item.src} alt={item.altText} style={{width:"100%", height:"700px"}}/> */}
-          <div style={{width:"50%", margin:"auto", marginTop:"15%", marginBottom:"20%"}}>
+          <div style={{
+            width:"50%", height:"100px", margin:"auto", 
+            marginTop:"15%", marginBottom:"20%"
+          }}>
           {item.caption}
           </div>
           {/* <CarouselCaption captionText={item.caption} captionHeader={item.caption} /> */}

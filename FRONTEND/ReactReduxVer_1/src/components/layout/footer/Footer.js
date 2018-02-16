@@ -10,7 +10,7 @@ class Footer extends Component {
             
             <Container>
                 <Row>
-                    <Col xs="6" sm="6"><p/><h1>Betove</h1></Col>
+                    <Col xs="6" sm="6"><p/><h1>Steave</h1></Col>
                     <Col xs="6" sm="3"></Col>
                     <Col sm="3"><img 
         style={{
