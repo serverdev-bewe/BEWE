@@ -72,7 +72,7 @@ class ConversationList extends Component {
     }
 
     else {
-      if (this.props.conversations.length > 2) {
+      if (this.props.conversations && this.props.conversations.length > 2) {
         return (
           <div>
             {this.renderConversations()}
@@ -81,7 +81,7 @@ class ConversationList extends Component {
             </NavLink>
           </div>
         )
-      } else if (this.props.conversation.length === 0) {
+      } else if (this.props.conversations && this.props.conversation.length === 0) {
         return (
           <div className="dashboard-loader">
             <img src="/../public/img/empty.png" style={{"width" : 100}}/>

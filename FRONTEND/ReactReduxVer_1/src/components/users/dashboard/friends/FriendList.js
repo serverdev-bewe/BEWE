@@ -85,7 +85,7 @@ class FriendList extends Component {
       )
     }
 
-    if (this.props.friends.length === 0) {
+    if (this.props.friends && this.props.friends.length === 0) {
       return (
         <div className="dashboard-loader">
           <img src="/../public/img/empty.png" />
@@ -95,7 +95,7 @@ class FriendList extends Component {
     }
 
     else {
-      if(this.props.friends.length > this.state.page * 15) {
+      if(this.props.friends && this.props.friends.length > this.state.page * 15) {
         return (
           <div>
             {this.renderFriends()}

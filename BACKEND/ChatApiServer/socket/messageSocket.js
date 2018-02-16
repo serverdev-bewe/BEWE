@@ -14,7 +14,7 @@ exports.clients = () => {
 }
 
 exports.initialize = () => {
-  const PORT = 4092;  
+  const PORT = 4002;  
   
   const server = require('http').createServer();
   server.listen(PORT, () => {
