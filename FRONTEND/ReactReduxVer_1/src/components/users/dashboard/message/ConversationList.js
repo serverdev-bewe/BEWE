@@ -68,7 +68,7 @@ class ConversationList extends Component {
           <p>로딩 중입니다..</p>
         </div> 
       )
-    } else if (this.props.conversations.length === 0) {
+    } else if (this.props.conversations && this.props.conversations.length === 0) {
       return (
         <div className="dashboard-loader">
           <img src="/../public/img/empty.png" style={{"width": 100}}/>
