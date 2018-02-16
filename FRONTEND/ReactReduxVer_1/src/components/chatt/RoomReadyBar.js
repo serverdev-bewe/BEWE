@@ -16,11 +16,15 @@ class RoomReadyBar extends Component {
             );
         })
         return (
-            <div>
+            <div 
+            style={{marginLeft:"2%", marginRight:"2%"}}
+            >
+        <hr />
                 <ol>
                 {joinUsers}
                 </ol>
-            </div>
+        <hr />
+        </div>
         );
     }
 }
