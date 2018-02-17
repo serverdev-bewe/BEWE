@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { HashLoader } from 'react-spinners';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
