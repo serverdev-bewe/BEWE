@@ -18,6 +18,7 @@ sub.on('subscribe',function (channel, count) {
 const app = express();
 const server = http.createServer(app);
 const io = require('./socket/socketService')(server, pub, sub);
+require('./socket/messageSocket').initialize(pub, sub);
 
 app.use('/', express.static(__dirname + './public'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -34,8 +35,6 @@ app.use((req, res, next) => {
   };
   next();
 });
-
-require('./socket/messageSocket').initialize();
 
 require('./routes')(app);
 
