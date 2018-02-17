@@ -133,8 +133,8 @@ class RankingList extends Component{
         <div>
           {(this.props.type === 'user' && localStorage.getItem('token') ? 
             <RankingMyInfo 
-              buyFirst={this.props.buy.all ? this.props.buy.all[0].count : ''}
-              timeFirst={this.props.time.all ? this.props.time.all[0].count : ''}
+              buyFirst={this.props.buy.all && this.props.buy.all[0] ? this.props.buy.all[0].count : ''}
+              timeFirst={this.props.time.all && this.props.time.all[0] ? this.props.time.all[0].count : ''}
               buy={this.props.buy.currentUser} 
               time={this.props.time.currentUser} /> : '')}
           {this.renderTable('buy')}   
