@@ -17,6 +17,7 @@ class ContentsList extends Component{
     return this.props.contents.map((data) => {
       return (
         <div key={data.idx}>
+          <p>idx : {data.idx}</p>
           <p>title : {data.title}</p>
           <p>genre : {data.genre}</p>
           <p>description: {data.description}</p>

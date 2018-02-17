@@ -144,7 +144,7 @@ class App extends Component {
             <Route path="/users" component={Dashboard} />
             <Route path="/contents/new" component={ContentsRegister} />
             <Route path="/contents" component={ContentsList} />
-            <Route path="/contents/:contents_idx" component={ContentsDetail} />
+            {/*<Route path="/contents/:contents_idx" component={ContentsDetail} />*/}
 
             <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
             <Route path="/startgame" component={StartGame} />
