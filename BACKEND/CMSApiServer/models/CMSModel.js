@@ -236,6 +236,7 @@ exports.list = (inputData) => {
       `
       SELECT
         g.idx,
+        g.flag,
         g.title,
         g.genre,
         g.description,

@@ -24,7 +24,9 @@ exports.fetchContents = () => {
 
 exports.fetchContentsDetail = (idx) => {
   const request = axios.get(`${ROOT_URL}/${idx}`, {
-    headers: JSON.parse(localStorage.getItem('token'))
+    headers: {
+      'token': JSON.parse(localStorage.getItem('token'))
+    }
   });
 
   return {

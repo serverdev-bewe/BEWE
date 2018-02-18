@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchContents } from "../../actions/CMS/CMSAction";
+import { fetchContents, fetchContentsDetail } from "../../actions/CMS/CMSAction";
+
+
+import ContentsDetail from './ContentsDetail';
 
 class ContentsList extends Component{
   constructor(props){
@@ -13,24 +16,43 @@ class ContentsList extends Component{
   }
 
 
-  renderContents(){
+  renderContents() {
     return this.props.contents.map((data) => {
       return (
         <div key={data.idx}>
-          <p>idx : {data.idx}</p>
-          <p>title : {data.title}</p>
-          <p>genre : {data.genre}</p>
-          <p>description: {data.description}</p>
-          <img src={data.image} alt="img"/>
+          <div>
+            <ContentsDetail
+              key={data.idx}
+              flag={data.flag}
+              title={data.title}
+              genre={data.genre}
+              description={data.description}
+              image={data.image}
+            />
+            <button onClick={() => {this.props.history.push(`/contents/${data.idx}`)}}> 수정</button>
+            <button onClick={() => {this.props.history.push(`/contents/${data.idx}`)}}> 삭제</button>
+
+          </div>
         </div>
+
       )
     });
-  }
+  };
+
+
 
   render(){
     return(
       <div>
-        {this.renderContents()}
+        <div>
+          내가 등록한 컨텐츠 목록
+        </div>
+
+        <div>
+          <p>{this.renderContents()}</p>
+
+        </div>
+
 
       </div>
     );
@@ -41,5 +63,4 @@ function mapStateToProps(state){
 }
 
 
-
-export default connect(mapStateToProps, { fetchContents })(ContentsList);
+export default connect(mapStateToProps, { fetchContents, fetchContentsDetail })(ContentsList);

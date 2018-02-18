@@ -11,13 +11,13 @@ exports.listAll = () => {
       `
       SELECT
         g.idx,
+        g.flag,
         g.title,
         g.genre,
         g.description,
-        g.created_at,
-        GROUP_CONCAT(gi.url) AS urls
+        g.image,
+        g.created_at
       FROM games AS g
-        LEFT JOIN game_images AS gi ON gi.games_idx = g.idx
       WHERE g.flag = 1
       `;
     pool.query(sql, [], (err, rows) => {
