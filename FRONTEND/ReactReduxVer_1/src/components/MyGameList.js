@@ -62,7 +62,7 @@ class MyGameList extends Component {
                   <img src='https://i.ytimg.com/vi/S4Hnc_iRuBk/maxresdefault.jpg'
                        alt='게임 다운로드'
                     //img와 down링크 디비값으로 설정
-                       data-action="https://goo.gl/2cTpRc"/>
+                       data-action="https://docs.google.com/kr?export=download&id=1c0vpBw4mFOB2oJKSg_CxjqXYOFCSwSkz"/>
                   <img
                     src='http://post.phinf.naver.net/MjAxNzAyMjdfMTM1/MDAxNDg4MTk0OTUxMzgx.DnQeRoSAEVGtGBJgLY2tmmjAtiujT_RYRjd5csfbTT0g.-GhV-au86bWwtaGBgrBOHoWeYs-RhIVCGEt8zDtQlMwg.PNG/IcoN3KjSbusLsg6-Lp1cKINXfHGc.jpg'
                     alt='게임 다운로드'

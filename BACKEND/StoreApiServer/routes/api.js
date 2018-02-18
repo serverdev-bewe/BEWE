@@ -12,6 +12,9 @@ module.exports = (router) => {
   router.route('/store')
     .get(authCtrl.auth, storeCtrl.listAll);
 
+  router.route('/store/:idx')
+    .post(authCtrl.auth, storeCtrl.purchase);
+
   router.route('/store/mylists')
     .get(authCtrl.auth, storeCtrl.lists);
 
@@ -20,8 +23,6 @@ module.exports = (router) => {
   router.route('/store/games/:idx')
     .get(authCtrl.auth, storeCtrl.gameToFriendsList);
 
-  router.route('/store/:idx')
-    .post(authCtrl.auth, storeCtrl.purchase);
 
 
   return router;
