@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { reduxForm, Fields } from 'redux-form';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {reduxForm, Fields} from 'redux-form';
 import Dropzone from 'react-dropzone';
-import { createContent } from '../../../actions/CMS/CMSAction';
+import {createContent} from '../../../actions/CMS/CMSAction';
 
 
-
-class ContentsRegister extends Component{
-  constructor(props){
+class ContentsRegister extends Component {
+  constructor(props) {
     super(props);
-    this.state = { files:[] };
+    this.state = {files: []};
     this.renderFields = this.renderFields.bind(this);
   };
 
@@ -18,6 +17,7 @@ class ContentsRegister extends Component{
       files
     });
   }
+
   renderFields = (fields) => {
     return (
       <div>
@@ -50,7 +50,7 @@ class ContentsRegister extends Component{
         </div>
         <div>
           {/*<Dropzone {...fields.image.input} onDrop={this.onDrop.bind(this)} accept="image/*">*/}
-            {/*<p>Drop Iamges</p>*/}
+          {/*<p>Drop Iamges</p>*/}
           {/*</Dropzone>*/}
           <input name="image" {...fields.image.input} type="file"/>
         </div>
@@ -60,13 +60,13 @@ class ContentsRegister extends Component{
   };
 
 
-  onSubmit(inputData){
+  onSubmit(inputData) {
     console.log(inputData);
     this.props.createContent(inputData);
   }
 
   showFiles() {
-    const { files } = this.state;
+    const {files} = this.state;
 
     if (!files.length) {
       return null;
@@ -76,25 +76,25 @@ class ContentsRegister extends Component{
       <div>
         <ul>
           {files.map((file, idx) => {
-              return (
-                <li key={idx}>
-                  <img src={file.preview} width={100}/>
-                  <div>{file.name + ' : ' + file.size + ' bytes.'}</div>
-                </li>
-              )
-            })}
+            return (
+              <li key={idx}>
+                <img src={file.preview} width={100}/>
+                <div>{file.name + ' : ' + file.size + ' bytes.'}</div>
+              </li>
+            )
+          })}
         </ul>
       </div>
     );
   }
 
 
-  render(){
-    const { handleSubmit } = this.props;
+  render() {
+    const {handleSubmit} = this.props;
 
-    return(
+    return (
       <div>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Fields names={['title', 'genre', 'description', 'image']} component={this.renderFields}/>
 
           <button type="submit">Submit</button>
@@ -107,7 +107,7 @@ class ContentsRegister extends Component{
   }
 }
 
-ContentsRegister = connect(null, { createContent })(ContentsRegister);
+ContentsRegister = connect(null, {createContent})(ContentsRegister);
 
 export default reduxForm({
   form: 'ContentsRegisterForm'
