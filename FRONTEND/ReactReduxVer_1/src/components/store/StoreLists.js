@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { connect} from 'react-redux';
-import {fetchPurchasedLists} from '../../actions/store/StoreAction';
-
+import { connect } from 'react-redux';
+import { fetchPurchasedLists } from '../../actions/store/StoreAction';
+import StoreItem from './StoreItem';
 
 class StoreLists extends Component{
   constructor(props){
@@ -16,20 +16,18 @@ class StoreLists extends Component{
   renderLists(){
     return this.props.contents.map((data) => {
       return (
-        <div key={data.idx}>
-          <p>title: {data.title}</p>
-          <p>description: {data.description}</p>
-          <img src={data.image} alt=""/>
-
-        </div>
+        <StoreItem key={data.idx} item={data} />
       )
     })
   }
 
   render(){
     return(
-      <div>
-        {this.renderLists()}
+      <div className="container" 
+           style={{"height": "100%"}}> 
+        <div className="store-board-wrapper">      
+          {this.renderLists()}
+        </div>
       </div>
     )
   }
