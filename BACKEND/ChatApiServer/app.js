@@ -57,8 +57,8 @@ require('../../COMMON/ErrorHandler')(app,
   require('express-validation'));
 
 const PORT = 4000;
-app.listen(PORT, () => {
-  console.info(`[BEWE-AuthApiServer] Listening on Port ${PORT}`);
+server.listen(PORT, () => {
+  console.info(`[BEWE-ChatApiServer] Listening on Port ${PORT}`);
 });
 
 module.exports = app;
