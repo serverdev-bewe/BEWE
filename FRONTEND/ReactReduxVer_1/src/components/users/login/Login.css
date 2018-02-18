@@ -33,9 +33,9 @@ input[type="submit"], button  {
   padding: 20px 80px;
   text-align: center;
   cursor: pointer;
-  -webkit-box-shadow: -7px 7px 0px rgba(50,50,50,0.15);
+  /* -webkit-box-shadow: -7px 7px 0px rgba(50,50,50,0.15);
   -moz-box-shadow: -7px 7px 0px rgba(50,50,50,0.15);
-  box-shadow: -7px 7px 0px rgba(50,50,50,0.15);
+  box-shadow: -7px 7px 0px rgba(50,50,50,0.15); */
   margin-top: 20px;
 }
 

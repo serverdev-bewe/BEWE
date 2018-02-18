@@ -58,6 +58,7 @@ export function sendMessage(values, conversationIdx){
 
     // axios.post(`${ROOT_URL}/${conversationIdx}`, values, {headers: {'token' : token}})
     
+    // axios로 직접 통신하지 않고 app에 직접 연결된 socket을 통해 send_message 이벤트를 발생시킨다.
     state.app.socket.emit('send_message', conversationIdx, userIdx, values.contents);
     
     dispatch({

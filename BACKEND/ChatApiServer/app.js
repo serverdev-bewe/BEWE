@@ -18,6 +18,7 @@ sub.on('subscribe',function (channel, count) {
 const app = express();
 const server = http.createServer(app);
 const io = require('./socket/socketService')(server, pub, sub);
+require('./socket/messageSocket').initialize(pub, sub);
 
 app.use('/', express.static(__dirname + './public'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -35,15 +36,13 @@ app.use((req, res, next) => {
   next();
 });
 
-require('./socket/messageSocket').initialize();
-
 require('./routes')(app);
 
 //error handler
 require('./ErrorHandler')(app);
-
+const s_port = 4010;
 // Start listening
-server.listen(process.env.PORT || '4000');
-console.log(`Started on port 4000`);
+server.listen(process.env.PORT || s_port);
+console.log(`Started on port ${s_port}`);
 
 module.exports = app;
