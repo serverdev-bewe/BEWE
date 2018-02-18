@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, IndexRoute } from "react-router-dom";
 import { connect } from 'react-redux';
 import reducers from '../reducers';
-import axios from 'axios';
 
 import { dataFetch, getNewMessage, setSocketConnected, 
   setWebNotifyEnable, setWebNotifyUnable, 
