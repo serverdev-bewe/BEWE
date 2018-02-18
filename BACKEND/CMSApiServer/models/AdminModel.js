@@ -1,10 +1,7 @@
 'use strict';
 
-const mysql = require('mysql');
-const DBConfig = require('./../config/DBConfig');
-const pool = mysql.createPool(DBConfig);
-
-const transactionWrapper = require('./TransactionWrapper');
+const transactionWrapper = require('../../../COMMON/TransactionWrapper');
+const pool = require('../util/db').pool;
 
 /*********
  * TODO 유저 플래그가 어드민이 아니라면 reject

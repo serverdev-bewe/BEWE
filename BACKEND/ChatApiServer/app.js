@@ -5,12 +5,10 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const winston = require('winston');
 const cors = require('cors');
-const app = express();
-
 const http = require('http');
 const redis = require('redis');
-const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
+const app = express();
 
 const room = require('./socket/room');
 
