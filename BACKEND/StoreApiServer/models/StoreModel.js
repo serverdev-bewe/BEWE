@@ -1,9 +1,6 @@
 'use strict';
 
-const mysql = require('mysql');
-const DBConfig = require('./../config/DBConfig');
-const pool = mysql.createPool(DBConfig);
-
+const pool = require('../util/db').pool;
 
 exports.listAll = () => {
   return new Promise((resolve, reject) => {
