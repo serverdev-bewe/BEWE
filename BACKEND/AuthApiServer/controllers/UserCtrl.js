@@ -1,7 +1,7 @@
 'use strict';
 
 const userModel = require('../models/UserModel');
-const config = require('../util/config');
+const config = require('../config/config');
 const resMsg = require('../../../COMMON/errors.json');
 
 
