@@ -40,7 +40,7 @@ require('./routes')(app);
 
 //error handler
 require('./ErrorHandler')(app);
-const s_port = 4000;
+const s_port = 4010;
 // Start listening
 server.listen(process.env.PORT || s_port);
 console.log(`Started on port ${s_port}`);
