@@ -1,9 +1,7 @@
 'use strict';
 
-const mysql = require('mysql');
-const DBConfig = require('./../config/DBConfig');
-const transactionWrapper = require('./TransactionWrapper');
-const pool = mysql.createPool(DBConfig);
+const transactionWrapper = require('../../../COMMON/TransactionWrapper');
+const pool = require('../util/db');
 
 // 전체 대화방 리스트
 exports.listConversation = (userData) => {

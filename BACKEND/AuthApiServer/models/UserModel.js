@@ -5,7 +5,7 @@ const DBConfig = require('./../config/DBConfig');
 const pool = mysql.createPool(DBConfig);
 
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
+const config = require('../util/config');
 
 const redis = require('redis');
 const client = redis.createClient(6379, '52.78.25.56');
