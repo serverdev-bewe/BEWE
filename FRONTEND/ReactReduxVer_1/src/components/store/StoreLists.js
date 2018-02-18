@@ -20,6 +20,7 @@ class StoreLists extends Component{
           <p>title: {data.title}</p>
           <p>description: {data.description}</p>
           <img src={data.image} alt=""/>
+
         </div>
       )
     })

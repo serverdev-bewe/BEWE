@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { HashLoader } from 'react-spinners';
-import { default as Fade } from 'react-fade'
+import React, {Component} from 'react';
+import {HashLoader} from 'react-spinners';
+import {default as Fade} from 'react-fade'
 
 import ReactModal from 'react-modal';
-import { Table, Button,
-    InputGroup, Input
+import {
+  Table, Button,
+  InputGroup, Input
 } from 'reactstrap';
 
 import ListView from './chatt/ListView';
@@ -17,150 +18,155 @@ const fadeDuration = 0.3;
 
 
 class GameRoomList extends Component {
-    static contextTypes={
-        router : PropTypes.object
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      rows: [],
+      keyword: '',
+      roomSeq: 0,
+      roomName: ''
+      , showModal: false,
+      createRoomName: '',
+      createRoomSize: '',
+      paramsGameNumber: 0
     }
-    constructor(props, context) {
-        super(props, context);
-        this.state={
-            rows: [],
-            keyword: '',
-            roomSeq: 0,
-            roomName :''
-            , showModal: false,
-            createRoomName : '',
-            createRoomSize : '',
-            paramsGameNumber:0
+    this.handleChange = this.handleChange.bind(this);
+    this.roomHandler = this.roomHandler.bind(this);
+    this.exitHandler = this.exitHandler.bind(this);
+
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleCreateRoomModal = this.handleCreateRoomModal.bind(this);
+
+    this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
+    this.handleRoomSizeChange = this.handleRoomSizeChange.bind(this);
+
+    this.roomListInterval = this.roomListInterval.bind(this);
+  }
+
+  handleCreateRoomModal(e) {
+    if (this.state.createRoomName == '' || this.state.createRoomSize == 0) {
+      return
+    }
+    axios.post(`http://localhost:4001/api/createroom`, {
+      'name': this.state.createRoomName,
+      'adminUser': JSON.parse(localStorage.getItem("profile")).nickname,
+      'cnt': this.state.createRoomSize,
+      'gameNumber': this.state.paramsGameNumber
+    })
+      .then((responseDate) => {
+        console.log(responseDate);
+        this.setState({
+          rows: responseDate.data
+          , roomSeq: responseDate.data.length
+          , roomSize: responseDate.data[responseDate.data.length - 1].cnt
+          , roomName: responseDate.data[responseDate.data.length - 1].name
+          , roomAdmin: responseDate.data[responseDate.data.length - 1].adminUser
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      }).then(
+      this.handleCloseModal
+    )
+  }
+
+  handleRoomSizeChange(e) {
+    this.setState({
+      createRoomSize: e.target.value
+    })
+  }
+
+  handleRoomNameChange(e) {
+    this.setState({
+      createRoomName: e.target.value
+    });
+  }
+
+  handleOpenModal() {
+    this.state.roomSeq
+      ?
+      ''
+      :
+      this.setState({showModal: true})
+  }
+
+  handleCloseModal() {
+    this.setState({showModal: false});
+  }
+
+  handleChange(e) {
+    this.setState({
+      keyword: e.target.value
+    })
+  }
+
+  componentWillMount() {
+    this.setState({
+      paramsGameNumber: this.props.match.params.gamenumber
+    })
+  }
+
+  componentDidMount() {
+    setInterval(this.roomListInterval, 2000);
+  }
+
+  roomListInterval() {
+    fetch(`http://localhost:4001/api/roomlist/${this.state.paramsGameNumber}`, {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        'token': JSON.parse(localStorage.getItem("token"))
+      }
+    }).then((response) => response.json())
+      .then((responseDate) => {
+        this.setState({rows: responseDate});
+      }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  roomHandler(e) {
+    this.setState({
+      roomSeq: e.roomSeq,
+      roomName: e.roomName
+    });
+  }
+
+  exitHandler() {
+    this.setState({
+      roomSeq: 0
+    })
+  }
+
+
+  render() {
+    const mapToComponents = (data) => {
+      data = data.filter(
+        (contact) => {
+          return contact.name.indexOf(this.state.keyword) > -1;
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.roomHandler = this.roomHandler.bind(this);
-        this.exitHandler = this.exitHandler.bind(this);
-
-        this.handleOpenModal = this.handleOpenModal.bind(this);
-        this.handleCloseModal = this.handleCloseModal.bind(this);
-        this.handleCreateRoomModal = this.handleCreateRoomModal.bind(this);
-
-        this.handleRoomNameChange = this.handleRoomNameChange.bind(this);
-        this.handleRoomSizeChange = this.handleRoomSizeChange.bind(this);
-
-        this.roomListInterval = this.roomListInterval.bind(this);
-      }
-
-      handleCreateRoomModal(e){
-          if(this.state.createRoomName == '' || this.state.createRoomSize == 0){
-            return 
-          }
-        axios.post(`http://localhost:4001/api/createroom`,{
-                'name': this.state.createRoomName,
-                'adminUser' : JSON.parse(localStorage.getItem("profile")).nickname,
-                'cnt' : this.state.createRoomSize,
-                'gameNumber' : this.state.paramsGameNumber
-        })
-        .then((responseDate)=>{
-            console.log(responseDate);
-            this.setState({
-                rows : responseDate.data
-                ,roomSeq: responseDate.data.length
-                ,roomSize: responseDate.data[responseDate.data.length-1].cnt
-                ,roomName: responseDate.data[responseDate.data.length-1].name
-                ,roomAdmin: responseDate.data[responseDate.data.length-1].adminUser
-            });
-        })
-        .catch((err)=>{
-            console.log(err);
-        }).then(
-            this.handleCloseModal            
-        )
-      }
-
-      handleRoomSizeChange(e){
-        this.setState({
-            createRoomSize : e.target.value
-        })
-      }
-      handleRoomNameChange(e){
-        this.setState({
-            createRoomName : e.target.value
-        });
-      }
-      
-      handleOpenModal () {
-        this.state.roomSeq 
-        ?
-        ''
-        :
-        this.setState({ showModal: true })
-      }
-      
-      handleCloseModal () {
-        this.setState({ showModal: false });
-      }
-
-    handleChange(e){
-        this.setState({
-            keyword : e.target.value
-        })
-    }
-    componentWillMount(){
-        this.setState({
-            paramsGameNumber : this.props.match.params.gamenumber
-        })
-    }
-    componentDidMount(){
-        setInterval(this.roomListInterval, 2000);
-    }
-
-    roomListInterval(){
-        fetch(`http://localhost:4001/api/roomlist/${this.state.paramsGameNumber}`,{
-            method: 'get',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'token' : JSON.parse(localStorage.getItem("token"))
-              }
-        }).then((response)=> response.json())
-        .then((responseDate)=>{
-            this.setState({rows : responseDate});
-        }).catch((err)=>{
-            console.log(err);
-        });
-    }
-
-    roomHandler(e){
-        this.setState({
-            roomSeq : e.roomSeq,
-            roomName : e.roomName
-        });
-    }
-    exitHandler(){
-        this.setState({
-            roomSeq : 0
-        })
-    }
-
-    
-    render() {
-        const mapToComponents = (data)=>{
-            data = data.filter(
-                (contact)=>{
-                    return contact.name.indexOf(this.state.keyword) > -1;
-                }
-            );
-            return data.map((contact, i)=>{
-                let idx = i+1;
-                return (
-                    <ListView roomHandler={this.roomHandler} 
-                        seq={this.state.rows[i].seq} 
-                        roomAdmin={this.state.rows[i].adminUser} 
-                        roomName={contact.name} 
-                        cnt={contact.cnt} idx= {idx} key={i} />
-                );
-            });
-        }
-
+      );
+      return data.map((contact, i) => {
+        let idx = i + 1;
         return (
-            <div style={{"width":"80%", "margin": "0 auto"}}>
-                <Fade
+          <ListView roomHandler={this.roomHandler}
+                    seq={this.state.rows[i].seq}
+                    roomAdmin={this.state.rows[i].adminUser}
+                    roomName={contact.name}
+                    cnt={contact.cnt} idx={idx} key={i}/>
+        );
+      });
+    }
+
+    return (
+      <div style={{"width": "80%", "margin": "0 auto"}}>
+        <Fade
           duration={fadeDuration}
         >
         <br/>
@@ -236,23 +242,23 @@ class GameRoomList extends Component {
             {/* <div style={{"display" : "inline-block", "width":"20%"}}>
                 hi
             </div> */}
-            <div>
-                {
-                    this.state.roomSeq ? 
-                    <ChatApp paramsGameNumber={this.state.paramsGameNumber} 
-                        roomSeq={this.state.roomSeq} 
-                        roomName={this.state.roomName}
-                        roomSize={this.state.rows}
-                        username={(JSON.parse(localStorage.getItem("profile")).nickname)}
-                        exitHandler={this.exitHandler}
-                    /> : ''
-                }
-            </div>
-            
-            </Fade>
-            </div>
-        );
-    }
+          <div>
+            {
+              this.state.roomSeq ?
+                <ChatApp paramsGameNumber={this.state.paramsGameNumber}
+                         roomSeq={this.state.roomSeq}
+                         roomName={this.state.roomName}
+                         roomSize={this.state.rows}
+                         username={(JSON.parse(localStorage.getItem("profile")).nickname)}
+                         exitHandler={this.exitHandler}
+                /> : ''
+            }
+          </div>
+
+        </Fade>
+      </div>
+    );
+  }
 }
 
 export default GameRoomList;
