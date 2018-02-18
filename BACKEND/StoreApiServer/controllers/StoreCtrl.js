@@ -187,3 +187,5 @@ exports.gameToFriendsList = async(req, res, next) => {
 
   return res.r(result)
 };
+
+

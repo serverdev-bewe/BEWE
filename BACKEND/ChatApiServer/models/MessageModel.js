@@ -24,7 +24,7 @@ exports.listConversation = (userData) => {
   });
 };
 
-exports.check = (userIdx, receiverIdx) => {
+exports.checkConversation = (userIdx, receiverIdx) => {
   return new Promise((resolve, reject) => {
     const sql = 
       `

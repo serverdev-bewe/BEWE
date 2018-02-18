@@ -72,7 +72,6 @@ class FriendFindList extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (this.props.friends === undefined || this.props.friends.result === undefined) {
       return (
         <div className="dashboard-loader">
@@ -83,7 +82,7 @@ class FriendFindList extends Component {
           <p>친구 리스트를 로딩하고 있습니다.</p>
         </div>
       )
-    } else if (this.props.friends.result.length === 0) {
+    } else if (this.props.friends.result && this.props.friends.result.length === 0) {
       return (
         <div className="dashboard-loader">
           <img src="/../public/img/empty.png" />

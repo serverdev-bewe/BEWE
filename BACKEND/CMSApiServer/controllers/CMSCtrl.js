@@ -7,6 +7,7 @@ exports.register = async(req, res, next) => {
   let result = '';
 
   let images = [];
+  console.log(req.body);
   // TODO 이미지 없는경우 예외처리
   if (!req.files) { // 이미지가 없는 경우
     images.push(null)
@@ -26,7 +27,7 @@ exports.register = async(req, res, next) => {
     };
 
     result = await cmsModel.register(inputData);
-    result.urls = result.urls.split(',')
+    // result.urls = result.urls.split(',')
   } catch (error) {
     console.log(error);
     return next(error);

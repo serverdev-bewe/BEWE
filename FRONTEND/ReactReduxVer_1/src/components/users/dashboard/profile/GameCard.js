@@ -19,9 +19,9 @@ const GameCard = (game) => {
               );
           }} >자세히 보기
         </Button>
-        <CardImgOverlay>
+        {/* <CardImgOverlay>
             <div className="leftCenter"><h5><Badge color="danger">HOT!</Badge></h5></div>
-        </CardImgOverlay>    
+        </CardImgOverlay>     */}
       </div>      
     </Card>
   )

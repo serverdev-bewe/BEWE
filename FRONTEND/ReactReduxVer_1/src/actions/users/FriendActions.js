@@ -33,9 +33,7 @@ export function searchFriends(values){
 
 export function sendFriendRequest(idx){
   const request = axios.post(API_URL, 
-    {'receiver_idx': idx}, 
-    {headers: {'token' : token}}
-  );
+    {'receiver_idx': idx}, {headers: {'token' : token}});
 
   return {
     type: SEND_FRIEND_REQUEST,

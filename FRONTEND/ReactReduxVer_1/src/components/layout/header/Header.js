@@ -86,9 +86,9 @@ export default class Header extends React.Component {
               <p className="navfont">BeWe</p>
             </NavLink>          
 
-            <NavLink to="/" className="top-nav-item">Store</NavLink>
+            <NavLink to="/store" className="top-nav-item">Store</NavLink>
             <NavLink to="/mygame" className="top-nav-item">My Game</NavLink>
-            <NavLink to="/" className="top-nav-item">Community</NavLink>
+            <NavLink to="/contents" className="top-nav-item">CMS</NavLink>
             <NavLink to="/rank" className="top-nav-item">Ranking</NavLink>
 
             {

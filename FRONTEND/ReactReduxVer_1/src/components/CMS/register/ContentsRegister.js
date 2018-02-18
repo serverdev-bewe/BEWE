@@ -49,9 +49,10 @@ class ContentsRegister extends Component{
           }
         </div>
         <div>
-          <Dropzone {...fields.image.input} onDrop={this.onDrop.bind(this)} accept="image/*">
-            <p>Drop Iamges</p>
-          </Dropzone>
+          {/*<Dropzone {...fields.image.input} onDrop={this.onDrop.bind(this)} accept="image/*">*/}
+            {/*<p>Drop Iamges</p>*/}
+          {/*</Dropzone>*/}
+          <input name="image" {...fields.image.input} type="file"/>
         </div>
 
       </div>
@@ -93,10 +94,8 @@ class ContentsRegister extends Component{
 
     return(
       <div>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))} enctype="multipart/form-data">
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
           <Fields names={['title', 'genre', 'description', 'image']} component={this.renderFields}/>
-
-
 
           <button type="submit">Submit</button>
 

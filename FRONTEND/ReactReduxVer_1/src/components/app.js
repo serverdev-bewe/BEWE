@@ -24,6 +24,7 @@ import ContentsList from './CMS/ContentsList';
 import ContentsRegister from './CMS/register/ContentsRegister';
 import StoreLists from './store/StoreLists';
 import FriendBoard from './users/dashboard/friends/FriendBoard';
+
 function mapStateToProps(state) {  
   return {
     newNoti: state.app.newNoti,
@@ -70,7 +71,7 @@ class App extends Component {
         let contents = `${profile.data.result.nickname}님으로부터 메시지가 도착했습니다.`;
         let options = {
           body: this.state.data.contents,
-          icon: profile.avatar || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
+          icon: profile.avatar || '/../public/img/avatar.png'
         }
         if(this.props.grant){
           const notification = new Notification(contents, options);
@@ -143,6 +144,7 @@ class App extends Component {
             <Route path="/users" component={Dashboard} />
             <Route path="/contents/new" component={ContentsRegister} />
             <Route path="/contents" component={ContentsList} />
+            {/*<Route path="/contents/:contents_idx" component={ContentsDetail} />*/}
 
             <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
             <Route path="/startgame" component={StartGame} />

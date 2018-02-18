@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { HashLoader } from 'react-spinners';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -60,7 +60,7 @@ class NotiList extends Component {
       )
     }
 
-    if (this.props.noties.length === 0) {
+    if (this.props.noties && this.props.noties.length === 0) {
       return (
         <div className="dashboard-loader">
           <img src="/../public/img/empty.png" />
@@ -70,7 +70,7 @@ class NotiList extends Component {
     }
 
     else {
-      if(this.props.noties.length > this.state.page * 15) {
+      if(this.props.noties && this.props.noties.length > this.state.page * 15) {
         return(
           <div>
             {this.renderNoties()}
