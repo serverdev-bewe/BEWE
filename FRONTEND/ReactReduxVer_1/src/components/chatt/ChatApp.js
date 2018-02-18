@@ -2,7 +2,7 @@ require('./ChatApp.css');
 
 import React from 'react';
 import io from 'socket.io-client';
-import {Button } from 'reactstrap';
+import {Button, ButtonGroup } from 'reactstrap';
 
 import Messages from './Messages';
 import ChatInput from './ChatInput';
@@ -170,24 +170,45 @@ class ChatApp extends React.Component {
     return (
       <div className="containerm">
         <div>
-        <h3>{this.state.roomSeq}. {this.state.roomName}
+        <h3>{this.state.roomSeq}) ::: {this.state.roomName} :::
+        
         &nbsp;
-        <div>
-        <Button outline color="danger" 
-          onClick={this.readyHandler}
-        >READY</Button>
         {
           this.state.execgameState
           ?
+          <ButtonGroup
+          >
+          <Button outline color="danger" 
+            onClick={this.readyHandler}
+          style={{marginTop:"0"}}
+            
+          >READY</Button>{ ' ' }
+          <Button color="info" className="exitButton"
+            onClick={this.exitHandler}
+          style={{marginTop:"0"}}
+            
+          >나가기</Button>{ ' ' }
           <a href="BeWe://">
-          <button onClick={this.startgameHandler}>
+          <Button onClick={this.startgameHandler}
+          style={{marginTop:"0"}}
+          >
             실행!
-          </button></a>
+          </Button></a>
+          </ButtonGroup>
           :
-          ''
+          <ButtonGroup>
+          <Button outline color="danger" 
+          style={{marginTop:"0"}}
+          onClick={this.readyHandler}
+          >READY</Button>{ ' ' }
+          <Button color="info" className="exitButton"
+          style={{marginTop:"0"}}
+          onClick={this.exitHandler}
+          >나가기</Button>
+          </ButtonGroup>
         }
-        </div>
         </h3>
+        
         </div>
         
         <RoomReadyBar userList={this.state.userList} 
@@ -195,11 +216,6 @@ class ChatApp extends React.Component {
         />
         <Messages messages={this.state.messages} />
         <ChatInput onSend={this.sendHandler} />
-        <div>
-        <Button color="info" className="exitButton" block
-          onClick={this.exitHandler}
-        >나가기</Button>
-        </div>
       </div>
     );
   }

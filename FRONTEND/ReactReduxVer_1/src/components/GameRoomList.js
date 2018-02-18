@@ -169,79 +169,77 @@ class GameRoomList extends Component {
         <Fade
           duration={fadeDuration}
         >
-          <br/>
-          <h1>TITLE</h1>
-          <InputGroup>
-            <Input placeholder="검색할 방 이름을 적어주세요"
-                   value={this.state.keyword}
-                   name="keyword"
-                   onChange={this.handleChange}
-            />
-            &nbsp;
-            <Button color="info"
+        <br/>
+                <h1>TITLE</h1>
+                <InputGroup>
+                <Input placeholder="검색할 방 이름을 적어주세요" 
+                    value={this.state.keyword}
+                    name="keyword"
+                    onChange={this.handleChange}
+                />
+                &nbsp;
+                <Button color="info" 
                     onClick={this.handleOpenModal}
-            >방 만들기</Button>
-
-          </InputGroup>
-
-          <div>
-            <ReactModal
-              isOpen={this.state.showModal}
-              contentLabel="Inline Styles Modal Example"
-              style={{
-                overlay: {
-                  backgroundColor: '#6c757d',
-                  'marginTop': '76px',
-                  opacity: 0.97
-                }
-              }}
-              onRequestClose={this.handleCloseModal}
-              ariaHideApp={false}
-            >
-              <h1 style={{"marginTop": "5%"}}>방을 만들어 보세요</h1>
-              <input type="text" required style={{width: "50%"}} name="name"
-                     onChange={this.handleRoomNameChange} value={this.state.createRoomName}
-                     placeholder="제목을 입력해 주세요" maxLength="20"/>
-              <br/>
-              <input type="text" required style={{width: "50%"}} name="size"
-                     onChange={this.handleRoomSizeChange} value={this.state.createRoomSize}
-                     placeholder="인원은 몇명으로 설정하실껀가요? (최대 9명)" maxLength="1"/>
-              <p/>
-              <button onClick={this.handleCreateRoomModal}>만들기</button>
-              {' '}
-              <button onClick={this.handleCloseModal}>돌아가기</button>
-            </ReactModal>
+                >방 만들기</Button>
+                
+                </InputGroup>
+                <div>
+        <ReactModal 
+           isOpen={this.state.showModal}
+           contentLabel="Inline Styles Modal Example"
+           style={{
+              overlay: {
+                backgroundColor: '#6c757d',
+                'marginTop':'50px',
+                opacity: 0.97
+              }
+            }}
+            onRequestClose={this.handleCloseModal}
+            ariaHideApp={false}
+        >
+        <div style={{width:"45%", margin:"auto"}}>
+          <h1 style={{"marginTop":"15%"}}>방을 만들어 보세요</h1>
+          <input type="text" required style={{width:"50%"}} name="name"
+            onChange={this.handleRoomNameChange} value={this.state.createRoomName}
+            placeholder="제목을 입력해 주세요"  maxLength="20"/>
+            <br/>
+          <input type="text" required style={{width:"50%"}} name="size"
+            onChange={this.handleRoomSizeChange} value={this.state.createRoomSize}
+            placeholder="인원은 몇명으로 설정하실껀가요? (최대 9명)" maxLength="1" />
+            <p/>
+          <button onClick={this.handleCreateRoomModal}>만들기</button>{' '}
+          <button onClick={this.handleCloseModal}>돌아가기</button>
           </div>
-          &nbsp;
-          <p/>
-          <Table hover>
-            <thead>
-            <tr>
-              <th>No.</th>
-              <th>Room Name</th>
-              <th>Admin Name</th>
-              <th>Size</th>
-            </tr>
-            </thead>
-            <tbody>
-            {this.state.rows.length === 0
-              ? <tr>
-                <td colSpan="4">
-                  <center>
-                    <br/>
-                    <HashLoader
-                      color={'#7F7F7F'}
-                      loading={true}
-                    />
-                    <br/>
-                    '만들어진 방이 없거나 가져오는 중입니다.'
-                  </center>
-                </td>
-              </tr>
-              : mapToComponents(this.state.rows)}
-            </tbody>
-          </Table>
-          {/* <div style={{"display" : "inline-block", "width":"20%"}}>
+        </ReactModal>
+        </div>
+        
+                &nbsp;
+                <p/>
+                <Table hover>
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Room Name</th>
+                    <th>Admin Name</th>
+                    <th>Size</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {this.state.rows.length === 0  
+                        ? <tr><td colSpan="4">
+                        <center>
+                            <br/>
+                            <HashLoader
+            color={'#7F7F7F'} 
+            loading={true} 
+          />
+          <br />
+                            '만들어진 방이 없거나 가져오는 중입니다.'
+                        </center></td></tr>
+                        : mapToComponents(this.state.rows)}
+                </tbody>
+            </Table>
+            {/* <div style={{"display" : "inline-block", "width":"20%"}}>
                 hi
             </div> */}
           <div>
