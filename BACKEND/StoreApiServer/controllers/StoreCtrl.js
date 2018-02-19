@@ -53,6 +53,7 @@ exports.purchase = async(req, res, next) => {
   const userIdx = req.userIdx;
   const gameIdx = req.params.idx;
 
+
   try {
     const inputData = {
       userIdx,

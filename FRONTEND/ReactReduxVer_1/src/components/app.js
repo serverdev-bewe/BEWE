@@ -21,7 +21,7 @@ import GameRoomList from './GameRoomList';
 import StartGame from './StartGame';
 import ContentsList from './CMS/ContentsList';
 import ContentsRegister from './CMS/register/ContentsRegister';
-
+import ContentsAdmin from './CMS/admin/ContentsAdmin';
 import StoreLists from './store/StoreLists';
 import StoreMyLists from './store/StoreMyLists';
 import FriendBoard from './users/dashboard/friends/FriendBoard';
@@ -149,6 +149,7 @@ class App extends Component {
             <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
             <Route path="/startgame" component={StartGame} />
 
+            <Route path="/admin" component={ContentsAdmin}/>
             <Route path="/store" component={StoreLists} />
             <Route render={()=> <h1>Not found</h1>} />
           </Switch>
