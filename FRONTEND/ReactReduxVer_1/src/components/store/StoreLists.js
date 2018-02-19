@@ -2,7 +2,7 @@ import '/../style/store.css';
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchStoreLists, postGamePurchase } from '../../actions/store/StoreAction';
+import { fetchStoreLists, postGamePurchase } from 'actions/store/StoreAction';
 import ContentsCard from '../CMS/ContentsCard';
 
 class StoreLists extends Component{
