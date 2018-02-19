@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import {HashLoader} from 'react-spinners';
 import {default as Fade} from 'react-fade'
 import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import JumbotronB from './JumbotronB';
 
@@ -12,12 +13,33 @@ const fadeDuration = 0.3;
 class BodyComponent extends Component {
     constructor(props) {
         super(props);
-    
+
         this.toggle = this.toggle.bind(this);
+
         this.state = {
           activeTab: '1',
-          rows : []
+          rows : [],
+          pageNo : 0,
+          hasMoreItems: true
         };
+      }
+
+      loadItems(page){
+            axios.post(`http://localhost:3001/api/home/hash`, {
+                'pageNo' : this.state.pageNo
+            })
+            .then(()=>{
+                this.setState({
+                    pageNo: this.state.pageNo + 1
+                    ,hasMoreItems : false
+                })
+            })
+            .then(()=>{
+                console.log(this.state.pageNo);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
       }
     
       toggle(tab) {
@@ -27,6 +49,7 @@ class BodyComponent extends Component {
           });
         }
         if(tab == 2){
+            // if(this.state.rows.length == 0){
             axios.get(`http://localhost:3001/api/home/hash/${tab}`)
             .then((responseData) => {
                 setTimeout(()=>{
@@ -38,10 +61,32 @@ class BodyComponent extends Component {
             .catch((err) => {
                 console.log(err);
             });
+            setInterval(()=>{
+                this.setState({
+                    hasMoreItems:true
+                })
+            }, 3000)
         }
-      }
+    }
+                
 
     render() {
+        const mapToComponents = (data) => {
+            data = data.slice(0,this.state.pageNo * 8);
+            return data.map((contact, i )=>{
+                return (
+                    <Col sm="3" key={i} style={{marginBottom:"3%"}}>
+                        <Card body>
+                        <CardTitle>{this.state.rows[i].title}</CardTitle>
+                        <hr />
+                        <CardText>{this.state.rows[i].contents}</CardText>
+                        <font style={{color:"blue", fontSize:"18"}}>#베스트UGC</font>
+                        <font style={{fontSize:"15"}}>{this.state.rows[i].created_at}</font>
+                        </Card>
+                    </Col>
+                )
+            })
+        }
         return (
             <div>
                         
@@ -97,84 +142,46 @@ class BodyComponent extends Component {
                     {
                         this.state.rows.length !== 0
                         ?
-                        <div>
-                            <Fade
-                        duration={fadeDuration}
+                        <Fade duration={fadeDuration} >
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={this.loadItems.bind(this)}
+                            hasMore={this.state.hasMoreItems}
+                            loader={
+                                <center
+                                style={{marginTop:"10%"}}
+                                >
+                                    <HashLoader
+                                    color={'#7F7F7F'} 
+                                    loading={true} 
+                                    />
+                                </center>
+                            }
+                            useWindow={false}
                         >
-                    <Row style={{marginTop:"5%"}}>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>{this.state.rows[0].title}</CardTitle>
-                        <CardText>{this.state.rows[0].contents}</CardText>
-                        <font style={{color:"blue", fontSize:"18"}}>#{this.state.rows[0].hash_string}</font>
-                        <font style={{fontSize:"15"}}>{this.state.rows[0].created_at}</font>
-                        <Button>읽어 보기</Button>
-                        </Card>
-                    </Col>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                        </Card>
-                    </Col>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                        </Card>
-                    </Col>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                        </Card>
-                    </Col>
-                    </Row>
-                    <Row style={{marginTop:"5%"}}>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                        </Card>
-                    </Col>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                        </Card>
-                    </Col>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                        </Card>
-                    </Col>
-                    <Col sm="3">
-                        <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button>Go somewhere</Button>
-                        </Card>
-                    </Col>
-                    </Row>
-                    </Fade>
-                    </div>
-                    :
-                    <center
-                    style={{marginTop:"10%"}}
-                    >
-                        <HashLoader
-                        color={'#7F7F7F'} 
-                        loading={true} 
-                        />
-                    </center>
+                        <Row style={{marginTop:"5%"}}>
+                        {mapToComponents(this.state.rows)}
+                        </Row>
+                        </InfiniteScroll>
+                        </Fade>
+                        :
+                        <center
+                        style={{marginTop:"10%"}}
+                        >
+                            <HashLoader
+                            color={'#7F7F7F'} 
+                            loading={true} 
+                            />
+                        </center>
                     }
+                    <center
+                        style={{marginTop:"10%"}}
+                        >
+                            <HashLoader
+                            color={'#7F7F7F'} 
+                            loading={true} 
+                            />
+                        </center>
                 </TabPane>
                 <TabPane tabId="3">
                 <h1  style={{marginTop:"5%"}}>Today <Badge color="danger">Hot!</Badge></h1>
