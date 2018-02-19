@@ -12,11 +12,36 @@ class ContentsRegister extends Component {
     this.renderFields = this.renderFields.bind(this);
   };
 
+  // onDrop(files) {
+  //   this.setState({
+  //     files
+  //   });
+  // }
   onDrop(files) {
+    // const fileBlob = files[0];
+    // const newFile = {};
+    // const _fileProperties = [
+    //   'File',
+    //   'lastModified',
+    //   'lastModifiedDate',
+    //   'name',
+    //   'path',
+    //   'preview',
+    //   'size',
+    //   'type',
+    //   'webkitRelativePath'
+    // ];
+    // _fileProperties.forEach(key => {
+    //   newFile[key] = fileBlob[key];
+    // });
+
     this.setState({
       files
-    });
+    })
+    // return newFile;
   }
+
+
 
   renderFields = (fields) => {
     return (
@@ -38,8 +63,6 @@ class ContentsRegister extends Component {
             {fields.genre.meta.error}
             </span>
           }
-        </div>
-        <div>
           <input {...fields.description.input} type="text" placeholder="desc"/>
           {
             fields.description.meta.touch && fields.description.meta.error
@@ -49,10 +72,10 @@ class ContentsRegister extends Component {
           }
         </div>
         <div>
-          {/*<Dropzone {...fields.image.input} onDrop={this.onDrop.bind(this)} accept="image/*">*/}
-          {/*<p>Drop Iamges</p>*/}
-          {/*</Dropzone>*/}
-          <input name="image" {...fields.image.input} type="file"/>
+          <Dropzone {...fields.image.input} onDrop={this.onDrop.bind(this)} accept="image/*">
+          <p>Drop Iamges</p>
+          </Dropzone>
+          {/*<input  {...fields.image.input} type="file"/>*/}
         </div>
 
       </div>
@@ -61,8 +84,15 @@ class ContentsRegister extends Component {
 
 
   onSubmit(inputData) {
-    console.log(inputData);
-    this.props.createContent(inputData);
+    const data = new FormData();
+    data.append('title', inputData.title);
+    data.append('description', inputData.description);
+    data.append('genre', inputData.genre);
+    for (let i =0 ; i< inputData.image.length; i++){
+      data.append('image', inputData.image[i]);
+    }
+
+    this.props.createContent(data);
   }
 
   showFiles() {
@@ -94,7 +124,7 @@ class ContentsRegister extends Component {
 
     return (
       <div>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <form encType="multipart/form-data" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Fields names={['title', 'genre', 'description', 'image']} component={this.renderFields}/>
 
           <button type="submit">Submit</button>

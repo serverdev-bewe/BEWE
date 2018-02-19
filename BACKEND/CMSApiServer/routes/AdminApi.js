@@ -5,6 +5,8 @@ const authCtrl = global.authCtrl;
 
 module.exports = (router) => {
 
+  router.route('/admin/list')
+    .get(authCtrl.auth, adminCtrl.reqAllowContents);
   router.route('/admin/allow')
     .post(authCtrl.auth, adminCtrl.allowContent);
 
