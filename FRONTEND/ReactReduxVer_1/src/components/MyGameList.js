@@ -1,10 +1,11 @@
-import './app.css';
+import '/../style/mygame.css';
+
 import React, {Component} from 'react';
 import {default as Fade} from 'react-fade'
 
 
 import {
-  Jumbotron, Button, Badge,
+  Jumbotron, Button, Badge, Alert,
   Card, CardImg, CardText, CardBody, CardLink,
   CardTitle, CardSubtitle, CardImgOverlay,
   Container, Row, Col
@@ -30,29 +31,30 @@ class MyGameList extends Component {
   }
 
   render() {
-
     return (
-      <div className="center">
+      <div className="container"> 
         <Fade
           duration={fadeDuration}
         >
-          <Jumbotron>
-            <b><h1 className="display-2">Your GameList!</h1></b>
-            <p className="lead">
-              구매한 게임 목록 입니다.
-            </p>
-            <hr className="my-2"/>
-            <p className="lead">
-              <Button color="primary">쇼핑하러가기</Button>
-            </p><br/>
-            <p>
+          <Jumbotron
+            style={{"backgroundColor": "rgba(0, 0, 0, 0) !important",
+              "padding": "30px !important" }}>
+            <div className="ranking-top-menu">
+              <h2 className="ranking-top-text">Game List</h2>
+              <hr />
+              <h3 className="ranking-middle-text">
+                구매한 게임 목록 입니다.
+              </h3>
+              <Button className="mygame-shopping-button">쇼핑하러가기</Button>
+            </div>
+            <Alert color="danger">
               게임 시작 전에 아래의 그림을 눌러 다운로드를 꼭 해주세요.
-            </p>
-            <Container>
-
+            </Alert>
+              
+            <Container className="center">
               <Row>
                 <Coverflow
-                  width={960}
+                  width={"100%"}
                   height={480}
                   displayQuantityOfSide={1}
                   navigation={true}
