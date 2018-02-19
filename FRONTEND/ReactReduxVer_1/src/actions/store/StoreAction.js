@@ -34,7 +34,7 @@ export function fetchPurchasedLists(){
 }
 
 export function postGamePurchase(idx){
-  const request = axios.post(`${ROOT_URL}/${idx}`, {
+  const request = axios.post(`${ROOT_URL}/${idx}`, null,{
     headers: {
       'token' : JSON.parse(localStorage.getItem('token'))
     }
