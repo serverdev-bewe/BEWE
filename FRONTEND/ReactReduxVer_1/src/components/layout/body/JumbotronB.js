@@ -5,7 +5,7 @@ class JumbotronB extends Component{
   render(){
   return (
     <div>
-      <Jumbotron style={{marginTop:"17%"}}>
+      <Jumbotron style={{marginTop:"10%"}}>
       
         <h1 className="display-3">게임을 즐겨보아요</h1>
         <p className="lead">쓸말이 업성.</p>
