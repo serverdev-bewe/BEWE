@@ -66,17 +66,16 @@ exports.newList = (hashString, page) => {
             LEFT JOIN boards as b
             ON bh.boards_idx = b.idx
             WHERE hash_idx = ?
-            
           `;
           pool.query(sql, rows, (err, rows) => {
             if (err) {
               console.log(err);
               reject(err);
             } else {
-              console.log(page);
               rows = rows.slice(0, page * 8 + 8);
-              console.log(rows.length);
-              resolve(rows);
+              setTimeout(()=>{
+                resolve(rows);
+              }, 2000);
             }
           });
       })
