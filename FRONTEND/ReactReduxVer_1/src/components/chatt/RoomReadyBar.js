@@ -10,42 +10,42 @@ class RoomReadyBar extends Component {
     render() {
         let joinUsers = this.props.userList.map((contact, i) => {
             return (
-                <JoinUsers name={contact} key={i} 
-                    readyUsers = {this.props.readyUsers}
-                 />
+                <JoinUsers name={contact} key={i}
+                    readyUsers={this.props.readyUsers}
+                />
             );
         })
         return (
-            <div 
-            style={{marginLeft:"2%", marginRight:"2%"}}
+            <div
+                style={{ marginLeft: "2%", marginRight: "2%" }}
             >
-        <hr />
+                <hr />
                 <ol>
-                {joinUsers}
+                    {joinUsers}
                 </ol>
-        <hr />
-        </div>
+                <hr />
+            </div>
         );
     }
 }
 
 
 class JoinUsers extends Component {
-    
+
     render() {
         return (
-            <li>
-            {
-                this.props.readyUsers.indexOf(`${this.props.name}`) != -1
-                ?
-                <div>{this.props.name}&nbsp;
-                <Badge color="success" >준비</Badge>
-                </div> 
-                :
-                <div>{this.props.name}&nbsp;
-                <Badge color="warning" >대기</Badge>
-                </div>
-            }
+            <li className="mygame-chat-user-item">
+                {
+                    this.props.readyUsers.indexOf(`${this.props.name}`) != -1
+                        ?
+                        <div>{this.props.name}&nbsp;
+                <Badge className="mygame-chat-user-item-badge"color="success" >준비</Badge>
+                        </div>
+                        :
+                        <div>{this.props.name}&nbsp;
+                <Badge className="mygame-chat-user-item-badge" color="warning" >대기</Badge>
+                        </div>
+                }
             </li>
         );
     }
