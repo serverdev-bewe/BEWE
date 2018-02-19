@@ -32,23 +32,25 @@ class RoomReadyBar extends Component {
 
 class JoinUsers extends Component {
 
-  render() {
-    return (
-      <li>
-        {
-          this.props.readyUsers.indexOf(`${this.props.name}`) != -1
-            ?
-            <div>{this.props.name}&nbsp;
-              <Badge color="success" >준비</Badge>
-            </div>
-            :
-            <div>{this.props.name}&nbsp;
-              <Badge color="warning" >대기</Badge>
-            </div>
-        }
-      </li>
-    );
-  }
+
+    render() {
+        return (
+            <li className="mygame-chat-user-item">
+                {
+                    this.props.readyUsers.indexOf(`${this.props.name}`) != -1
+                        ?
+                        <div>{this.props.name}&nbsp;
+                <Badge className="mygame-chat-user-item-badge"color="success" >준비</Badge>
+                        </div>
+                        :
+                        <div>{this.props.name}&nbsp;
+                <Badge className="mygame-chat-user-item-badge" color="warning" >대기</Badge>
+                        </div>
+                }
+            </li>
+        );
+    }
+
 }
 
 export default RoomReadyBar;
