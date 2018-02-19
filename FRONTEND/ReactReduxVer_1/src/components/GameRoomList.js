@@ -227,13 +227,13 @@ class GameRoomList extends Component {
                 <tbody>
                     {this.state.rows.length === 0  
                         ? <tr><td colSpan="4">
-                        <center>
-                            <br/>
-                            <HashLoader
-            color={'#7F7F7F'} 
-            loading={true} 
-          />
-          <br />
+                            <center>
+                                <br/>
+                                <HashLoader
+                                color={'#7F7F7F'} 
+                                loading={true} 
+                            />
+                            <br />
                             '만들어진 방이 없거나 가져오는 중입니다.'
                         </center></td></tr>
                         : mapToComponents(this.state.rows)}

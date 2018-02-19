@@ -1,8 +1,6 @@
-const expressValidation = require('express-validation');
-const log = require('./config/logger');
 const errors = require('./errors');
 
-module.exports = (app) => {
+module.exports = (app, log, expressValidation) => {
   const error_code = {
     INVALID_PARAMETER: 9401,
     SERVER_ERROR: 500
@@ -24,8 +22,8 @@ module.exports = (app) => {
     const response_error = errors[err];
     response_error.miss_param = miss_param ? miss_param : undefined;
 
-    return res.status(response_error.status).json([
+    return res.status(response_error.status).json(
       response_error
-    ]);
+    );
   });
 };
