@@ -4,9 +4,10 @@ import classnames from 'classnames';
 import {HashLoader} from 'react-spinners';
 import {default as Fade} from 'react-fade'
 import axios from 'axios';
-import InfiniteScroll from 'react-infinite-scroller';
 
 import JumbotronB from './JumbotronB';
+import $ from 'jquery';
+
 
 const fadeDuration = 0.3;
 
@@ -19,27 +20,16 @@ class BodyComponent extends Component {
         this.state = {
           activeTab: '1',
           rows : [],
-          pageNo : 0,
-          hasMoreItems: true
+          pageNo : 0
+          ,loadingState: false
         };
       }
 
-      loadItems(page){
-            axios.post(`http://localhost:3001/api/home/hash`, {
-                'pageNo' : this.state.pageNo
-            })
-            .then(()=>{
-                this.setState({
-                    pageNo: this.state.pageNo + 1
-                    ,hasMoreItems : false
-                })
-            })
-            .then(()=>{
-                console.log(this.state.pageNo);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+      componentWillUnmount(){
+          $(window).unbind();
+          this.setState({
+              rows: []
+          })
       }
     
       toggle(tab) {
@@ -49,30 +39,44 @@ class BodyComponent extends Component {
           });
         }
         if(tab == 2){
-            // if(this.state.rows.length == 0){
-            axios.get(`http://localhost:3001/api/home/hash/${tab}`)
-            .then((responseData) => {
-                setTimeout(()=>{
-                    this.setState({
-                        rows:responseData.data
-                    })
-                },1500);
-            })
-            .catch((err) => {
-                console.log(err);
+            $(window).scroll(() => {
+                if ($(document).height() - $(window).height() - $(window).scrollTop() < 250) {
+                    if(!this.state.loadingState && this.state.rows.length < 40){
+
+                        axios.post(`http://localhost:3001/api/home/hash`, {
+                            'pageNo' : this.state.pageNo
+                        })
+                        .then((rows)=>{
+                            console.log(rows);
+                            return rows
+                        })
+                        .then((rows)=>{
+                            this.setState({
+                                pageNo: this.state.pageNo + 1
+                                ,rows : rows.data
+                            })
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                        this.setState({
+                            loadingState: true
+                        });
+                    }
+                }else {
+                    if(this.state.loadingState){
+                        this.setState({
+                            loadingState: false
+                        });
+                    }
+                }
             });
-            setInterval(()=>{
-                this.setState({
-                    hasMoreItems:true
-                })
-            }, 3000)
         }
     }
                 
 
     render() {
         const mapToComponents = (data) => {
-            data = data.slice(0,this.state.pageNo * 8);
             return data.map((contact, i )=>{
                 return (
                     <Col sm="3" key={i} style={{marginBottom:"3%"}}>
@@ -143,30 +147,13 @@ class BodyComponent extends Component {
                         this.state.rows.length !== 0
                         ?
                         <Fade duration={fadeDuration} >
-                        <InfiniteScroll
-                            pageStart={0}
-                            loadMore={this.loadItems.bind(this)}
-                            hasMore={this.state.hasMoreItems}
-                            loader={
-                                <center
-                                style={{marginTop:"10%"}}
-                                >
-                                    <HashLoader
-                                    color={'#7F7F7F'} 
-                                    loading={true} 
-                                    />
-                                </center>
-                            }
-                            useWindow={false}
-                        >
                         <Row style={{marginTop:"5%"}}>
                         {mapToComponents(this.state.rows)}
                         </Row>
-                        </InfiniteScroll>
                         </Fade>
                         :
                         <center
-                        style={{marginTop:"10%"}}
+                            style={{marginTop:"10%"}}
                         >
                             <HashLoader
                             color={'#7F7F7F'} 
@@ -174,14 +161,20 @@ class BodyComponent extends Component {
                             />
                         </center>
                     }
-                    <center
-                        style={{marginTop:"10%"}}
+                    {
+                        this.state.rows.length < 37
+                        ?
+                        <center
+                            style={{marginTop:"10%"}}
                         >
                             <HashLoader
                             color={'#7F7F7F'} 
                             loading={true} 
                             />
                         </center>
+                        :
+                        ''
+                    }
                 </TabPane>
                 <TabPane tabId="3">
                 <h1  style={{marginTop:"5%"}}>Today <Badge color="danger">Hot!</Badge></h1>
