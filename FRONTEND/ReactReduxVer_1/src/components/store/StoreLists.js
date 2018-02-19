@@ -3,7 +3,7 @@ import '/../style/store.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchStoreLists, postGamePurchase } from '../../actions/store/StoreAction';
-import ContentsDetail from '../CMS/ContentsDetail';
+import ContentsCard from '../CMS/ContentsCard';
 
 class StoreLists extends Component{
   constructor(props){
@@ -17,7 +17,7 @@ class StoreLists extends Component{
   renderLists(){
     return this.props.contents.map((data, index) => {
       return (
-          <ContentsDetail
+          <ContentsCard
             key={data.key}
             index={index+1}
             title={data.title}
@@ -40,12 +40,6 @@ class StoreLists extends Component{
             <h3 className="ranking-middle-text">승인된 게임 목록</h3>
           </div>
           <div>
-            <div className="store-top-wrapper">
-              <span style={{width: "15%"}}>NO.</span>
-              <span style={{width: "55%"}}>TITLE</span>
-              <span style={{width: "15%"}}>GENRE</span>
-              <span style={{width: "15%"}}>MORE</span>
-            </div>
             {this.renderLists()}
           </div>
         </div>

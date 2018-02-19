@@ -241,3 +241,65 @@
   text-align: center;
   margin-top: 20px;
 }
+
+.store-game-wrapper{
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-bottom: 2%;
+  height: 300px;
+}
+
+.store-game-image-wrapper{
+  background-color: #F9F9F9;
+  border-bottom: 1px solid #E1E1E1;
+  width: 60%;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.store-game-info-wrapper{
+  position: absolute;
+  padding: 20px;
+  width: 39.9%;
+  right: 0;
+  top: 0;
+  height: 300px;
+}
+
+.store-game-wrapper button{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  margin-top: 0px !important;
+  width: calc(39.9% - 40px);
+  border: 1px solid #00B0FF;
+  color: #00B0FF;
+}
+
+.store-game-info-wrapper button:hover{
+  background-color: #00B0FF;  
+  border: 1px solid #00B0FF;
+}
+
+.store-game-wrapper img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: auto;
+}
+
+.store-game-badge span{
+  min-width: 70px !important;
+  height: 50px !important;
+  font-size: 20px !important;
+  line-height: 40px !important;
+  font-weight: bold !important;
+}
+
+.store-game-created-at{
+  font-size: 15px;
+  color: #787878;
+}
