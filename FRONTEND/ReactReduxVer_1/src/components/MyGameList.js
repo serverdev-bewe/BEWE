@@ -40,7 +40,7 @@ class MyGameList extends Component {
             style={{"backgroundColor": "rgba(0, 0, 0, 0) !important",
               "padding": "30px !important" }}>
             <div className="ranking-top-menu">
-              <h2 className="ranking-top-text">Game List</h2>
+              <h2 className="ranking-top-text">My Game List</h2>
               <hr />
               <h3 className="ranking-middle-text">
                 구매한 게임 목록 입니다.
