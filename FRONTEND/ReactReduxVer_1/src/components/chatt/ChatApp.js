@@ -193,8 +193,8 @@ class ChatApp extends React.Component {
               readyUsers={this.state.readyUsers}
             />
             {(this.state.execgameState) ? 
-              <Button className="mygame-chat-start-button"
-              onClick={this.startgameHandler}>START</Button>
+              <a href="BeWe://"><Button className="mygame-chat-start-button"
+              onClick={this.startgameHandler}>START</Button></a>
               :
               <Button className="mygame-chat-ready-button" 
               onClick={this.readyHandler}>READY</Button>

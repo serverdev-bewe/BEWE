@@ -41,8 +41,7 @@ class JumbotronB extends Component{
         </Jumbotron>
       </div>
     );
-  }
-    
+  }    
 };
 
 
