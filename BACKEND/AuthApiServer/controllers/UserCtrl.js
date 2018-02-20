@@ -2,7 +2,7 @@
 
 const userModel = require('../models/UserModel');
 const config = require('../config/config');
-const resMsg = require('../errors.json');
+const resMsg = require('../../../COMMON/errors.json');
 
 
 /*******************
@@ -155,6 +155,27 @@ exports.list = async(req, res, next) => {
     const userIdx = req.params.idx;
 
     result = await userModel.list(userIdx);
+  } catch (error) {
+    return next(error);
+  }
+  return res.r(result);
+};
+
+
+/**********
+ * 다른 유저 id 조회
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<*>}
+ */
+exports.getId = async(req, res, next) => {
+  let result = '';
+
+  try{
+    const userIdx = req.params.idx;
+
+    result = await userModel.getId(userIdx);
   } catch (error) {
     return next(error);
   }

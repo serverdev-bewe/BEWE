@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, IndexRoute } from "react-router-dom";
 import { connect } from 'react-redux';
 import reducers from '../reducers';
-import axios from 'axios';
 
 import { dataFetch, getNewMessage, setSocketConnected, 
   setWebNotifyEnable, setWebNotifyUnable, 
@@ -22,8 +21,11 @@ import GameRoomList from './GameRoomList';
 import StartGame from './StartGame';
 import ContentsList from './CMS/ContentsList';
 import ContentsRegister from './CMS/register/ContentsRegister';
+import ContentsAdmin from './CMS/admin/ContentsAdmin';
 import StoreLists from './store/StoreLists';
+import StoreMyLists from './store/StoreMyLists';
 import FriendBoard from './users/dashboard/friends/FriendBoard';
+
 function mapStateToProps(state) {  
   return {
     newNoti: state.app.newNoti,
@@ -70,7 +72,7 @@ class App extends Component {
         let contents = `${profile.data.result.nickname}님으로부터 메시지가 도착했습니다.`;
         let options = {
           body: this.state.data.contents,
-          icon: profile.avatar || 'http://genknews.genkcdn.vn/zoom/220_160/2017/thumbnail-4x3-34722014736-2d241425f9-k-1495531031736-crop-1495531041612.jpg'
+          icon: profile.avatar || '/../public/img/avatar.png'
         }
         if(this.props.grant){
           const notification = new Notification(contents, options);
@@ -146,7 +148,9 @@ class App extends Component {
 
             <Route path="/gamegamelist/:gamenumber" component={GameRoomList} />
             <Route path="/startgame" component={StartGame} />
-            <Route path="/store" component={StoreLists}/>
+
+            <Route path="/admin" component={ContentsAdmin}/>
+            <Route path="/store" component={StoreLists} />
             <Route render={()=> <h1>Not found</h1>} />
           </Switch>
         {/* <Footer/> */}

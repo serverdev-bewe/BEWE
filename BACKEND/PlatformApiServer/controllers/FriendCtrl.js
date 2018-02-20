@@ -60,7 +60,7 @@ exports.accept = async(req, res, next) => {
   await new Promise(async (resolve, reject) => {
     let senderInfo = '';
     try {
-      senderInfo = friendModel.handleRequest('accept', userData, idx);
+      senderInfo = await friendModel.handleRequest('accept', userData, idx);
     } catch (error) {
       console.log(error);
       reject(500);
@@ -72,8 +72,8 @@ exports.accept = async(req, res, next) => {
       let notiResult = '';
       
       try {
-        result = await notiCtrl.create(userData, 'friend_accepted', 
-          {nickname: senderInfo.nickname, avatar:senderinfo.avatar});
+        result = await notiCtrl.create(senderInfo.idx, 'friend_accepted', 
+          {nickname: senderInfo.name, avatar:senderInfo.avatar});
       } catch (error) {
         console.log(error);
         reject(500);
@@ -98,5 +98,40 @@ exports.reject = async(req, res, next) => {
     return next(error);
   }
   return res.status(201).json(result);
-  next();
+};
+
+// 보낸 친구 요청 취소
+exports.cancel = async(req, res, next) => {
+  let result = '';
+  try {
+    const userData = req.userIdx;
+    const idx = req.params.idx;
+
+    result = await friendModel.cancel(userData, idx);
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+
+  return res.status(201).json(result);
+};
+
+
+exports.searchId = async(req, res, next) => {
+  let result = '';
+
+  try {
+    const inputData = req.body.id;
+
+    if (!inputData) {
+      return res.status(400);
+    }
+
+    result = await friendModel.searchId(inputData);
+  } catch (error) {
+    return next(error);
+  }
+
+
+  return res.r(result);
 };

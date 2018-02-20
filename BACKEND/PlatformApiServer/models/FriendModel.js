@@ -1,8 +1,7 @@
 'use strict';
 
-const mysql = require('mysql');
-const DBConfig = require('./../config/DBConfig');
-const pool = mysql.createPool(DBConfig);
+const transactionWrapper = require('../../../COMMON/TransactionWrapper');
+const pool = require('../util/db').pool;
 
 // 친구 리스트
 exports.list = (userData) => {
@@ -95,7 +94,7 @@ exports.handleRequest = (type, userData, idx) => {
     const sql = 
       `SELECT flag, sender_idx, receiver_idx, nickname, avatar
          FROM friends join users
-           ON friends.receiver_idx = users.idx
+           ON friends.sender_idx = users.idx
         WHERE friends.idx = ?`;
     pool.query(sql, [idx], (err, rows) => {
       if (err) {
@@ -104,8 +103,10 @@ exports.handleRequest = (type, userData, idx) => {
         if (rows.length !== 0) { // 일치하는 친구 요청이 있을 경우
           if (rows[0].receiver_idx == userData && rows[0].flag == 0){ 
             // 친구 요청의 수신자와 current_user의 id가 같고, flag가 0일 때만 업데이트
-            
-            resolve(rows[0].nickname, rows[0].avatar);
+            resolve({
+              idx: rows[0].sender_idx, 
+              name: rows[0].nickname, 
+              avatar: rows[0].avatar});
           } else {
             reject(2402);
           }
@@ -114,7 +115,7 @@ exports.handleRequest = (type, userData, idx) => {
         }
       }
     });
-  }).then((userName, userAvatar) => {
+  }).then((senderInfo) => {
     return new Promise((resolve, reject) => {
       let sql = '';
 
@@ -131,10 +132,7 @@ exports.handleRequest = (type, userData, idx) => {
         }else{
           if (rows.affectedRows === 1) {
             if (type === 'accept') {
-              resolve({
-                nickname: userName, 
-                avatar: userAvatar
-              });
+              resolve(senderInfo);
             } else {
               resolve(rows);
             }
@@ -146,4 +144,114 @@ exports.handleRequest = (type, userData, idx) => {
       });
     });
   });
+};
+
+exports.cancel = (userData, idx) => {
+  return new Promise((resolve, reject) => {
+    transactionWrapper.getConnection(pool)
+    .then(transactionWrapper.beginTransaction)
+    .then((context) => {
+      return new Promise((resolve, reject) => {
+        const sql = 
+          `
+          SELECT idx, sender_idx, receiver_idx, flag 
+            FROM friends 
+           WHERE idx = ?
+          `;
+        
+        context.conn.query(sql, [idx], (err, rows) => {
+          if (err) {
+            console.log(err);
+            reject(err);
+          } else {
+            if (rows[0].sender_idx !== userData) {
+              reject(2404);
+            } else {
+              context.result = rows[0];
+              resolve(context);
+            }
+          }
+        });
+      })
+      .then((context) => {
+        return new Promise((resolve, reject) => {
+          const sql = "DELETE FROM friends WHERE idx = ?";
+  
+          context.conn.query(sql, [idx], (err, rows) => {
+            if (err) {
+              console.log(err);
+              reject(err);
+            } else {
+              if (rows.affectedRows === 1) { // 컬럼 삭제 성공
+                resolve(context);
+              } else {
+                context.error = new Error("Friends Cancel Custom Error 1");
+                reject(context);
+              }
+            }
+          });
+        });
+      })
+      .then((context) => {
+        return new Promise((resolve, reject) => {
+          const sql = 
+            `
+            DELETE FROM notifications 
+             WHERE type = "friend" AND users_idx = ?
+            `
+          
+          context.conn.query(sql, [context.result.receiver_idx], (err, rows) => {
+            if (err) {
+              console.log(err);
+              reject(err);
+            } else {
+              if (rows.affectedRows === 1) { // 컬럼 삭제 성공
+                context.result = rows
+                resolve(context);
+              } else {
+                context.error = new Error("Friends Cancel Delete Noti Custom Error 1");
+                reject(context);
+              }
+            }
+          });
+        });
+      })
+      .then(transactionWrapper.commitTransaction)
+      .then((context) => {
+        context.conn.release();
+        resolve(context.result);
+      })
+      .catch((context) => {
+        context.conn.rollback(() => {
+          context.conn.release();
+          reject(context.error);
+        });
+      });
+    });
+  });
+};
+
+
+
+exports.searchId = (inputData) => {
+  return new Promise((resolve, reject) => {
+    const sql =
+      `
+       SELECT
+         idx,
+         id,
+         email,
+         avatar
+       FROM users
+       WHERE id REGEXP ?;
+      `;
+
+    pool.query(sql, inputData, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    })
+  })
 };

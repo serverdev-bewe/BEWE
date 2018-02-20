@@ -1,9 +1,7 @@
 'use strict';
 
-const mysql = require('mysql');
-const DBConfig = require('./../config/DBConfig');
-const transactionWrapper = require('./TransactionWrapper');
-const pool = mysql.createPool(DBConfig);
+const transactionWrapper = require('../../../COMMON/TransactionWrapper');
+const pool = require('../util/db').pool;
 
 // 전체 대화방 리스트
 exports.listConversation = (userData) => {
@@ -23,6 +21,30 @@ exports.listConversation = (userData) => {
     });
   });
 };
+
+exports.checkConversation = (userIdx, receiverIdx) => {
+  return new Promise((resolve, reject) => {
+    const sql = 
+      `
+      SELECT idx FROM conversations 
+       WHERE users_idx_1 = ? AND users_idx_2 = ?
+          OR users_idx_1 = ? AND users_idx_2 = ?
+      `;
+
+    pool.query(sql, [userIdx, receiverIdx, receiverIdx, userIdx], (err, rows) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        if (rows.length > 0) {
+          resolve({result: true});
+        } else {
+          resolve({result: false});
+        }        
+      }
+    });
+  });
+}
 
 exports.new = (userIdx) => {
   return new Promise((resolve, reject) => {
@@ -102,11 +124,7 @@ exports.getConversation = (userData, conversationId) => {
           console.log(err);
           reject(err);
         } else {
-          if (rows.affectedRows > 0) {
-            resolve(conversationId);
-          } else {
-            reject(500);
-          }
+          resolve(conversationId);
         }
       });
     });
@@ -164,10 +182,10 @@ exports.openConversation = (userData, receiverData) => {
           const sql = 
             'INSERT INTO conversations (users_idx_1, users_idx_2, last_message) VALUES (?, ?, ?)';
           context.conn.query(sql, [userData, receiverData, last_message], (err, rows) => {
-            if(err){
+            if (err) {
               console.log(err);
               reject(err);
-            }else{
+            } else {
               if (rows.affectedRows === 1) { // 대화방 생성
                 context.flag = 1;
                 context.msg = last_message;

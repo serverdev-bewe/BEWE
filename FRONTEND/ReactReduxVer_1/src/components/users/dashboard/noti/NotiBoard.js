@@ -3,7 +3,7 @@ import { default as Fade } from 'react-fade'
 
 import NotiList from './NotiList';
 
-const fadeDuration = 0.5;
+const fadeDuration = 0.3;
 
 export default class Noti extends Component {
   constructor(props){

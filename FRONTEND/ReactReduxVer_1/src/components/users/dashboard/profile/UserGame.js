@@ -25,11 +25,8 @@ class UserGame extends Component {
 
     if (gameList.length === 0) {
       return (
-        <div className="dashboard-loader" style={{marginTop: 0, paddingTop: "20%"}}>
-          <PulseLoader
-            color={'#00B0FF'} 
-            loading={true} 
-          />
+        <div className="dashboard-loader">
+          <img src="/../public/img/empty.png" />
           <p>구입한 게임이 없습니다!</p>
         </div>
       )

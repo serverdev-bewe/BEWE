@@ -5,7 +5,7 @@ import { HashLoader } from 'react-spinners';
 import ConversationList from './ConversationList';
 import MessageList from './MessageList';
 
-const fadeDuration = 0.5;
+const fadeDuration = 0.3;
 
 class MessageBoard extends Component {
   constructor(props){
@@ -38,7 +38,6 @@ class MessageBoard extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (      
       <div className="dashboard-right-contents" 
            style={{"padding":"30px 0"}}>

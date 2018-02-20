@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-
-import Slider from 'components/layout/body/Slider';
+import Footer from 'components/layout/footer/Footer';
 import BodyComponent from 'components/layout/body/BodyComponent';
+import VideoPlayer from 'components/layout/body/VideoPlayer';
 
 class Home extends Component {
     render() {
         return (
             <div>
-                <Slider />
-                <hr/>
+                <VideoPlayer />
+                <p/>
                 <BodyComponent />
                 <hr/>
+                
+                <Footer />
             </div>
         );
     }

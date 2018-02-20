@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import { HashLoader } from 'react-spinners';
 
 import { fetchNoties } from 'actions/users/NotiActions';
 import Noti from './Noti';
 
-const fadeDuration = 10;
+const fadeDuration = 0.3;
 
 class NotiList extends Component {
   constructor(props){
@@ -32,33 +33,42 @@ class NotiList extends Component {
 
   renderNoties(){
     return this.props.noties
-      .slice(0, 10)
+      .slice(0, 5)
       .map((noti) => {
-        if(this.props.type) {
-          return (         
+        if(noti.flag == 0) {
+          return (
             <Noti noti={noti} key={noti.idx}/>
           )
-        } else {
-          if(noti.flag == 0) {
-            return (
-              <Noti noti={noti} key={noti.idx}/>
-            )
-          }
         }
     });
   }
 
   render() {
     if(this.props.noties === undefined) {
-      return <div>Loading...</div>
-    }
-
-    else {
-      if(this.props.noties.length > this.state.page * 15) {
-        return(
+      return (
+        <div className="dashboard-loader">
+          <HashLoader
+            color={'#00B0FF'} 
+            loading={true} 
+          />
+          <p>로딩 중입니다..</p>
+        </div> 
+      )
+    } else {
+      if (this.props.noties && this.props.noties.length > 5) {
+        return (
           <div>
             {this.renderNoties()}
-            <button className="noti-more-button" onClick={this.onClickButton}>더 보기</button>
+            <NavLink to='/users/noties'>
+              <button className="header-more-button" onClick={this.onClickButton}>더 보기</button>
+            </NavLink>
+          </div>
+        )
+      } else if (this.props.noties && this.props.noties.length === 0) {
+        return (
+          <div className="dashboard-loader">
+            <img src="/../public/img/empty.png" style={{"width" : 100}}/>
+            <p>알림 리스트가 없습니다!</p>
           </div>
         )
       } else {
