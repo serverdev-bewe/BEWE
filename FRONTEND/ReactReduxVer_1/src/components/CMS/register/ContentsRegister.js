@@ -46,8 +46,9 @@ class ContentsRegister extends Component {
   renderFields = (fields) => {
     return (
       <div>
-        <div>
-          <input {...fields.title.input} type="text" placeholder="title"/>
+        <div className="game-register-field">
+          <label className="game-register-label">제목</label>
+          <input className="game-register-input" {...fields.title.input} type="text" placeholder="title"/>
           {
             fields.title.meta.touch && fields.title.meta.error
             && <span className="error">
@@ -55,15 +56,19 @@ class ContentsRegister extends Component {
             </span>
           }
         </div>
-        <div>
-          <input {...fields.genre.input} type="text" placeholder="genre"/>
+        <div className="game-register-field">
+          <label className="game-register-label">장르</label>
+          <input className="game-register-input" {...fields.genre.input} type="text" placeholder="genre"/>
           {
             fields.genre.meta.touch && fields.genre.meta.error
             && <span className="error">
             {fields.genre.meta.error}
             </span>
           }
-          <input {...fields.description.input} type="text" placeholder="desc"/>
+        </div>
+        <div className="game-register-field">
+          <label className="game-register-label">설명</label>
+          <input className="game-register-input" {...fields.description.input} type="text" placeholder="desc"/>
           {
             fields.description.meta.touch && fields.description.meta.error
             && <span className="error">
@@ -72,8 +77,12 @@ class ContentsRegister extends Component {
           }
         </div>
         <div>
-          <Dropzone {...fields.image.input} onDrop={this.onDrop.bind(this)} accept="image/*">
-          <p>Drop Iamges</p>
+          <Dropzone {...fields.image.input} 
+            onDrop={this.onDrop.bind(this)} 
+            accept="image/*"
+            className="contents-register-dropzone">
+          <span className="ion-images"></span>
+          <p>Drop Images</p>
           </Dropzone>
           {/*<input  {...fields.image.input} type="file"/>*/}
         </div>
@@ -107,7 +116,7 @@ class ContentsRegister extends Component {
         <ul>
           {files.map((file, idx) => {
             return (
-              <li key={idx}>
+              <li key={idx} className="dropzone-image">
                 <img src={file.preview} width={100}/>
                 <div>{file.name + ' : ' + file.size + ' bytes.'}</div>
               </li>
@@ -123,15 +132,23 @@ class ContentsRegister extends Component {
     const {handleSubmit} = this.props;
 
     return (
-      <div>
-        <form encType="multipart/form-data" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-          <Fields names={['title', 'genre', 'description', 'image']} component={this.renderFields}/>
+      <div className="container">
+        <div className="ranking-board-wrapper">
+          <div className="ranking-top-menu">
+            <h2 className="ranking-top-text">BeWe Games</h2>
+            <hr/>  
+            <h3 className="ranking-middle-text">게임 등록하기</h3>
+          </div>
+          <div>
+            <form encType="multipart/form-data" 
+              onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+              <Fields names={['title', 'genre', 'description', 'image']} component={this.renderFields}/>
 
-          <button type="submit">Submit</button>
-
-          {this.showFiles()}
-
-        </form>
+              <button className="game-list-item-button register">SUBMIT</button>  
+              {this.showFiles()}
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
