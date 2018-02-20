@@ -1,7 +1,8 @@
 'use strict';
 
 const transactionWrapper = require('../../../COMMON/TransactionWrapper');
-const pool = require('../util/db').pool;
+const dbUtil = require('../util/db');
+const pool = dbUtil.pool;
 
 /*************
  * 게임 등록
@@ -18,7 +19,7 @@ exports.register = (inputData) => {
           const sql =
             `
             INSERT INTO games (users_idx, title, genre, description, image)
-            VALUES (?, ?, ?, ?, ?) 
+            VALUES (?, ?, ?, ?, ?)
             `;
           context.conn.query(sql,
             [
@@ -124,8 +125,8 @@ exports.putData = (inputData) => {
           const sql =
             `
             UPDATE games AS g
-            SET g.title = ?, g.genre = ?, 
-              g.description = ?, g.image =? 
+            SET g.title = ?, g.genre = ?,
+              g.description = ?, g.image =?
             WHERE g.idx = ?
             LIMIT 1;
             `;
@@ -240,7 +241,7 @@ exports.list = (inputData) => {
         g.image,
         g.created_at
       FROM games AS g
-      WHERE g.users_idx = ?               
+      WHERE g.users_idx = ?
       `;
     pool.query(sql, [inputData], (err, rows) => {
       if (err) {

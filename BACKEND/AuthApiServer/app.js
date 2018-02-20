@@ -25,9 +25,11 @@ app.use((req, res, next) => {
   next();
 });
 
+require('./util/db').createDBPool();
+
 require('./routes')(app);
 
-require('../../COMMON/ErrorHandler')(app, 
+require('../../COMMON/ErrorHandler')(app,
   require('./util/logger'),
   require('express-validation'));
 

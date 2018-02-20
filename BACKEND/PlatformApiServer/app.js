@@ -36,15 +36,17 @@ app.use((req, res, next) => {
 global.eventEmitter = new events.EventEmitter();
 global.requests = new Map();
 
-const pool = require('./util/db').pool;
 const config = require('./config/config');
+require('./util/db').createDBPool();
+const pool = require('./util/db').pool;
+
 
 global.authCtrl = require('../../COMMON/Auth/AuthCtrl')
   .setup(pool, config, redis, jwt);
 
 require('./routes')(app);
 
-require('../../COMMON/ErrorHandler')(app, 
+require('../../COMMON/ErrorHandler')(app,
   require('./util/logger'),
   require('express-validation'));
 

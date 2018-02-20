@@ -18,7 +18,7 @@ const sub = redis.createClient(6379, '52.78.25.56');
 const server = http.createServer(app);
 const io = require('./socket/socketService')(server, pub, sub);
 require('./socket/messageSocket').initialize(pub, sub);
-  
+
 sub.subscribe('sub');
 sub.on('subscribe',function (channel, count) {
   console.log("Subscribed to " + channel + ". Now subscribed to " + count + " channel(s).");
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const pool = require('./util/db').pool;
+const pool = require('./util/db').createDBPool();
 const config = require('./config/config');
 
 global.authCtrl = require('../../COMMON/Auth/AuthCtrl')
@@ -50,7 +50,7 @@ global.authCtrl = require('../../COMMON/Auth/AuthCtrl')
 
 require('./routes')(app);
 
-require('../../COMMON/ErrorHandler')(app, 
+require('../../COMMON/ErrorHandler')(app,
   require('./util/logger'),
   require('express-validation'));
 

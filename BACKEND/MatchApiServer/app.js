@@ -16,15 +16,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const pool = require('./util/db').pool;
 const config = require('./config/config');
+require('./util/db').createDBPool();
+const pool = require('./util/db').pool;
 
 global.authCtrl = require('../../COMMON/Auth/AuthCtrl')
   .setup(pool, config, redis, jwt);
 
 require('./routes')(app);
 
-require('../../COMMON/ErrorHandler')(app, 
+require('../../COMMON/ErrorHandler')(app,
   require('./util/logger'),
   require('express-validation'));
 
