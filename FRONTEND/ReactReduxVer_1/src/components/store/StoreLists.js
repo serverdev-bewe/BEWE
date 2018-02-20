@@ -16,9 +16,10 @@ class StoreLists extends Component{
 
   renderLists(){
     return this.props.contents.map((data, index) => {
+      console.log('data',data);
       return (
           <ContentsCard
-            key={data.key}
+            idx={data.idx}
             index={index+1}
             title={data.title}
             genre={data.genre}

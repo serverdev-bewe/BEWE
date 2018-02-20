@@ -19,7 +19,7 @@ class ContentsList extends Component{
     return this.props.contents.map((data, index) => {
       return (
         <ContentsDetail
-          key={data.idx}
+          idx={data.idx}
           index={index+1}
           flag={data.flag}
           title={data.title}
