@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { fetchMyProfile } from 'actions/users/UserActions';
 
 class DashboardAvatar extends Component{  
+  componentWillMount(){
+    this.props.fetchMyProfile();
+  }
   render() {
     return(
       <div className="dashboard-avatar-wrapper">
