@@ -34,7 +34,7 @@ const ContentsCard = (props) => {
           {props.description}
         </CardText>    
       </div>  
-      <Button color="primary" outline>자세히 보기</Button>    
+      <Button color="primary" outline>구입하기</Button>    
       <CardImgOverlay>
           <div className="store-game-badge">{renderBadge(props.genre)}</div>
       </CardImgOverlay>    

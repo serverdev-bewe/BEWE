@@ -253,7 +253,7 @@
 .store-game-image-wrapper{
   background-color: #F9F9F9;
   border-bottom: 1px solid #E1E1E1;
-  width: 60%;
+  width: 55%;
   height: 300px;
   overflow: hidden;
   position: relative;
@@ -262,7 +262,7 @@
 .store-game-info-wrapper{
   position: absolute;
   padding: 20px;
-  width: 39.9%;
+  width: 44.9%;
   right: 0;
   top: 0;
   height: 300px;
@@ -273,7 +273,7 @@
   right: 20px;
   bottom: 20px;
   margin-top: 0px !important;
-  width: calc(39.9% - 40px);
+  width: calc(44.9% - 40px);
   border: 1px solid #00B0FF;
   color: #00B0FF;
 }

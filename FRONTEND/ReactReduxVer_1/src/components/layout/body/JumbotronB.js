@@ -3,7 +3,7 @@ import { Jumbotron, Button } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { fetchStoreLists } from 'actions/store/StoreAction';
-import { GameCard } from 'components/users/dashboard/profile/GameCard';
+import GameCard from '../../users/dashboard/profile/GameCard';
 
 class JumbotronB extends Component{
   componentWillMount(){
@@ -11,18 +11,17 @@ class JumbotronB extends Component{
   }
 
   renderGames(){
-    if (this.props.contents.length === 0) {
+    if (this.props.contents === []) {
       return (
         <div className="dashboard-loader">
           <img src="/../public/img/empty.png" />
           <p>등록된 게임이 없습니다!</p>
         </div>
       )
-    } else {
-      console.log(2);      
+    } else { 
       return this.props.contents
         .map((game) => {
-          return (         
+          return (   
             <GameCard game={game} key={game.idx}/>
           )       
       });
@@ -30,7 +29,6 @@ class JumbotronB extends Component{
   }
 
   render(){
-    console.log(this.props.contents.length);
     return (
       <div>
         <Jumbotron style={{marginTop:"30px", padding:"20px !important"}}>        
